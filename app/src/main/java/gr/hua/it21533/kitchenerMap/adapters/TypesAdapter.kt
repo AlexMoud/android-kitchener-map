@@ -1,10 +1,12 @@
-package gr.hua.it21533.kitchenerMap
+package gr.hua.it21533.kitchenerMap.adapters
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import gr.hua.it21533.kitchenerMap.R
+import gr.hua.it21533.kitchenerMap.models.TypesModel
 import kotlinx.android.synthetic.main.type_checkbox_item.view.*
 
 class TypesAdapter(val typesCheckboxes : ArrayList<TypesModel>,
@@ -18,7 +20,13 @@ class TypesAdapter(val typesCheckboxes : ArrayList<TypesModel>,
 
     // Inflates the checkboxes views
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(LayoutInflater.from(context).inflate(R.layout.type_checkbox_item, parent, false))
+        return ViewHolder(
+            LayoutInflater.from(context).inflate(
+                R.layout.type_checkbox_item,
+                parent,
+                false
+            )
+        )
     }
 
     // Binds each checkbox in the ArrayList to a view

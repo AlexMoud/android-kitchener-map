@@ -1,30 +1,32 @@
-package gr.hua.it21533.kitchenerMap
+package gr.hua.it21533.kitchenerMap.activities
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.view.GravityCompat
-import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBar
-import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.MenuItem
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.SeekBar
-import android.widget.Toast
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import gr.hua.it21533.kitchenerMap.api.ApiModel
+import gr.hua.it21533.kitchenerMap.helpers.CustomMapTileProvider
+import gr.hua.it21533.kitchenerMap.api.GoogleMapsApiService
+import gr.hua.it21533.kitchenerMap.R
+import gr.hua.it21533.kitchenerMap.fragments.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_maps.*
 
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
+class MapsActivity : AppCompatActivity(), OnMapReadyCallback, FilteringListener {
 
     private val TAG = "MAPS_ACTIVITY"
     private lateinit var mMap: GoogleMap
@@ -54,7 +56,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-        kitchenerMapOverlay = mMap.addTileOverlay(TileOverlayOptions().tileProvider(CustomMapTileProvider(assets)))
+        kitchenerMapOverlay = mMap.addTileOverlay(
+            TileOverlayOptions().tileProvider(
+                CustomMapTileProvider(
+                    assets
+                )
+            )
+        )
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(initialLatitute, initialLongitude), initialZoomLevel))
         kitchenerMapOverlay?.transparency = 1f
     }
@@ -77,7 +85,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun initSideMenu() {
-        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, MenuFragment()).commit()
+        supportFragmentManager.beginTransaction().replace(
+            R.id.fragment_container,
+            MenuFragment()
+        ).commit()
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         val actionbar: ActionBar? = supportActionBar
@@ -90,17 +101,37 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     fun replaceMenuFragments(menuId: String) {
         when (menuId) {
             "nav_types_of_places" -> {
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, TypesOfPlacesFragment())
+                //add listener/delegate the activity must implement the interface and non optional functions
+                val fragment = TypesOfPlacesFragment()
+                fragment.delegate = this
+                //or
+                fragment.onFilterSelected = {
+                    //TODO: call function and do something with it: TypesModel object
+
+                }
+                supportFragmentManager.beginTransaction().replace(
+                    R.id.fragment_container,
+                    fragment
+                )
                     .commit()
             }
             "nav_feedback" -> {
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, FeedbackFragment()).commit()
+                supportFragmentManager.beginTransaction().replace(
+                    R.id.fragment_container,
+                    FeedbackFragment()
+                ).commit()
             }
             "nav_about" -> {
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, AboutFragment()).commit()
+                supportFragmentManager.beginTransaction().replace(
+                    R.id.fragment_container,
+                    AboutFragment()
+                ).commit()
             }
             "nav_main_menu" -> {
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, MenuFragment()).commit()
+                supportFragmentManager.beginTransaction().replace(
+                    R.id.fragment_container,
+                    MenuFragment()
+                ).commit()
             }
             "nav_opacity_slider" -> {
                 toggleSlider()
@@ -136,7 +167,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 { result -> addMarkers(result.results) },
-                { error -> Log.d(TAG,"${error.message}") })
+                { error -> Log.d(TAG, "${error.message}") })
     }
 
     fun addMarkers(results: Array<ApiModel.Results>) {
@@ -150,4 +181,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    override fun didSelectFilter(filter: String) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun didDeselect(filter: String) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }

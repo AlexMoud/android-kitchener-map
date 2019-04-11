@@ -1,4 +1,4 @@
-package gr.hua.it21533.kitchenerMap
+package gr.hua.it21533.kitchenerMap.helpers
 
 import android.content.res.AssetManager
 import com.google.android.gms.maps.model.Tile
@@ -13,7 +13,9 @@ class CustomMapTileProvider(private val mAssets: AssetManager) : TileProvider {
 
     override fun getTile(x: Int, y: Int, zoom: Int): Tile? {
         val image = readTileImage(x, y, zoom)
-        return if(image == null) null else Tile(TILE_WIDTH, TILE_HEIGHT, image)
+        return if(image == null) null else Tile(
+            TILE_WIDTH,
+            TILE_HEIGHT, image)
     }
 
     private fun readTileImage(x: Int, y: Int, zoom: Int): ByteArray? {
@@ -27,10 +29,14 @@ class CustomMapTileProvider(private val mAssets: AssetManager) : TileProvider {
             var nRead: Int
             val data = ByteArray(BUFFER_SIZE)
 
-            nRead = inputStream!!.read(data, 0, BUFFER_SIZE)
+            nRead = inputStream!!.read(data, 0,
+                BUFFER_SIZE
+            )
             while (nRead != -1) {
                 buffer.write(data, 0, nRead)
-                nRead = inputStream!!.read(data, 0, BUFFER_SIZE)
+                nRead = inputStream!!.read(data, 0,
+                    BUFFER_SIZE
+                )
             }
             buffer.flush()
 

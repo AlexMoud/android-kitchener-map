@@ -1,10 +1,12 @@
-package gr.hua.it21533.kitchenerMap
+package gr.hua.it21533.kitchenerMap.fragments
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import gr.hua.it21533.kitchenerMap.activities.MapsActivity
+import gr.hua.it21533.kitchenerMap.R
 import kotlinx.android.synthetic.main.menu_fragment.*
 
 class MenuFragment: Fragment() {

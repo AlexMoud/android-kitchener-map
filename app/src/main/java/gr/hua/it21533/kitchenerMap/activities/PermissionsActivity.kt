@@ -1,17 +1,14 @@
-package gr.hua.it21533.kitchenerMap
+package gr.hua.it21533.kitchenerMap.activities
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.os.Environment
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
-import java.io.*
+import gr.hua.it21533.kitchenerMap.R
 
 class PermissionsActivity : AppCompatActivity() {
 
