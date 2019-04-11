@@ -1,18 +1,17 @@
 package gr.hua.it21533.kitchenerMap
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.view.GravityCompat
-import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBar
-import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.MenuItem
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.SeekBar
-import android.widget.Toast
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -22,24 +21,31 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_maps.*
+import android.location.Location
+import android.support.v4.content.ContextCompat
+import android.widget.Toast
+import java.util.*
 
-
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
+class MapsActivity : AppCompatActivity(),
+    GoogleMap.OnMyLocationButtonClickListener,
+    GoogleMap.OnMyLocationClickListener,
+    OnMapReadyCallback {
 
     private val TAG = "MAPS_ACTIVITY"
-    private lateinit var mMap: GoogleMap
-    private var kitchenerMapOverlay: TileOverlay? = null
+    private lateinit var baseMap: GoogleMap
+    private lateinit var kitchenerMapOverlay: TileOverlay
     private var sliderVisible = true
-    private val initialLatitute: Double = 37.960
+    private val initialLatitude: Double = 37.960
     private val initialLongitude: Double = 23.708
     private val initialZoomLevel = 16.0f
-
-    var queryMap = HashMap<String, Any>()
     private var disposable: Disposable? = null
+    private var markersList = ArrayList<Marker>()
 
-    private val GoogleMapsApiServe by lazy {
+    private val googleMapsApiServe by lazy {
         GoogleMapsApiService.create()
     }
+
+    var queryMap = HashMap<String, Any>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,24 +59,44 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-        mMap = googleMap
-        kitchenerMapOverlay = mMap.addTileOverlay(TileOverlayOptions().tileProvider(CustomMapTileProvider(assets)))
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(initialLatitute, initialLongitude), initialZoomLevel))
-        kitchenerMapOverlay?.transparency = 1f
+        baseMap = googleMap
+        kitchenerMapOverlay = baseMap.addTileOverlay(TileOverlayOptions().tileProvider(CustomMapTileProvider(assets)))
+        baseMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(initialLatitude, initialLongitude), initialZoomLevel))
+        kitchenerMapOverlay.transparency = 1f
+        baseMap.setOnMyLocationButtonClickListener(this)
+        baseMap.setOnMyLocationClickListener(this)
+        enableMyLocation()
+    }
+
+    private fun enableMyLocation() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this,"permissions not granted", Toast.LENGTH_SHORT).show()
+        } else {
+            baseMap.isMyLocationEnabled = true
+        }
+    }
+
+    override fun onMyLocationButtonClick(): Boolean {
+        Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT).show()
+        return false
+    }
+
+    override fun onMyLocationClick(location: Location) {
+        Toast.makeText(this, "Current location: $location", Toast.LENGTH_LONG).show()
     }
 
     private fun initSlider() {
-        mapSlider?.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+        mapSlider.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
 
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                 val progressValue = progress.toFloat() / 100
-                kitchenerMapOverlay?.transparency = 1 - progressValue
+                kitchenerMapOverlay.transparency = 1 - progressValue
             }
 
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
             }
 
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
             }
 
         })
@@ -90,8 +116,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     fun replaceMenuFragments(menuId: String) {
         when (menuId) {
             "nav_types_of_places" -> {
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, TypesOfPlacesFragment())
-                    .commit()
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, TypesOfPlacesFragment()).commit()
             }
             "nav_feedback" -> {
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_container, FeedbackFragment()).commit()
@@ -117,7 +142,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mapSlider.visibility = if (sliderVisible) GONE else VISIBLE
     }
 
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
@@ -130,8 +154,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     fun searchForPlaces() {
         // add query strings to map and call api service with query map
-        queryMap.put("location", "$initialLatitute, $initialLongitude")
-        disposable = GoogleMapsApiServe.nearBySearch(queryMap)
+        queryMap["location"] = "$initialLatitude, $initialLongitude"
+        disposable = googleMapsApiServe.nearBySearch(queryMap)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
@@ -139,15 +163,23 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 { error -> Log.d(TAG,"${error.message}") })
     }
 
-    fun addMarkers(results: Array<ApiModel.Results>) {
+    private fun addMarkers(results: Array<ApiModel.Results>) {
+        markersList.forEach {
+            it.remove()
+        }
         results.forEach {
-            mMap.addMarker(
-                MarkerOptions()
-                    .position(LatLng(it.geometry.location.lat, it.geometry.location.lng))
-                    .title(it.name)
-                    .snippet(it.vicinity)
-            )
+            var marker = baseMap.addMarker(MarkerOptions()
+                .position(LatLng(it.geometry.location.lat, it.geometry.location.lng))
+                .title(it.name ?: "No title given by the API")
+                .snippet(it.vicinity ?: "No description given by the API")
+                .alpha(0.8f))
+
+            markersList.add(marker)
         }
     }
 
+    override fun onDestroy() {
+        super.onPause()
+        disposable?.dispose()
+    }
 }

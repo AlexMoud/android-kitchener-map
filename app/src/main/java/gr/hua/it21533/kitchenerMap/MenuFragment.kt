@@ -15,18 +15,19 @@ class MenuFragment: Fragment() {
 
     override fun onStart() {
         super.onStart()
+        var mapsActivity = activity as MapsActivity
         nav_types_of_places.setOnClickListener {
-            (activity as MapsActivity).replaceMenuFragments("nav_types_of_places")
+            mapsActivity.replaceMenuFragments("nav_types_of_places")
         }
         nav_about.setOnClickListener {
-            (activity as MapsActivity).replaceMenuFragments("nav_about")
+            mapsActivity.replaceMenuFragments("nav_about")
         }
         nav_feedback.setOnClickListener {
-            (activity as MapsActivity).replaceMenuFragments("nav_feedback")
+            mapsActivity.replaceMenuFragments("nav_feedback")
         }
         nav_opacity_slider.setOnClickListener {
-            (activity as MapsActivity).replaceMenuFragments("nav_opacity_slider")
+            mapsActivity.replaceMenuFragments("nav_opacity_slider")
         }
     }
-
 }
+

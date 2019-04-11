@@ -25,10 +25,10 @@ class TypesAdapter(val typesCheckboxes : ArrayList<TypesModel>,
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         // set displayed text to TypeModel.displayValue
-        holder?.typeCheckbox?.text = typesCheckboxes[position].displayValue
+        holder.typeCheckbox?.text = typesCheckboxes[position].displayValue
 
         // set clicklistener text to TypeModel.apiValue
-        holder?.bind(typesCheckboxes[position].apiValue, clickListener)
+        holder.bind(typesCheckboxes[position].apiValue, clickListener)
     }
 
 }

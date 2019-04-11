@@ -14,7 +14,7 @@ class TypesOfPlacesFragment: Fragment() {
     private var selectedTypes = ArrayList<String>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.types_of_places_fragment, container,false)
+        return inflater.inflate(R.layout.types_of_places_fragment, container, false)
     }
 
     override fun onStart() {
@@ -42,7 +42,7 @@ class TypesOfPlacesFragment: Fragment() {
         } else {
             selectedTypes.add(item)
         }
-        (activity as MapsActivity).queryMap.put("types", selectedTypes.joinToString())
+        (activity as MapsActivity).queryMap["types"] = selectedTypes.joinToString()
         (activity as MapsActivity).searchForPlaces()
     }
 

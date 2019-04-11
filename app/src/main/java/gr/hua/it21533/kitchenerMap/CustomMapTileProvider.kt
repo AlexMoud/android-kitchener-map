@@ -27,10 +27,10 @@ class CustomMapTileProvider(private val mAssets: AssetManager) : TileProvider {
             var nRead: Int
             val data = ByteArray(BUFFER_SIZE)
 
-            nRead = inputStream!!.read(data, 0, BUFFER_SIZE)
+            nRead = inputStream.read(data, 0, BUFFER_SIZE)
             while (nRead != -1) {
                 buffer.write(data, 0, nRead)
-                nRead = inputStream!!.read(data, 0, BUFFER_SIZE)
+                nRead = inputStream.read(data, 0, BUFFER_SIZE)
             }
             buffer.flush()
 
@@ -42,16 +42,12 @@ class CustomMapTileProvider(private val mAssets: AssetManager) : TileProvider {
             e.printStackTrace()
             return null
         } finally {
-            if (inputStream != null) try {
-                inputStream.close()
-            } catch (ignored: Exception) {
+            inputStream?.let {
+                it.close()
             }
-
-            if (buffer != null) try {
-                buffer.close()
-            } catch (ignored: Exception) {
+            buffer?.let {
+                it.close()
             }
-
         }
     }
 
