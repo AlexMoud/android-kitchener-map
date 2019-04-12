@@ -1,4 +1,4 @@
-package gr.hua.it21533.kitchenerMap
+package gr.hua.it21533.kitchenerMap.activities
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -24,12 +24,18 @@ import kotlinx.android.synthetic.main.activity_maps.*
 import android.location.Location
 import android.support.v4.content.ContextCompat
 import android.widget.Toast
+import gr.hua.it21533.kitchenerMap.*
+import gr.hua.it21533.kitchenerMap.api.ApiModel
+import gr.hua.it21533.kitchenerMap.api.GoogleMapsApiService
+import gr.hua.it21533.kitchenerMap.fragments.*
+import gr.hua.it21533.kitchenerMap.helpers.CustomMapTileProvider
 import java.util.*
 
 class MapsActivity : AppCompatActivity(),
     GoogleMap.OnMyLocationButtonClickListener,
     GoogleMap.OnMyLocationClickListener,
-    OnMapReadyCallback {
+    OnMapReadyCallback,
+    FilteringListener {
 
     private val TAG = "MAPS_ACTIVITY"
     private lateinit var baseMap: GoogleMap
@@ -65,16 +71,11 @@ class MapsActivity : AppCompatActivity(),
         kitchenerMapOverlay.transparency = 1f
         baseMap.setOnMyLocationButtonClickListener(this)
         baseMap.setOnMyLocationClickListener(this)
-        enableMyLocation()
-    }
-
-    private fun enableMyLocation() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(this,"permissions not granted", Toast.LENGTH_SHORT).show()
-        } else {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             baseMap.isMyLocationEnabled = true
         }
     }
+
 
     override fun onMyLocationButtonClick(): Boolean {
         Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT).show()
@@ -89,8 +90,7 @@ class MapsActivity : AppCompatActivity(),
         mapSlider.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
 
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-                val progressValue = progress.toFloat() / 100
-                kitchenerMapOverlay.transparency = 1 - progressValue
+                kitchenerMapOverlay.transparency = 1 - (progress.toFloat() / 100)
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {
@@ -103,7 +103,10 @@ class MapsActivity : AppCompatActivity(),
     }
 
     private fun initSideMenu() {
-        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, MenuFragment()).commit()
+        supportFragmentManager.beginTransaction().replace(
+            R.id.fragment_container,
+            MenuFragment()
+        ).commit()
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         val actionbar: ActionBar? = supportActionBar
@@ -116,16 +119,34 @@ class MapsActivity : AppCompatActivity(),
     fun replaceMenuFragments(menuId: String) {
         when (menuId) {
             "nav_types_of_places" -> {
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, TypesOfPlacesFragment()).commit()
+                val fragment = TypesOfPlacesFragment()
+                fragment.delegate = this
+                //or
+//                fragment.onFilterSelected = {
+//
+//                }
+                supportFragmentManager.beginTransaction().replace(
+                    R.id.fragment_container,
+                    fragment
+                ).commit()
             }
             "nav_feedback" -> {
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, FeedbackFragment()).commit()
+                supportFragmentManager.beginTransaction().replace(
+                    R.id.fragment_container,
+                    FeedbackFragment()
+                ).commit()
             }
             "nav_about" -> {
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, AboutFragment()).commit()
+                supportFragmentManager.beginTransaction().replace(
+                    R.id.fragment_container,
+                    AboutFragment()
+                ).commit()
             }
             "nav_main_menu" -> {
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, MenuFragment()).commit()
+                supportFragmentManager.beginTransaction().replace(
+                    R.id.fragment_container,
+                    MenuFragment()
+                ).commit()
             }
             "nav_opacity_slider" -> {
                 toggleSlider()
@@ -179,7 +200,16 @@ class MapsActivity : AppCompatActivity(),
     }
 
     override fun onDestroy() {
-        super.onPause()
+        super.onDestroy()
         disposable?.dispose()
+    }
+
+
+    override fun didSelectFilter(filter: String) {
+        Log.d(TAG,"$filter")
+    }
+
+    override fun didDeselect(filter: String) {
+        Log.d(TAG,"$filter")
     }
 }
