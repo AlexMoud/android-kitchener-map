@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:padding="16dp"
         android:text="Types Of Places"
-        android:textSize="20sp"
+        android:textSize="@dimen/text_large"
         android:textAlignment="center"/>
 
     <android.support.v7.widget.RecyclerView

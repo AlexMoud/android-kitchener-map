@@ -7,6 +7,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="16sp"
+        android:gravity="left|center"
+        android:layoutDirection="rtl"
         android:padding="16dp"/>
 
 </LinearLayout>

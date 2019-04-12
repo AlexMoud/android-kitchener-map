@@ -78,12 +78,10 @@ class MapsActivity : AppCompatActivity(),
 
 
     override fun onMyLocationButtonClick(): Boolean {
-        Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT).show()
         return false
     }
 
     override fun onMyLocationClick(location: Location) {
-        Toast.makeText(this, "Current location: $location", Toast.LENGTH_LONG).show()
     }
 
     private fun initSlider() {
