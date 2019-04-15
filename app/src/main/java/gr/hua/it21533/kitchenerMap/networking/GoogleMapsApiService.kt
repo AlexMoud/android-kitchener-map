@@ -1,4 +1,4 @@
-package gr.hua.it21533.kitchenerMap.api
+package gr.hua.it21533.kitchenerMap.networking
 
 import io.reactivex.Observable
 import retrofit2.Retrofit

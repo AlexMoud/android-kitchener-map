@@ -1,4 +1,4 @@
-package gr.hua.it21533.kitchenerMap.api
+package gr.hua.it21533.kitchenerMap.networking
 
 // represents the google maps api response object
 object ApiModel {

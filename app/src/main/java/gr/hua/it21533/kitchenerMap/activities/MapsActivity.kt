@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBar
 import android.support.v7.widget.Toolbar
-import android.util.Log
 import android.view.MenuItem
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -17,16 +16,11 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_maps.*
 import android.location.Location
 import android.support.v4.content.ContextCompat
-import android.widget.Toast
 import gr.hua.it21533.kitchenerMap.*
-import gr.hua.it21533.kitchenerMap.api.ApiModel
-import gr.hua.it21533.kitchenerMap.api.GoogleMapsApiService
+import gr.hua.it21533.kitchenerMap.networking.ApiModel
 import gr.hua.it21533.kitchenerMap.fragments.*
 import gr.hua.it21533.kitchenerMap.helpers.CustomMapTileProvider
 import java.util.*
@@ -35,7 +29,8 @@ class MapsActivity : AppCompatActivity(),
     GoogleMap.OnMyLocationButtonClickListener,
     GoogleMap.OnMyLocationClickListener,
     OnMapReadyCallback,
-    FilteringListener {
+    MenuView,
+    MapsActivityView {
 
     private val TAG = "MAPS_ACTIVITY"
     private lateinit var baseMap: GoogleMap
@@ -44,13 +39,8 @@ class MapsActivity : AppCompatActivity(),
     private val initialLatitude: Double = 37.960
     private val initialLongitude: Double = 23.708
     private val initialZoomLevel = 16.0f
-    private var disposable: Disposable? = null
     private var markersList = ArrayList<Marker>()
-
-    private val googleMapsApiServe by lazy {
-        GoogleMapsApiService.create()
-    }
-
+    private lateinit var mapsPresenter: MapsActivityPresenter
     var queryMap = HashMap<String, Any>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,7 +51,23 @@ class MapsActivity : AppCompatActivity(),
         mapFragment.getMapAsync(this)
         initSlider()
         initSideMenu()
-        searchForPlaces()
+        queryMap["location"] = "$initialLatitude, $initialLongitude"
+        mapsPresenter = MapsActivityPresenter(this, queryMap)
+        mapsPresenter.loadMarkers()
+    }
+
+    override fun displayMarkers(markers: Array<ApiModel.Results>?) {
+        markersList.forEach {
+            it.remove()
+        }
+        markers?.forEach {
+            var marker = baseMap.addMarker(MarkerOptions()
+                .position(LatLng(it.geometry.location.lat, it.geometry.location.lng))
+                .title(it.name ?: "No title given by the API")
+                .snippet(it.vicinity ?: "No description given by the API")
+                .alpha(0.8f))
+            markersList.add(marker)
+        }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -75,7 +81,6 @@ class MapsActivity : AppCompatActivity(),
             baseMap.isMyLocationEnabled = true
         }
     }
-
 
     override fun onMyLocationButtonClick(): Boolean {
         return false
@@ -119,10 +124,6 @@ class MapsActivity : AppCompatActivity(),
             "nav_types_of_places" -> {
                 val fragment = TypesOfPlacesFragment()
                 fragment.delegate = this
-                //or
-//                fragment.onFilterSelected = {
-//
-//                }
                 supportFragmentManager.beginTransaction().replace(
                     R.id.fragment_container,
                     fragment
@@ -141,10 +142,7 @@ class MapsActivity : AppCompatActivity(),
                 ).commit()
             }
             "nav_main_menu" -> {
-                supportFragmentManager.beginTransaction().replace(
-                    R.id.fragment_container,
-                    MenuFragment()
-                ).commit()
+                backToMenu()
             }
             "nav_opacity_slider" -> {
                 toggleSlider()
@@ -171,43 +169,15 @@ class MapsActivity : AppCompatActivity(),
         }
     }
 
-    fun searchForPlaces() {
-        // add query strings to map and call api service with query map
-        queryMap["location"] = "$initialLatitude, $initialLongitude"
-        disposable = googleMapsApiServe.nearBySearch(queryMap)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                { result -> addMarkers(result.results) },
-                { error -> Log.d(TAG,"${error.message}") })
+    override fun didFilterChange(filterValue: String, filterType: String) {
+        queryMap[filterType] = filterValue
+        mapsPresenter.loadMarkers()
     }
 
-    private fun addMarkers(results: Array<ApiModel.Results>) {
-        markersList.forEach {
-            it.remove()
-        }
-        results.forEach {
-            var marker = baseMap.addMarker(MarkerOptions()
-                .position(LatLng(it.geometry.location.lat, it.geometry.location.lng))
-                .title(it.name ?: "No title given by the API")
-                .snippet(it.vicinity ?: "No description given by the API")
-                .alpha(0.8f))
-
-            markersList.add(marker)
-        }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        disposable?.dispose()
-    }
-
-
-    override fun didSelectFilter(filter: String) {
-        Log.d(TAG,"$filter")
-    }
-
-    override fun didDeselect(filter: String) {
-        Log.d(TAG,"$filter")
+    override fun backToMenu() {
+        supportFragmentManager.beginTransaction().replace(
+            R.id.fragment_container,
+            MenuFragment()
+        ).commit()
     }
 }
