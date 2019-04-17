@@ -1,6 +1,7 @@
 package gr.hua.it21533.kitchenerMap.activities
 
 import android.util.Log
+import gr.hua.it21533.kitchenerMap.interfaces.MapsActivityView
 import gr.hua.it21533.kitchenerMap.networking.GoogleMapsApiService
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers

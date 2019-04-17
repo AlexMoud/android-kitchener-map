@@ -7,12 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import gr.hua.it21533.kitchenerMap.R
 import gr.hua.it21533.kitchenerMap.activities.MapsActivity
-import kotlinx.android.synthetic.main.menu_fragment.*
+import kotlinx.android.synthetic.main.fragment_menu.*
 
 class MenuFragment: Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.menu_fragment, container,false)
+        return inflater.inflate(R.layout.fragment_menu, container,false)
     }
 
     override fun onStart() {

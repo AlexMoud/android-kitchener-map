@@ -16,7 +16,7 @@ class PermissionsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.permissions_layout)
+        setContentView(R.layout.activity_permissions)
         checkForPermissions()
     }
 

@@ -3,18 +3,15 @@ package gr.hua.it21533.kitchenerMap.fragments
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
-import android.widget.Toast
 import gr.hua.it21533.kitchenerMap.R
-import gr.hua.it21533.kitchenerMap.activities.MenuView
+import gr.hua.it21533.kitchenerMap.interfaces.MenuView
 import gr.hua.it21533.kitchenerMap.adapters.TypesAdapter
 import gr.hua.it21533.kitchenerMap.models.TypesModel
-import kotlinx.android.synthetic.main.types_of_places_fragment.*
+import kotlinx.android.synthetic.main.fragment_types_of_places.*
 
 class TypesOfPlacesFragment: Fragment() {
 
@@ -24,7 +21,7 @@ class TypesOfPlacesFragment: Fragment() {
     var delegate: MenuView? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        var view = inflater.inflate(R.layout.types_of_places_fragment, container, false)
+        var view = inflater.inflate(R.layout.fragment_types_of_places, container, false)
         savedInstanceState?.let {
             Log.d("CHECKBOXES","inside savedInstance")
             selectedTypes = savedInstanceState.getStringArrayList("selectedCheckboxes")

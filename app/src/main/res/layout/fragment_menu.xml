@@ -15,7 +15,7 @@
         android:textSize="@dimen/text_medium"
         android:id="@+id/nav_types_of_places"/>
 
-    <include layout="@layout/divider"/>
+    <include layout="@layout/partial_divider"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -28,7 +28,7 @@
         android:textSize="@dimen/text_medium"
         android:id="@+id/nav_about"/>
 
-    <include layout="@layout/divider"/>
+    <include layout="@layout/partial_divider"/>
 
     <CheckBox
         android:layout_width="match_parent"
@@ -41,7 +41,7 @@
         android:layoutDirection="rtl"
         android:id="@+id/nav_opacity_slider"/>
 
-    <include layout="@layout/divider"/>
+    <include layout="@layout/partial_divider"/>
 
     <TextView
         android:layout_width="match_parent"

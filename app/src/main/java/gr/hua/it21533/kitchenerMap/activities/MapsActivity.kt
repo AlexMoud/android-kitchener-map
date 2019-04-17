@@ -2,10 +2,13 @@ package gr.hua.it21533.kitchenerMap.activities
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.support.v7.app.AppCompatActivity
+import android.location.Location
 import android.os.Bundle
+import android.os.Handler
+import android.support.v4.content.ContextCompat
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBar
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.view.View.GONE
@@ -16,18 +19,18 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
-import kotlinx.android.synthetic.main.activity_maps.*
-import android.location.Location
-import android.os.Handler
-import android.support.v4.content.ContextCompat
-import gr.hua.it21533.kitchenerMap.*
-import gr.hua.it21533.kitchenerMap.networking.ApiModel
-import gr.hua.it21533.kitchenerMap.fragments.*
+import gr.hua.it21533.kitchenerMap.R
+import gr.hua.it21533.kitchenerMap.fragments.AboutFragment
+import gr.hua.it21533.kitchenerMap.fragments.FeedbackFragment
+import gr.hua.it21533.kitchenerMap.fragments.MenuFragment
+import gr.hua.it21533.kitchenerMap.fragments.TypesOfPlacesFragment
 import gr.hua.it21533.kitchenerMap.helpers.CustomMapTileProvider
-import java.sql.Types
+import gr.hua.it21533.kitchenerMap.interfaces.MapsActivityView
+import gr.hua.it21533.kitchenerMap.interfaces.MenuView
+import gr.hua.it21533.kitchenerMap.networking.ApiModel
+import kotlinx.android.synthetic.main.activity_maps.*
+import kotlinx.android.synthetic.main.fragment_menu.*
 import java.util.*
-import android.support.v4.os.HandlerCompat.postDelayed
-import kotlinx.android.synthetic.main.menu_fragment.*
 
 
 class MapsActivity : AppCompatActivity(),
@@ -48,6 +51,7 @@ class MapsActivity : AppCompatActivity(),
     private lateinit var mapsPresenter: MapsActivityPresenter
     private var hasInteractedWithSeekBar = false
     var queryMap = HashMap<String, Any>()
+    private val handler = Handler()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,7 +78,7 @@ class MapsActivity : AppCompatActivity(),
                 .alpha(0.8f))
             markersList.add(marker)
         }
-        loadingAnimation.visibility = GONE
+        hideLoading()
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -166,7 +170,7 @@ class MapsActivity : AppCompatActivity(),
         sliderVisible = !sliderVisible
         if(hasInteractedWithSeekBar) hasInteractedWithSeekBar = false
         mapSlider.visibility = if (sliderVisible) GONE else VISIBLE
-        val handler = Handler()
+        handler.removeCallbacksAndMessages(null)
         handler.postDelayed({
             if(!hasInteractedWithSeekBar) {
                 mapSlider.visibility = GONE
@@ -202,5 +206,9 @@ class MapsActivity : AppCompatActivity(),
 
     override fun showLoading() {
         loadingAnimation.visibility = VISIBLE
+    }
+
+    override fun hideLoading() {
+        loadingAnimation.visibility = GONE
     }
 }
