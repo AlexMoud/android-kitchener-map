@@ -18,12 +18,17 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import kotlinx.android.synthetic.main.activity_maps.*
 import android.location.Location
+import android.os.Handler
 import android.support.v4.content.ContextCompat
 import gr.hua.it21533.kitchenerMap.*
 import gr.hua.it21533.kitchenerMap.networking.ApiModel
 import gr.hua.it21533.kitchenerMap.fragments.*
 import gr.hua.it21533.kitchenerMap.helpers.CustomMapTileProvider
+import java.sql.Types
 import java.util.*
+import android.support.v4.os.HandlerCompat.postDelayed
+import kotlinx.android.synthetic.main.menu_fragment.*
+
 
 class MapsActivity : AppCompatActivity(),
     GoogleMap.OnMyLocationButtonClickListener,
@@ -41,6 +46,7 @@ class MapsActivity : AppCompatActivity(),
     private val initialZoomLevel = 16.0f
     private var markersList = ArrayList<Marker>()
     private lateinit var mapsPresenter: MapsActivityPresenter
+    private var hasInteractedWithSeekBar = false
     var queryMap = HashMap<String, Any>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,6 +74,7 @@ class MapsActivity : AppCompatActivity(),
                 .alpha(0.8f))
             markersList.add(marker)
         }
+        loadingAnimation.visibility = GONE
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -77,7 +84,8 @@ class MapsActivity : AppCompatActivity(),
         kitchenerMapOverlay.transparency = 1f
         baseMap.setOnMyLocationButtonClickListener(this)
         baseMap.setOnMyLocationClickListener(this)
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             baseMap.isMyLocationEnabled = true
         }
     }
@@ -86,8 +94,7 @@ class MapsActivity : AppCompatActivity(),
         return false
     }
 
-    override fun onMyLocationClick(location: Location) {
-    }
+    override fun onMyLocationClick(location: Location) {}
 
     private fun initSlider() {
         mapSlider.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
@@ -97,6 +104,7 @@ class MapsActivity : AppCompatActivity(),
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {
+                hasInteractedWithSeekBar = true
             }
 
             override fun onStopTrackingTouch(seekBar: SeekBar) {
@@ -156,7 +164,17 @@ class MapsActivity : AppCompatActivity(),
     private fun toggleSlider() {
         drawer_layout.closeDrawers()
         sliderVisible = !sliderVisible
+        if(hasInteractedWithSeekBar) hasInteractedWithSeekBar = false
         mapSlider.visibility = if (sliderVisible) GONE else VISIBLE
+        val handler = Handler()
+        handler.postDelayed({
+            if(!hasInteractedWithSeekBar) {
+                mapSlider.visibility = GONE
+                sliderVisible = true
+                nav_opacity_slider.isChecked = false
+                hasInteractedWithSeekBar = false
+            }
+        }, 5000)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -172,6 +190,7 @@ class MapsActivity : AppCompatActivity(),
     override fun didFilterChange(filterValue: String, filterType: String) {
         queryMap[filterType] = filterValue
         mapsPresenter.loadMarkers()
+        showLoading()
     }
 
     override fun backToMenu() {
@@ -179,5 +198,9 @@ class MapsActivity : AppCompatActivity(),
             R.id.fragment_container,
             MenuFragment()
         ).commit()
+    }
+
+    override fun showLoading() {
+        loadingAnimation.visibility = VISIBLE
     }
 }

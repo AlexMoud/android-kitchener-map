@@ -6,8 +6,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.util.HashMap
 
-class MapsActivityPresenter(private val view: MapsActivityView,
-                            private val query: HashMap<String, Any>) {
+class MapsActivityPresenter(private val view: MapsActivityView, private val query: HashMap<String, Any>) {
 
     private val googleMapsApiServe by lazy {
         GoogleMapsApiService.create()
@@ -19,6 +18,6 @@ class MapsActivityPresenter(private val view: MapsActivityView,
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 { result -> view.displayMarkers(result.results) },
-                { error -> Log.d("MVP","${error.message}") })
+                { error -> Log.d("loadMarkers()","${error.message}") })
     }
 }

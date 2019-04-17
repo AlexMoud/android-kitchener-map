@@ -5,12 +5,14 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import gr.hua.it21533.kitchenerMap.R
 import gr.hua.it21533.kitchenerMap.models.TypesModel
 import kotlinx.android.synthetic.main.type_checkbox_item.view.*
 
 class TypesAdapter(val typesCheckboxes : ArrayList<TypesModel>,
                    val context: Context,
+                   val selectedCheckboxes: ArrayList<String>,
                    val clickListener: (String) -> Unit): RecyclerView.Adapter<ViewHolder>() {
 
     // Gets the number of checkboxes in the list
@@ -34,9 +36,10 @@ class TypesAdapter(val typesCheckboxes : ArrayList<TypesModel>,
 
         // set displayed text to TypeModel.displayValue
         holder.typeCheckbox?.text = typesCheckboxes[position].displayValue
-
         // set clicklistener text to TypeModel.apiValue
         holder.bind(typesCheckboxes[position].apiValue, clickListener)
+
+        if(selectedCheckboxes.contains(typesCheckboxes[position].apiValue)) holder.typeCheckbox?.isChecked = true
     }
 
 }
