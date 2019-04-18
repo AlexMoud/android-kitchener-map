@@ -5,11 +5,13 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.os.Handler
+import android.support.v4.app.FragmentManager
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.util.Log
 import android.view.MenuItem
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -52,6 +54,8 @@ class MapsActivity : AppCompatActivity(),
     private var hasInteractedWithSeekBar = false
     var queryMap = HashMap<String, Any>()
     private val handler = Handler()
+    private val typesOfPlacesFragment = TypesOfPlacesFragment()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,6 +68,7 @@ class MapsActivity : AppCompatActivity(),
         queryMap["location"] = "$initialLatitude, $initialLongitude"
         mapsPresenter = MapsActivityPresenter(this, queryMap)
         mapsPresenter.loadMarkers()
+        typesOfPlacesFragment.delegate = this
     }
 
     override fun displayMarkers(markers: Array<ApiModel.Results>?) {
@@ -134,11 +139,9 @@ class MapsActivity : AppCompatActivity(),
     fun replaceMenuFragments(menuId: String) {
         when (menuId) {
             "nav_types_of_places" -> {
-                val fragment = TypesOfPlacesFragment()
-                fragment.delegate = this
                 supportFragmentManager.beginTransaction().replace(
                     R.id.fragment_container,
-                    fragment
+                    typesOfPlacesFragment
                 ).commit()
             }
             "nav_feedback" -> {
@@ -175,7 +178,7 @@ class MapsActivity : AppCompatActivity(),
             if(!hasInteractedWithSeekBar) {
                 mapSlider.visibility = GONE
                 sliderVisible = true
-                nav_opacity_slider.isChecked = false
+                nav_opacity_slider?.isChecked = false
                 hasInteractedWithSeekBar = false
             }
         }, 5000)

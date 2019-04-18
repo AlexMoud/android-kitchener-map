@@ -17,39 +17,37 @@ class TypesOfPlacesFragment: Fragment() {
 
     private var types = ArrayList<TypesModel>()
     private var selectedTypes = ArrayList<String>()
-    private var started = false
     var delegate: MenuView? = null
+    private var started = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        var view = inflater.inflate(R.layout.fragment_types_of_places, container, false)
-        savedInstanceState?.let {
-            Log.d("CHECKBOXES","inside savedInstance")
-            selectedTypes = savedInstanceState.getStringArrayList("selectedCheckboxes")
-        }
-        return view
+        return inflater.inflate(R.layout.fragment_types_of_places, container, false)
     }
 
     override fun onStart() {
         super.onStart()
         if(!started) {
-            addTypesOfPlacesCheckboxes()
-            backToMenu.setOnClickListener {
-                delegate?.backToMenu()
-            }
+            addCheckboxesContent()
         }
         started = true
+        addTypesOfPlacesCheckboxes()
+        backToMenu.setOnClickListener {
+            delegate?.backToMenu()
+        }
     }
 
-    private fun addTypesOfPlacesCheckboxes() {
+    private fun addCheckboxesContent() {
         types.add(TypesModel("cafe", "Coffee Shops"))
         types.add(TypesModel("bank", "Banks"))
         types.add(TypesModel("lodging", "Lodging"))
         types.add(TypesModel("museum", "Museums"))
         types.add(TypesModel("locality", "Locality"))
         types.add(TypesModel("political", "Political"))
+    }
+
+    private fun addTypesOfPlacesCheckboxes() {
         typesCheckboxes.layoutManager = LinearLayoutManager(context)
         typesCheckboxes.adapter = TypesAdapter(types, context!!, selectedTypes) { item: String -> itemTypeClicked(item) }
-        Log.d("CHECKBOXES","${selectedTypes.size}")
     }
 
     private fun itemTypeClicked(item: String) {
@@ -59,11 +57,5 @@ class TypesOfPlacesFragment: Fragment() {
             selectedTypes.add(item)
         }
         delegate?.didFilterChange(selectedTypes.joinToString(), "types")
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        Log.d("CHECKBOXES","inside onSaveInstanceState")
-        outState.putStringArrayList("selectedCheckboxes", selectedTypes)
     }
 }
