@@ -2,10 +2,8 @@ package gr.hua.it21533.kitchenerMap.activities
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.location.Location
 import android.os.Bundle
 import android.os.Handler
-import android.support.v4.app.FragmentManager
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBar
@@ -34,10 +32,9 @@ import kotlinx.android.synthetic.main.activity_maps.*
 import kotlinx.android.synthetic.main.fragment_menu.*
 import java.util.*
 
-
-class MapsActivity : AppCompatActivity(),
+class MapsActivity:
+    AppCompatActivity(),
     GoogleMap.OnMyLocationButtonClickListener,
-    GoogleMap.OnMyLocationClickListener,
     OnMapReadyCallback,
     MenuView,
     MapsActivityView {
@@ -45,22 +42,20 @@ class MapsActivity : AppCompatActivity(),
     private val TAG = "MAPS_ACTIVITY"
     private lateinit var baseMap: GoogleMap
     private lateinit var kitchenerMapOverlay: TileOverlay
+    private lateinit var mapsPresenter: MapsActivityPresenter
     private var sliderVisible = true
+    private var markersList = ArrayList<Marker>()
+    private var hasInteractedWithSeekBar = false
     private val initialLatitude: Double = 37.960
     private val initialLongitude: Double = 23.708
     private val initialZoomLevel = 16.0f
-    private var markersList = ArrayList<Marker>()
-    private lateinit var mapsPresenter: MapsActivityPresenter
-    private var hasInteractedWithSeekBar = false
-    var queryMap = HashMap<String, Any>()
     private val handler = Handler()
     private val typesOfPlacesFragment = TypesOfPlacesFragment()
-
+    var queryMap = HashMap<String, Any>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         initSlider()
@@ -72,11 +67,9 @@ class MapsActivity : AppCompatActivity(),
     }
 
     override fun displayMarkers(markers: Array<ApiModel.Results>?) {
-        markersList.forEach {
-            it.remove()
-        }
+        removeMarkers()
         markers?.forEach {
-            var marker = baseMap.addMarker(MarkerOptions()
+            val marker = baseMap.addMarker(MarkerOptions()
                 .position(LatLng(it.geometry.location.lat, it.geometry.location.lng))
                 .title(it.name ?: "No title given by the API")
                 .snippet(it.vicinity ?: "No description given by the API")
@@ -86,13 +79,18 @@ class MapsActivity : AppCompatActivity(),
         hideLoading()
     }
 
+    private fun removeMarkers() {
+        markersList.forEach {
+            it.remove()
+        }
+    }
+
     override fun onMapReady(googleMap: GoogleMap) {
         baseMap = googleMap
         kitchenerMapOverlay = baseMap.addTileOverlay(TileOverlayOptions().tileProvider(CustomMapTileProvider(assets)))
         baseMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(initialLatitude, initialLongitude), initialZoomLevel))
         kitchenerMapOverlay.transparency = 1f
         baseMap.setOnMyLocationButtonClickListener(this)
-        baseMap.setOnMyLocationClickListener(this)
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             baseMap.isMyLocationEnabled = true
@@ -102,8 +100,6 @@ class MapsActivity : AppCompatActivity(),
     override fun onMyLocationButtonClick(): Boolean {
         return false
     }
-
-    override fun onMyLocationClick(location: Location) {}
 
     private fun initSlider() {
         mapSlider.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
@@ -163,7 +159,7 @@ class MapsActivity : AppCompatActivity(),
                 toggleSlider()
             }
             else -> {
-
+                Log.d(TAG,"Wrong string sent to function")
             }
         }
     }

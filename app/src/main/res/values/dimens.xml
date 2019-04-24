@@ -7,6 +7,6 @@
     <!-- font sizes -->
     <dimen name="text_small">12sp</dimen>
     <dimen name="text_medium">16sp</dimen>
-    <dimen name="text_large">20sp</dimen>
-    <dimen name="text_larger">22sp</dimen>
+    <dimen name="text_large">18sp</dimen>
+    <dimen name="text_larger">20sp</dimen>
 </resources>
