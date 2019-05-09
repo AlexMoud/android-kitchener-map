@@ -13,9 +13,9 @@ class CustomMapTileProvider(private val mAssets: AssetManager) : TileProvider {
 
     override fun getTile(x: Int, y: Int, zoom: Int): Tile? {
         val image = readTileImage(x, y, zoom)
-        return if(image == null) null else Tile(
-            TILE_WIDTH,
-            TILE_HEIGHT, image)
+        return image?.let {
+            Tile(TILE_WIDTH, TILE_HEIGHT, image)
+        }
     }
 
     private fun readTileImage(x: Int, y: Int, zoom: Int): ByteArray? {

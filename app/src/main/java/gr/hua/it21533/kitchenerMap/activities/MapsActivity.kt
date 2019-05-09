@@ -24,12 +24,13 @@ import gr.hua.it21533.kitchenerMap.fragments.AboutFragment
 import gr.hua.it21533.kitchenerMap.fragments.FeedbackFragment
 import gr.hua.it21533.kitchenerMap.fragments.MenuFragment
 import gr.hua.it21533.kitchenerMap.fragments.TypesOfPlacesFragment
-import gr.hua.it21533.kitchenerMap.helpers.CustomMapTileProvider
 import gr.hua.it21533.kitchenerMap.interfaces.MapsActivityView
 import gr.hua.it21533.kitchenerMap.interfaces.MenuView
 import gr.hua.it21533.kitchenerMap.networking.ApiModel
 import kotlinx.android.synthetic.main.activity_maps.*
 import kotlinx.android.synthetic.main.fragment_menu.*
+import java.net.MalformedURLException
+import java.net.URL
 import java.util.*
 
 class MapsActivity:
@@ -46,8 +47,8 @@ class MapsActivity:
     private var sliderVisible = true
     private var markersList = ArrayList<Marker>()
     private var hasInteractedWithSeekBar = false
-    private val initialLatitude: Double = 37.960
-    private val initialLongitude: Double = 23.708
+    private val initialLatitude: Double = 34.8
+    private val initialLongitude: Double = 33.2
     private val initialZoomLevel = 16.0f
     private val handler = Handler()
     private val typesOfPlacesFragment = TypesOfPlacesFragment()
@@ -87,7 +88,24 @@ class MapsActivity:
 
     override fun onMapReady(googleMap: GoogleMap) {
         baseMap = googleMap
-        kitchenerMapOverlay = baseMap.addTileOverlay(TileOverlayOptions().tileProvider(CustomMapTileProvider(assets)))
+        var tileProvider: TileProvider = object : UrlTileProvider(256, 256) {
+            override fun getTileUrl(x: Int, y: Int, zoom: Int): URL? {
+                val reversedY = (1 shl zoom) - y - 1
+                /* Define the URL pattern for the tile images */
+                val s = String.format(
+                    "https://gaia.hua.gr/tms/kitchener2/test/%d/%d/%d.png",
+                    zoom, x, reversedY
+                )
+
+                try {
+                    return URL(s)
+                } catch (e: MalformedURLException) {
+                    throw AssertionError(e)
+                }
+
+            }
+        }
+        kitchenerMapOverlay = baseMap.addTileOverlay(TileOverlayOptions().tileProvider(tileProvider))
         baseMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(initialLatitude, initialLongitude), initialZoomLevel))
         kitchenerMapOverlay.transparency = 1f
         baseMap.setOnMyLocationButtonClickListener(this)
@@ -201,6 +219,7 @@ class MapsActivity:
             R.id.fragment_container,
             MenuFragment()
         ).commit()
+        if(mapSlider.visibility == VISIBLE) nav_opacity_slider?.isChecked = true
     }
 
     override fun showLoading() {
