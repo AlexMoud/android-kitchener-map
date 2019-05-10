@@ -47,9 +47,9 @@ class MapsActivity:
     private var sliderVisible = true
     private var markersList = ArrayList<Marker>()
     private var hasInteractedWithSeekBar = false
-    private val initialLatitude: Double = 34.8
-    private val initialLongitude: Double = 33.2
-    private val initialZoomLevel = 16.0f
+    private val initialLatitude: Double = 35.175422
+    private val initialLongitude: Double = 33.363597
+    private val initialZoomLevel = 12.0f
     private val handler = Handler()
     private val typesOfPlacesFragment = TypesOfPlacesFragment()
     var queryMap = HashMap<String, Any>()
@@ -91,22 +91,20 @@ class MapsActivity:
         var tileProvider: TileProvider = object : UrlTileProvider(256, 256) {
             override fun getTileUrl(x: Int, y: Int, zoom: Int): URL? {
                 val reversedY = (1 shl zoom) - y - 1
-                /* Define the URL pattern for the tile images */
                 val s = String.format(
                     "https://gaia.hua.gr/tms/kitchener2/test/%d/%d/%d.png",
-                    zoom, x, reversedY
-                )
-
+                    zoom, x, reversedY)
                 try {
                     return URL(s)
                 } catch (e: MalformedURLException) {
                     throw AssertionError(e)
                 }
-
             }
         }
         kitchenerMapOverlay = baseMap.addTileOverlay(TileOverlayOptions().tileProvider(tileProvider))
-        baseMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(initialLatitude, initialLongitude), initialZoomLevel))
+        baseMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+            LatLng(initialLatitude, initialLongitude),
+            initialZoomLevel))
         kitchenerMapOverlay.transparency = 1f
         baseMap.setOnMyLocationButtonClickListener(this)
         if (ContextCompat.checkSelfPermission(this,
@@ -219,7 +217,6 @@ class MapsActivity:
             R.id.fragment_container,
             MenuFragment()
         ).commit()
-        if(mapSlider.visibility == VISIBLE) nav_opacity_slider?.isChecked = true
     }
 
     override fun showLoading() {
