@@ -1,6 +1,7 @@
 package gr.hua.it21533.kitchenerMap.activities
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
@@ -49,7 +50,7 @@ class MapsActivity:
     private var hasInteractedWithSeekBar = false
     private val initialLatitude: Double = 35.175422
     private val initialLongitude: Double = 33.363597
-    private val initialZoomLevel = 12.0f
+    private val initialZoomLevel = 10.0f
     private val handler = Handler()
     private val typesOfPlacesFragment = TypesOfPlacesFragment()
     var queryMap = HashMap<String, Any>()
@@ -105,7 +106,11 @@ class MapsActivity:
         baseMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
             LatLng(initialLatitude, initialLongitude),
             initialZoomLevel))
-        kitchenerMapOverlay.transparency = 1f
+        val boundaries = LatLngBounds(LatLng(34.476619,32.163363), LatLng(35.847896,34.838356))
+        baseMap.setLatLngBoundsForCameraTarget(boundaries)
+        baseMap.setMaxZoomPreference(15.0f)
+        baseMap.setMinZoomPreference(7.0f)
+        kitchenerMapOverlay.transparency = 0f
         baseMap.setOnMyLocationButtonClickListener(this)
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -163,10 +168,12 @@ class MapsActivity:
                 ).commit()
             }
             "nav_about" -> {
-                supportFragmentManager.beginTransaction().replace(
-                    R.id.fragment_container,
-                    AboutFragment()
-                ).commit()
+//                supportFragmentManager.beginTransaction().replace(
+//                    R.id.fragment_container,
+//                    AboutFragment()
+//                ).commit()
+                val intent = Intent(this, AboutActivity::class.java)
+                startActivity(intent)
             }
             "nav_main_menu" -> {
                 backToMenu()
@@ -190,7 +197,7 @@ class MapsActivity:
             if(!hasInteractedWithSeekBar) {
                 mapSlider.visibility = GONE
                 sliderVisible = true
-                nav_opacity_slider?.isChecked = false
+                nav_opacity_slider.isChecked = false
                 hasInteractedWithSeekBar = false
             }
         }, 5000)

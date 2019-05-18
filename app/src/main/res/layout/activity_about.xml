@@ -1,0 +1,114 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:stretchColumns="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:textSize="@dimen/text_large"
+                android:padding="10dp"
+                android:text="@string/greek_about_heading_1"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:textSize="@dimen/text_medium"
+                android:padding="10dp"
+                android:text="@string/greek_about_paragraph_1"/>
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:textSize="@dimen/text_medium"
+                android:padding="10dp"
+                android:text="@string/greek_about_paragraph_2"/>
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:textSize="@dimen/text_medium"
+                android:padding="10dp"
+                android:text="@string/greek_about_paragraph_3"/>
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:textSize="@dimen/text_medium"
+                android:padding="10dp"
+                android:text="@string/greek_about_paragraph_4"/>
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:textSize="@dimen/text_large"
+                android:padding="10dp"
+                android:text="@string/greek_about_heading_2"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:textSize="@dimen/text_medium"
+                android:padding="10dp"
+                android:text="@string/greek_about_paragraph_5"/>
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:textSize="@dimen/text_medium"
+                android:padding="10dp"
+                android:text="@string/greek_about_paragraph_6"/>
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:textSize="@dimen/text_medium"
+                android:padding="10dp"
+                android:text="@string/greek_about_paragraph_6"/>
+
+            <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:textSize="@dimen/text_medium"
+                    android:padding="10dp"
+                    android:text="@string/greek_about_paragraph_7"/>
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:textSize="@dimen/text_medium"
+                android:padding="10dp"
+                android:text="@string/greek_about_paragraph_8"/>
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:textSize="@dimen/text_medium"
+                android:padding="10dp"
+                android:text="@string/greek_about_paragraph_9"/>
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:textSize="@dimen/text_medium"
+                android:padding="10dp"
+                android:text="@string/greek_about_paragraph_10"/>
+
+        </LinearLayout>
+
+    </TableLayout>
+
+</ScrollView>
