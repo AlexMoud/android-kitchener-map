@@ -21,7 +21,6 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import gr.hua.it21533.kitchenerMap.R
-import gr.hua.it21533.kitchenerMap.fragments.AboutFragment
 import gr.hua.it21533.kitchenerMap.fragments.FeedbackFragment
 import gr.hua.it21533.kitchenerMap.fragments.MenuFragment
 import gr.hua.it21533.kitchenerMap.fragments.TypesOfPlacesFragment
@@ -34,7 +33,7 @@ import java.net.MalformedURLException
 import java.net.URL
 import java.util.*
 
-class MapsActivity:
+class MapsActivity :
     AppCompatActivity(),
     GoogleMap.OnMyLocationButtonClickListener,
     OnMapReadyCallback,
@@ -68,14 +67,64 @@ class MapsActivity:
         typesOfPlacesFragment.delegate = this
     }
 
+    override fun onMapReady(googleMap: GoogleMap) {
+        baseMap = googleMap
+        initKitchenerMap()
+        setBoundariesAndZoom()
+        enableLocationFunctionality()
+    }
+
+    private fun initKitchenerMap() {
+        var tileProvider: TileProvider = object : UrlTileProvider(256, 256) {
+            override fun getTileUrl(x: Int, y: Int, zoom: Int): URL? {
+                val reversedY = (1 shl zoom) - y - 1
+                val s = String.format(
+                    "https://gaia.hua.gr/tms/kitchener2/test/%d/%d/%d.png",
+                    zoom, x, reversedY
+                )
+                try {
+                    return URL(s)
+                } catch (e: MalformedURLException) {
+                    throw AssertionError(e)
+                }
+            }
+        }
+        kitchenerMapOverlay = baseMap.addTileOverlay(TileOverlayOptions().tileProvider(tileProvider))
+        kitchenerMapOverlay.transparency = 0f
+    }
+
+    private fun enableLocationFunctionality() {
+        baseMap.setOnMyLocationButtonClickListener(this)
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            baseMap.isMyLocationEnabled = true
+        }
+    }
+
+    private fun setBoundariesAndZoom() {
+        val boundaries = LatLngBounds(LatLng(34.476619, 32.163363), LatLng(35.847896, 34.838356))
+        baseMap.setLatLngBoundsForCameraTarget(boundaries)
+        baseMap.setMaxZoomPreference(15.0f)
+        baseMap.setMinZoomPreference(7.0f)
+        baseMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+            LatLng(initialLatitude, initialLongitude),
+            initialZoomLevel))
+    }
+
+    override fun onMyLocationButtonClick(): Boolean {
+        return false
+    }
+
     override fun displayMarkers(markers: Array<ApiModel.Results>?) {
         removeMarkers()
         markers?.forEach {
-            val marker = baseMap.addMarker(MarkerOptions()
-                .position(LatLng(it.geometry.location.lat, it.geometry.location.lng))
-                .title(it.name ?: "No title given by the API")
-                .snippet(it.vicinity ?: "No description given by the API")
-                .alpha(0.8f))
+            val marker = baseMap.addMarker(
+                MarkerOptions()
+                    .position(LatLng(it.geometry.location.lat, it.geometry.location.lng))
+                    .title(it.name ?: "No title given by the API")
+                    .snippet(it.vicinity ?: "No description given by the API")
+                    .alpha(0.8f)
+            )
             markersList.add(marker)
         }
         hideLoading()
@@ -85,41 +134,6 @@ class MapsActivity:
         markersList.forEach {
             it.remove()
         }
-    }
-
-    override fun onMapReady(googleMap: GoogleMap) {
-        baseMap = googleMap
-        var tileProvider: TileProvider = object : UrlTileProvider(256, 256) {
-            override fun getTileUrl(x: Int, y: Int, zoom: Int): URL? {
-                val reversedY = (1 shl zoom) - y - 1
-                val s = String.format(
-                    "https://gaia.hua.gr/tms/kitchener2/test/%d/%d/%d.png",
-                    zoom, x, reversedY)
-                try {
-                    return URL(s)
-                } catch (e: MalformedURLException) {
-                    throw AssertionError(e)
-                }
-            }
-        }
-        kitchenerMapOverlay = baseMap.addTileOverlay(TileOverlayOptions().tileProvider(tileProvider))
-        baseMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-            LatLng(initialLatitude, initialLongitude),
-            initialZoomLevel))
-        val boundaries = LatLngBounds(LatLng(34.476619,32.163363), LatLng(35.847896,34.838356))
-        baseMap.setLatLngBoundsForCameraTarget(boundaries)
-        baseMap.setMaxZoomPreference(15.0f)
-        baseMap.setMinZoomPreference(7.0f)
-        kitchenerMapOverlay.transparency = 0f
-        baseMap.setOnMyLocationButtonClickListener(this)
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            baseMap.isMyLocationEnabled = true
-        }
-    }
-
-    override fun onMyLocationButtonClick(): Boolean {
-        return false
     }
 
     private fun initSlider() {
@@ -168,10 +182,6 @@ class MapsActivity:
                 ).commit()
             }
             "nav_about" -> {
-//                supportFragmentManager.beginTransaction().replace(
-//                    R.id.fragment_container,
-//                    AboutFragment()
-//                ).commit()
                 val intent = Intent(this, AboutActivity::class.java)
                 startActivity(intent)
             }
@@ -182,7 +192,7 @@ class MapsActivity:
                 toggleSlider()
             }
             else -> {
-                Log.d(TAG,"Wrong string sent to function")
+                Log.d(TAG, "Wrong string sent to function")
             }
         }
     }
@@ -190,11 +200,11 @@ class MapsActivity:
     private fun toggleSlider() {
         drawer_layout.closeDrawers()
         sliderVisible = !sliderVisible
-        if(hasInteractedWithSeekBar) hasInteractedWithSeekBar = false
+        if (hasInteractedWithSeekBar) hasInteractedWithSeekBar = false
         mapSlider.visibility = if (sliderVisible) GONE else VISIBLE
         handler.removeCallbacksAndMessages(null)
         handler.postDelayed({
-            if(!hasInteractedWithSeekBar) {
+            if (!hasInteractedWithSeekBar) {
                 mapSlider.visibility = GONE
                 sliderVisible = true
                 nav_opacity_slider.isChecked = false
