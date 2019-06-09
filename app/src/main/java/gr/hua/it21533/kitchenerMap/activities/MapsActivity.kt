@@ -1,11 +1,8 @@
 package gr.hua.it21533.kitchenerMap.activities
 
 import android.Manifest
-import android.app.Application
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.content.ContextCompat
@@ -28,7 +25,6 @@ import gr.hua.it21533.kitchenerMap.fragments.AboutFragment
 import gr.hua.it21533.kitchenerMap.fragments.FeedbackFragment
 import gr.hua.it21533.kitchenerMap.fragments.MenuFragment
 import gr.hua.it21533.kitchenerMap.fragments.TypesOfPlacesFragment
-import gr.hua.it21533.kitchenerMap.helpers.LocaleManager
 import gr.hua.it21533.kitchenerMap.interfaces.MapsActivityView
 import gr.hua.it21533.kitchenerMap.interfaces.MenuView
 import gr.hua.it21533.kitchenerMap.networking.ApiModel
@@ -44,8 +40,6 @@ class MapsActivity:
     OnMapReadyCallback,
     MenuView,
     MapsActivityView {
-
-
 
     private val TAG = "MAPS_ACTIVITY"
     private lateinit var baseMap: GoogleMap
@@ -91,10 +85,6 @@ class MapsActivity:
         markersList.forEach {
             it.remove()
         }
-    }
-
-    override fun uploadPhoto(currentPhotoPath: String) {
-        mapsPresenter.uploadPhoto(currentPhotoPath)
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -242,14 +232,5 @@ class MapsActivity:
 
     override fun hideLoading() {
         loadingAnimation.visibility = GONE
-    }
-
-    override fun attachBaseContext(base: Context?) {
-        super.attachBaseContext(LocaleManager.setLocale(base))
-    }
-
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        LocaleManager.setLocale(this)
     }
 }

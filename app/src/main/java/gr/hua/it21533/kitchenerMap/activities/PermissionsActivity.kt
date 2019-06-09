@@ -13,7 +13,6 @@ import gr.hua.it21533.kitchenerMap.R
 class PermissionsActivity : AppCompatActivity() {
 
     private val TAG = "PERMISSIONS_ACTIVITY"
-    private val REQUEST_LOCATION_STORAGE_PERMISSIONS = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,10 +20,7 @@ class PermissionsActivity : AppCompatActivity() {
         checkForPermissions()
     }
 
-    override fun onStart()  {
-        super.onStart()
-        checkForPermissions()
-    }
+    private val REQUEST_LOCATION_STORAGE_PERMISSIONS = 1
 
     private fun checkForPermissions() {
         if ((ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) ||
