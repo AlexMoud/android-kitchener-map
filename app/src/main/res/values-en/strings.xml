@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Kitchener\'s Map</string>
+    <string name="about_heading_1">About this app</string>
+    <string name="about_paragraph_1">In 1885, Horatio Herbert Kitchener’s map of Cyprus, which was the result of the
+        first scientific survey of the island, was published in London by Edward Stanford of 55 Charing Cross Road, SW.
+    </string>
+    <string name="about_paragraph_2">The map was printed in 16 sheets and became a cartographic model up to the middle
+        of the 20th century. This map, of pivotal importance for the cartography of Cyprus, contains a multitude of
+        significant information regarding the geography, history and culture of the island. Even today, much of this
+        data requires attentive research by the scientific community.
+    </string>
+    <string name="about_paragraph_3">This web application for exploring Kitchener’s survey was developed on the basis of
+        Sylvia Ioannou Foundation particular interest in the historic cartography of Cyprus, as well as the interest of
+        the Department of Geography Department of the Harokopio University concerning the scientific approach to similar
+        topics.
+    </string>
+    <string name="about_paragraph_4">On the one hand, the application constitutes a digital repository of the original
+        map and offers online access to researchers worldwide. On the other hand, thanks to the database created, where
+        all the information found on Kitchener’s map is registered and categorised, the user is able to search for
+        specific points or entire fields of interest (for example, from a particular spring to the whole hydrographic
+        network; from a single village to all settlements per religion of population, etc.). Furthermore, through the
+        option to connect with modern background basemaps, it facilitates the comparison of the information provided by
+        Kitchener with respective modern data. Along with its obvious practicality related to the cartography,
+        geography, history and culture of Cyprus, this application aspires to become a starting point for
+        interdisciplinary cooperation and to provide the necessary technical expertise for the development of similar
+        research projects in the future.
+    </string>
+    <string name="about_heading_2">Kitchener\'s survey of Cyprus</string>
+    <string name="about_paragraph_5">During the Ottoman Empire’s dominance, the Ottoman Land Code was enacted in Cyprus.
+        This was a cadastre in which all land acquisition deeds and transactions were recorded by means of draft
+        drawings and descriptions in Turkish. When Cyprus became a British protectorate in 1878, the translation of the
+        Land Code – an extremely time consuming process – and the compilation of a modern map were deemed necessary to
+        facilitate the administration and development of the island.
+    </string>
+    <string name="about_paragraph_6">In order to map the new protectorate of the British Empire, the 28-year old army
+        surveyor and Foreign Office delegate Horatio Herbert Kitchener met with the British High Commissioner, Sir
+        Garnet Wolseley, at the dependency of the Kykkos Monastery just outside Nicosia on 15 September 1878. Wolseley
+        needed a survey for the next financial year, while Kitchener envisioned a map that would ‘be a model of its
+        kind, and future scholars and archaeologists would be permanently in his debt’. The two men came to a rift, and
+        in the next year the triangulation works were abandoned due to lack of resources. In 1880, Sir Robert Biddulph,
+        who succeeded Wolseley as High Commissioner of the island, invited Kitchener back. Kitchener brought along
+        George Gordon Hake, a somewhat controversial figure, to collect and sell findings from excavations in Kourion
+        and Salamina to help fund the island’s survey. Those findings were not significant, as Luigi Palma di Cesnola
+        had been there before. Finally, everything collected was catalogued in an amateur manner and scattered around
+        British museums. While in Cyprus, Kitchener was also responsible for the organisation and reformation of the
+        Land Registry as a just and rational means of land acquisition and crop taxing throughout the island.
+    </string>
+    <string name="about_paragraph_7">By 1883, the survey was completed and the Land Registry was organised. In 1885, the
+        map publisher Edward Stanford promoted the map as follows:
+    </string>
+    <string name="about_paragraph_8">It has been engraved on [...] copper plates [...] when mounted together as one Map
+        measuring 12 feet 6 inches by 7 feet [...] It shews the Districts and Sub-districts [...] the Roads that have
+        been constructed, and the Telegraph Lines erected [...] the Vineyards and Forests of Fir and other trees; block
+        plans of the Towns and Villages, distinguishing Moslem and Christian Villages; gives the Greek and Turkish
+        names, and the identification of Ancient Sites, in distinct types. Aqueducts, Springs, Wells, Monasteries,
+        Ruins, and other particulars are engraved. Heights of Hills and Mountains, Towns and Villages, above the level
+        of the Sea, are also pretty generally supplied, and Mile-stones, with the mileage written against them, engraved
+        so far as they had been erected at the moment of final revision. [...] It is the first Survey ever executed of
+        this interesting Island, and is in itself a noble result of the English Occupation.
+    </string>
+    <string name="about_paragraph_9">The question posed by the Sylvia Ioannou Foundation to the Department of Geography
+        of the Harokopio University was whether all claims by Stanford were true and how close Kitchener actually came
+        to his vision.
+    </string>
+    <string name="about_paragraph_10">After leaving Cyprus, Kitchener went on with his military career. His renowned
+        victories in the Sudan and in South Africa earned him the title of Viscount Kitchener, but also the nickname
+        ‘Soulless Commander’. In 1914, on the verge of Word World I and while Kitchener was Commander-in-Chief in India,
+        Prime Minister Herbert Asquith asked him to return to England in order to become Secretary of State for War.
+        Kitchener’s reputation and influence were so great that, among a total of 2,675,149 volunteers who enlisted
+        during all four years of the Great War, 462,901 of those volunteers alone enlisted in September 1914, when the
+        famous recruitment poster with his picture appeared.
+    </string>
+</resources>

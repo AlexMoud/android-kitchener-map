@@ -12,6 +12,7 @@ import android.support.v4.content.FileProvider
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import gr.hua.it21533.kitchenerMap.R
 import gr.hua.it21533.kitchenerMap.activities.MapsActivity
@@ -35,9 +36,10 @@ class FeedbackFragment: Fragment() {
             (activity as MapsActivity).replaceMenuFragments("nav_main_menu")
         }
 
-        feedback_upload_btn.setOnClickListener {
+        feedback_takePhoto_btn.setOnClickListener {
             dispatchTakePictureIntent()
         }
+
     }
 
     lateinit var currentPhotoPath: String
@@ -49,7 +51,11 @@ class FeedbackFragment: Fragment() {
             val takenImage = BitmapFactory.decodeFile(currentPhotoPath)
             takenImage_view.setImageBitmap(takenImage)
             takenImagePath_text.text = currentPhotoPath
-            Log.d(TAG,"Inside if")
+            feedback_upload_btn.visibility = VISIBLE
+
+            feedback_upload_btn.setOnClickListener {
+                (activity as MapsActivity).uploadPhoto(currentPhotoPath)
+            }
         }
     }
 

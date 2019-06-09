@@ -50,35 +50,35 @@
                     android:layout_width="match_parent"
                     android:textSize="@dimen/text_medium"
                     android:padding="10dp"
-                    android:text="@string/greek_about_paragraph_1"/>
+                    android:text="@string/about_paragraph_1"/>
 
                 <TextView
                         android:layout_height="wrap_content"
                         android:layout_width="match_parent"
                         android:textSize="@dimen/text_medium"
                         android:padding="10dp"
-                        android:text="@string/greek_about_paragraph_2"/>
+                        android:text="@string/about_paragraph_2"/>
 
                 <TextView
                         android:layout_height="wrap_content"
                         android:layout_width="match_parent"
                         android:textSize="@dimen/text_medium"
                         android:padding="10dp"
-                        android:text="@string/greek_about_paragraph_3"/>
+                        android:text="@string/about_paragraph_3"/>
 
                 <TextView
                         android:layout_height="wrap_content"
                         android:layout_width="match_parent"
                         android:textSize="@dimen/text_medium"
                         android:padding="10dp"
-                        android:text="@string/greek_about_paragraph_4"/>
+                        android:text="@string/about_paragraph_4"/>
 
                 <TextView
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
                     android:textSize="@dimen/text_large"
                     android:padding="10dp"
-                    android:text="@string/greek_about_heading_2"
+                    android:text="@string/about_heading_2"
                     android:textStyle="bold"/>
 
                 <TextView
@@ -86,47 +86,47 @@
                     android:layout_width="match_parent"
                     android:textSize="@dimen/text_medium"
                     android:padding="10dp"
-                    android:text="@string/greek_about_paragraph_5"/>
+                    android:text="@string/about_paragraph_5"/>
 
                 <TextView
                         android:layout_height="wrap_content"
                         android:layout_width="match_parent"
                         android:textSize="@dimen/text_medium"
                         android:padding="10dp"
-                        android:text="@string/greek_about_paragraph_6"/>
+                        android:text="@string/about_paragraph_6"/>
 
                 <TextView
                         android:layout_height="wrap_content"
                         android:layout_width="match_parent"
                         android:textSize="@dimen/text_medium"
                         android:padding="10dp"
-                        android:text="@string/greek_about_paragraph_6"/>
+                        android:text="@string/about_paragraph_6"/>
 
                 <TextView
                         android:layout_height="wrap_content"
                         android:layout_width="match_parent"
                         android:textSize="@dimen/text_medium"
                         android:padding="10dp"
-                        android:text="@string/greek_about_paragraph_7"/>
+                        android:text="@string/about_paragraph_7"/>
 
                 <TextView
                         android:layout_height="wrap_content"
                         android:layout_width="match_parent"
                         android:textSize="@dimen/text_medium"
                         android:padding="10dp"
-                        android:text="@string/greek_about_paragraph_8"/>
+                        android:text="@string/about_paragraph_8"/>
                 <TextView
                         android:layout_height="wrap_content"
                         android:layout_width="match_parent"
                         android:textSize="@dimen/text_medium"
                         android:padding="10dp"
-                        android:text="@string/greek_about_paragraph_9"/>
+                        android:text="@string/about_paragraph_9"/>
                 <TextView
                         android:layout_height="wrap_content"
                         android:layout_width="match_parent"
                         android:textSize="@dimen/text_medium"
                         android:padding="10dp"
-                        android:text="@string/greek_about_paragraph_10"/>
+                        android:text="@string/about_paragraph_10"/>
 
                 </LinearLayout>
 
