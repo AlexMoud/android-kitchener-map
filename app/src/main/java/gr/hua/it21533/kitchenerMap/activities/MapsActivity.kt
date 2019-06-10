@@ -1,6 +1,7 @@
 package gr.hua.it21533.kitchenerMap.activities
 
 import android.Manifest
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -23,11 +24,9 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import gr.hua.it21533.kitchenerMap.R
-import gr.hua.it21533.kitchenerMap.fragments.AboutFragment
 import gr.hua.it21533.kitchenerMap.fragments.FeedbackFragment
 import gr.hua.it21533.kitchenerMap.fragments.MenuFragment
 import gr.hua.it21533.kitchenerMap.fragments.TypesOfPlacesFragment
-import gr.hua.it21533.kitchenerMap.helpers.LocaleManager
 import gr.hua.it21533.kitchenerMap.interfaces.MapsActivityView
 import gr.hua.it21533.kitchenerMap.interfaces.MenuView
 import gr.hua.it21533.kitchenerMap.networking.ApiModel
@@ -43,7 +42,6 @@ class MapsActivity :
     OnMapReadyCallback,
     MenuView,
     MapsActivityView {
-
 
     private val TAG = "MAPS_ACTIVITY"
     private lateinit var baseMap: GoogleMap
@@ -66,6 +64,7 @@ class MapsActivity :
         mapFragment.getMapAsync(this)
         initSlider()
         initSideMenu()
+        loadLocale()
         queryMap["location"] = "$initialLatitude, $initialLongitude"
         mapsPresenter = MapsActivityPresenter(this, queryMap)
         mapsPresenter.loadMarkers()
@@ -249,13 +248,25 @@ class MapsActivity :
         loadingAnimation.visibility = GONE
     }
 
-    override fun attachBaseContext(base: Context?) {
-        super.attachBaseContext(LocaleManager.setLocale(base))
+    private fun loadLocale() {
+        val sharedPreferences = getSharedPreferences("Settings", Activity.MODE_PRIVATE)
+        val language = sharedPreferences.getString("My Lang", "")
+        setLocale(language, false)
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        LocaleManager.setLocale(this)
+    fun setLocale(lang: String, reload: Boolean) {
+        val locale = Locale(lang)
+        Locale.setDefault(locale)
+        val config = Configuration()
+        config.locale = locale
+        resources.updateConfiguration(config, resources.displayMetrics)
+
+        val editor = getSharedPreferences("Settings", Context.MODE_PRIVATE).edit()
+        editor.putString("My Lang", lang)
+        editor.apply()
+        if(reload) {
+            this.recreate()
+        }
     }
 
     override fun uploadPhoto(currentPhotoPath: String) {

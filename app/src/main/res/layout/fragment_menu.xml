@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
+              xmlns:app="http://schemas.android.com/apk/res-auto" android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
@@ -20,14 +20,14 @@
         <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/greek_flag"
+                app:srcCompat="@drawable/greek_flag"
                 android:layout_marginLeft="10dp"
                 android:id="@+id/greek_language"/>
 
         <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/english_flag"
+                app:srcCompat="@drawable/english_flag"
                 android:layout_marginLeft="15dp"
                 android:id="@+id/english_language"/>
 

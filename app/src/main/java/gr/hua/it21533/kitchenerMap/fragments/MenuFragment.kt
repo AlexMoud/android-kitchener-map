@@ -1,20 +1,13 @@
 package gr.hua.it21533.kitchenerMap.fragments
 
-import android.app.Activity
-import android.content.res.Configuration
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import gr.hua.it21533.kitchenerMap.activities.MapsActivity
 import kotlinx.android.synthetic.main.fragment_menu.*
-import gr.hua.it21533.kitchenerMap.helpers.LocaleManager
-import java.util.*
-import android.content.Intent
-import android.os.LocaleList
 
 
 class MenuFragment: Fragment() {
@@ -43,23 +36,12 @@ class MenuFragment: Fragment() {
             mapsActivity.replaceMenuFragments("nav_opacity_slider")
         }
         greek_language.setOnClickListener {
-            setLocale()
+            mapsActivity.setLocale("el", true)
         }
         english_language.setOnClickListener {
-            setLocale()
+            mapsActivity.setLocale("en", true)
         }
     }
 
-    private fun setLocale() {
-        val mapsActivity = activity as MapsActivity
-        var mCurrentLanguage = LocaleManager.getCurrentLanguage(mapsActivity.applicationContext)
-        Log.d(TAG,"$mCurrentLanguage")
-        if (mCurrentLanguage == LocaleManager.englishFlag) {
-            LocaleManager.setNewLocale(mapsActivity.applicationContext!!, LocaleManager.englishFlag)
-        } else if (mCurrentLanguage == LocaleManager.greekFlag) {
-            LocaleManager.setNewLocale(mapsActivity.applicationContext, LocaleManager.greekFlag)
-        }
-        activity?.recreate()
-    }
 }
 
