@@ -57,4 +57,9 @@ class PermissionsActivity : AppCompatActivity() {
             }
         }
     }
+
+    override fun onStart() {
+        super.onStart()
+        checkForPermissions()
+    }
 }
