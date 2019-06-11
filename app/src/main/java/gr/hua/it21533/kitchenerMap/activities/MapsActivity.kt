@@ -73,6 +73,8 @@ class MapsActivity :
 
     override fun onMapReady(googleMap: GoogleMap) {
         baseMap = googleMap
+        getCoordinatesOnLongClick()
+        checkInfoWindowClick()
         initKitchenerMap()
         setBoundariesAndZoom()
         enableLocationFunctionality()
@@ -99,8 +101,11 @@ class MapsActivity :
 
     private fun enableLocationFunctionality() {
         baseMap.setOnMyLocationButtonClickListener(this)
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
             baseMap.isMyLocationEnabled = true
         }
     }
@@ -110,9 +115,12 @@ class MapsActivity :
         baseMap.setLatLngBoundsForCameraTarget(boundaries)
         baseMap.setMaxZoomPreference(15.0f)
         baseMap.setMinZoomPreference(7.0f)
-        baseMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-            LatLng(initialLatitude, initialLongitude),
-            initialZoomLevel))
+        baseMap.moveCamera(
+            CameraUpdateFactory.newLatLngZoom(
+                LatLng(initialLatitude, initialLongitude),
+                initialZoomLevel
+            )
+        )
     }
 
     override fun onMyLocationButtonClick(): Boolean {
@@ -264,12 +272,45 @@ class MapsActivity :
         val editor = getSharedPreferences("Settings", Context.MODE_PRIVATE).edit()
         editor.putString("My Lang", lang)
         editor.apply()
-        if(reload) {
+        if (reload) {
             this.recreate()
         }
     }
 
     override fun uploadPhoto(currentPhotoPath: String) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    private fun getCoordinatesOnLongClick() {
+        baseMap.setOnMapLongClickListener(object: GoogleMap.OnMapLongClickListener {
+            override fun onMapLongClick(latLng: LatLng) {
+                Log.d(TAG, "Lat:   ${latLng.latitude}, Long: ${latLng.longitude}")
+                val marker = baseMap.addMarker(
+                    MarkerOptions()
+                        .position(LatLng(latLng.latitude, latLng.longitude))
+                        .title("Selected location")
+                        .snippet("Press to send this location with email")
+                )
+
+                markersList.add(marker)
+            }
+        })
+    }
+
+    private fun checkInfoWindowClick() {
+        baseMap.setOnInfoWindowClickListener(object: GoogleMap.OnInfoWindowClickListener {
+            override fun onInfoWindowClick(marker: Marker) {
+                if(marker.title == "Selected location") {
+                    val intent = Intent(applicationContext, SendMailActivity::class.java)
+                    intent.putExtra("latitude", marker.position.latitude)
+                    intent.putExtra("longitude", marker.position.longitude)
+                    startActivity(intent)
+                }
+            }
+        })
+    }
+
+    override fun sendMail() {
+        mapsPresenter.sendMail()
     }
 }

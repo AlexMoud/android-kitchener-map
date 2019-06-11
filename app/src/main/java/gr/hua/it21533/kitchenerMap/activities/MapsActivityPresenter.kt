@@ -6,12 +6,11 @@ import gr.hua.it21533.kitchenerMap.networking.GoogleMapsApiService
 import gr.hua.it21533.kitchenerMap.networking.UploadPhoto
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import okhttp3.MediaType
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import java.util.HashMap
+import java.util.*
 
 class MapsActivityPresenter(private val view: MapsActivityView, private val query: HashMap<String, Any>) {
+
+    private val TAG = "MAPS_ACTIVITY_PRESENTER"
 
     private val googleMapsApiServe by lazy {
         GoogleMapsApiService.create()
@@ -30,7 +29,7 @@ class MapsActivityPresenter(private val view: MapsActivityView, private val quer
                 { error -> Log.d("loadMarkers()","${error.message}") })
     }
 
-    fun uploadPhoto(fileUri: String) {
+//    fun uploadPhoto(fileUri: String) {
 //        val descriptionValue = "test description"
 //
 //        val descriptionPart = RequestBody.create(MultipartBody.FORM,  descriptionValue)
@@ -43,5 +42,9 @@ class MapsActivityPresenter(private val view: MapsActivityView, private val quer
 //            .subscribeOn(Schedulers.io())
 //            .observeOn(AndroidSchedulers.mainThread())
 //            .subscribe()
+//    }
+
+    fun sendMail() {
+        Log.d(TAG,"works")
     }
 }
