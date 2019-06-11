@@ -7,5 +7,4 @@ interface MapsActivityView {
     fun showLoading()
     fun hideLoading()
     fun uploadPhoto(currentPhotoPath: String)
-    fun sendMail()
 }

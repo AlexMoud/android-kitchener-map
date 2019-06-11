@@ -77,4 +77,7 @@
     <string name="menu_item_types_of_places">Places of interest</string>
     <string name="select_language">Language:</string>
     <string name="title_activity_maps">Kitchener\'s Map</string>
+    <string name="feedback_comment_label">Comment:</string>
+    <string name="feedback_takePhoto_button">Take Photo</string>
+    <string name="feedback_sendMail_button">Send Email</string>
 </resources>

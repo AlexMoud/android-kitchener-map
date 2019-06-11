@@ -40,7 +40,6 @@ class SendMailActivity : AppCompatActivity() {
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
             val takenImage = BitmapFactory.decodeFile(currentPhotoPath)
             takenImage_view.setImageBitmap(takenImage)
-            takenImagePath_text.text = currentPhotoPath
             initSendMailButton()
         }
     }
@@ -72,7 +71,7 @@ class SendMailActivity : AppCompatActivity() {
     private fun createImageFile(): File {
         // Create an image file name
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        val storageDir: File = this!!.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        val storageDir: File = this.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File.createTempFile(
             "JPEG_${timeStamp}_", /* prefix */
             ".jpg", /* suffix */

@@ -309,8 +309,4 @@ class MapsActivity :
             }
         })
     }
-
-    override fun sendMail() {
-        mapsPresenter.sendMail()
-    }
 }

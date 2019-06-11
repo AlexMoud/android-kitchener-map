@@ -75,7 +75,8 @@
         αφίσα στρατολόγησης με τη φωτογραφία του.
     </string>
     <string name="title_activity_about">AboutActivity</string>
-    <string name="feedback_takePhoto_button">Take Photo</string>
-    <string name="feedback_sendMail_button">Send Mail</string>
     <string name="title_activity_send_mail">SendMailActivity</string>
+    <string name="feedback_comment_label">Σχόλιο:</string>
+    <string name="feedback_takePhoto_button">Φωτογραφία</string>
+    <string name="feedback_sendMail_button">Αποστολή Email</string>
 </resources>

@@ -43,8 +43,4 @@ class MapsActivityPresenter(private val view: MapsActivityView, private val quer
 //            .observeOn(AndroidSchedulers.mainThread())
 //            .subscribe()
 //    }
-
-    fun sendMail() {
-        Log.d(TAG,"works")
-    }
 }
