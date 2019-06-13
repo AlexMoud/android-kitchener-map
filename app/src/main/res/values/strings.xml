@@ -79,4 +79,8 @@
     <string name="feedback_comment_label">Σχόλιο:</string>
     <string name="feedback_takePhoto_button">Φωτογραφία</string>
     <string name="feedback_sendMail_button">Αποστολή Email</string>
+    <string name="feedBackInstuctions_text">Η εφαρμογή υποστηρίζει τη δυνατότητα αποστολής μιας τοποθεσίας μαζί με το
+        σχόλιο και τη φωτογραφίας σας. Για να το κάνετε αυτό, πατήστε παρατεταμένα πάνω σε ένα σημείο στο χάρτη και
+        έπειτα πατήστε στο παράθυρο πάνω απο την πινέζα.
+    </string>
 </resources>

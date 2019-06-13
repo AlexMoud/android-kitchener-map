@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
+import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBar
@@ -49,13 +50,16 @@ class MapsActivity :
     private lateinit var mapsPresenter: MapsActivityPresenter
     private var sliderVisible = true
     private var markersList = ArrayList<Marker>()
+    private var longClickMarkers = ArrayList<Marker>()
     private var hasInteractedWithSeekBar = false
-    private val initialLatitude: Double = 35.175422
-    private val initialLongitude: Double = 33.363597
+    private val initialLatitude: Double = 35.17
+    private val initialLongitude: Double = 33.36
     private val initialZoomLevel = 10.0f
     private val handler = Handler()
     private val typesOfPlacesFragment = TypesOfPlacesFragment()
-    var queryMap = HashMap<String, Any>()
+    private val menuFragment = MenuFragment()
+    private val feedbackFragment = FeedbackFragment()
+    private var currentFragment: Fragment = menuFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,19 +69,31 @@ class MapsActivity :
         initSlider()
         initSideMenu()
         loadLocale()
-        queryMap["location"] = "$initialLatitude, $initialLongitude"
-        mapsPresenter = MapsActivityPresenter(this, queryMap)
-        mapsPresenter.loadMarkers()
+        initAllFragments()
+        mapsPresenter = MapsActivityPresenter(this)
+        mapsPresenter.addToQuery("location", "$initialLatitude, $initialLongitude")
         typesOfPlacesFragment.delegate = this
+        menuFragment.delegate = this
+    }
+
+    private fun initAllFragments() {
+        val fragmentManager = supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.add(R.id.fragment_container, menuFragment, "menu")
+        fragmentTransaction.add(R.id.fragment_container, typesOfPlacesFragment, "types")
+        fragmentTransaction.add(R.id.fragment_container, feedbackFragment, "feedback")
+        fragmentTransaction.hide(typesOfPlacesFragment)
+        fragmentTransaction.hide(feedbackFragment)
+        fragmentTransaction.commit()
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
         baseMap = googleMap
-        getCoordinatesOnLongClick()
-        checkInfoWindowClick()
         initKitchenerMap()
         setBoundariesAndZoom()
         enableLocationFunctionality()
+        getCoordinatesOnLongClick()
+        checkInfoWindowClick()
     }
 
     private fun initKitchenerMap() {
@@ -166,10 +182,6 @@ class MapsActivity :
     }
 
     private fun initSideMenu() {
-        supportFragmentManager.beginTransaction().replace(
-            R.id.fragment_container,
-            MenuFragment()
-        ).commit()
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         val actionbar: ActionBar? = supportActionBar
@@ -179,26 +191,19 @@ class MapsActivity :
         }
     }
 
-    fun replaceMenuFragments(menuId: String) {
+    override fun replaceMenuFragments(menuId: String) {
         when (menuId) {
             "nav_types_of_places" -> {
-                supportFragmentManager.beginTransaction().replace(
-                    R.id.fragment_container,
-                    typesOfPlacesFragment
-                ).commit()
+                openFragment(typesOfPlacesFragment)
             }
             "nav_feedback" -> {
-                supportFragmentManager.beginTransaction().replace(
-                    R.id.fragment_container,
-                    FeedbackFragment()
-                ).commit()
+                openFragment(feedbackFragment)
             }
             "nav_about" -> {
-                val intent = Intent(this, AboutActivity::class.java)
-                startActivity(intent)
+                startActivity(Intent(this, AboutActivity::class.java))
             }
             "nav_main_menu" -> {
-                backToMenu()
+                openFragment(menuFragment)
             }
             "nav_opacity_slider" -> {
                 toggleSlider()
@@ -209,19 +214,26 @@ class MapsActivity :
         }
     }
 
+    private fun openFragment(newFragment: Fragment) {
+        val fragmentManager = supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.hide(currentFragment)
+        fragmentTransaction.show(newFragment)
+        fragmentTransaction.commit()
+        currentFragment = newFragment
+    }
+
     private fun toggleSlider() {
-        drawer_layout.closeDrawers()
         sliderVisible = !sliderVisible
-        if (hasInteractedWithSeekBar) hasInteractedWithSeekBar = false
         mapSlider.visibility = if (sliderVisible) GONE else VISIBLE
         handler.removeCallbacksAndMessages(null)
         handler.postDelayed({
             if (!hasInteractedWithSeekBar) {
                 mapSlider.visibility = GONE
-                sliderVisible = true
                 nav_opacity_slider.isChecked = false
-                hasInteractedWithSeekBar = false
+                sliderVisible = true
             }
+            hasInteractedWithSeekBar = false
         }, 5000)
     }
 
@@ -236,16 +248,13 @@ class MapsActivity :
     }
 
     override fun didFilterChange(filterValue: String, filterType: String) {
-        queryMap[filterType] = filterValue
+        mapsPresenter.addToQuery(filterType, filterValue)
         mapsPresenter.loadMarkers()
         showLoading()
     }
 
     override fun backToMenu() {
-        supportFragmentManager.beginTransaction().replace(
-            R.id.fragment_container,
-            MenuFragment()
-        ).commit()
+        openFragment(menuFragment)
     }
 
     override fun showLoading() {
@@ -262,45 +271,42 @@ class MapsActivity :
         setLocale(language, false)
     }
 
-    fun setLocale(lang: String, reload: Boolean) {
+    override fun setLocale(lang: String, reload: Boolean) {
         val locale = Locale(lang)
         Locale.setDefault(locale)
         val config = Configuration()
         config.locale = locale
         resources.updateConfiguration(config, resources.displayMetrics)
-
         val editor = getSharedPreferences("Settings", Context.MODE_PRIVATE).edit()
         editor.putString("My Lang", lang)
         editor.apply()
         if (reload) {
-            this.recreate()
+            startActivity(Intent(this, MapsActivity::class.java))
         }
     }
 
-    override fun uploadPhoto(currentPhotoPath: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     private fun getCoordinatesOnLongClick() {
-        baseMap.setOnMapLongClickListener(object: GoogleMap.OnMapLongClickListener {
+        baseMap.setOnMapLongClickListener(object : GoogleMap.OnMapLongClickListener {
             override fun onMapLongClick(latLng: LatLng) {
-                Log.d(TAG, "Lat:   ${latLng.latitude}, Long: ${latLng.longitude}")
+                longClickMarkers.forEach {
+                    it.remove()
+                }
                 val marker = baseMap.addMarker(
                     MarkerOptions()
                         .position(LatLng(latLng.latitude, latLng.longitude))
-                        .title("Selected location")
-                        .snippet("Press to send this location with email")
+                        .title("Επιλεγμένο σημείο")
+                        .snippet("Θέλετε να αφήσετε σχόλιο;")
                 )
-
-                markersList.add(marker)
+                marker.showInfoWindow()
+                longClickMarkers.add(marker)
             }
         })
     }
 
     private fun checkInfoWindowClick() {
-        baseMap.setOnInfoWindowClickListener(object: GoogleMap.OnInfoWindowClickListener {
+        baseMap.setOnInfoWindowClickListener(object : GoogleMap.OnInfoWindowClickListener {
             override fun onInfoWindowClick(marker: Marker) {
-                if(marker.title == "Selected location") {
+                if (marker.title == "Επιλεγμένο σημείο") {
                     val intent = Intent(applicationContext, SendMailActivity::class.java)
                     intent.putExtra("latitude", marker.position.latitude)
                     intent.putExtra("longitude", marker.position.longitude)
@@ -309,4 +315,5 @@ class MapsActivity :
             }
         })
     }
+
 }

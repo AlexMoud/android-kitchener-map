@@ -6,5 +6,4 @@ interface MapsActivityView {
     fun displayMarkers(markers: Array<ApiModel.Results>?)
     fun showLoading()
     fun hideLoading()
-    fun uploadPhoto(currentPhotoPath: String)
 }

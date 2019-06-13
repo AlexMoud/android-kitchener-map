@@ -28,41 +28,18 @@
                 android:textAlignment="center"/>
     </LinearLayout>
 
-    <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="vertical">-->
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        <!--<ImageView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="200dp"-->
-                <!--android:id="@+id/takenImage_view"/>-->
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10sp"
+                android:text="@string/feedBackInstuctions_text"
+                android:textSize="@dimen/text_large"/>
 
-        <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:id="@+id/takenImagePath_text"-->
-                <!--android:padding="10sp"-->
-                <!--android:textSize="@dimen/text_small"/>-->
-
-        <!--<Button-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_margin="20dp"-->
-                <!--android:textSize="@dimen/text_medium"-->
-                <!--android:text="@string/feedback_takePhoto_button"-->
-                <!--android:id="@+id/feedback_takePhoto_btn"/>-->
-
-        <!--<Button-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginHorizontal="20dp"-->
-                <!--android:layout_marginTop="5dp"-->
-                <!--android:visibility="gone"-->
-                <!--android:textSize="@dimen/text_medium"-->
-                <!--android:text="@string/feedback_upload_button"-->
-                <!--android:id="@+id/feedback_upload_btn"/>-->
-
-    <!--</LinearLayout>-->
+    </LinearLayout>
 
 </LinearLayout>
