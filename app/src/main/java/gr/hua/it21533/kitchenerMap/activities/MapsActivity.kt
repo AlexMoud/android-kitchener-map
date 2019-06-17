@@ -16,7 +16,6 @@ import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
-import android.util.Log
 import android.view.MenuItem
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -242,7 +241,6 @@ class MapsActivity :
                 toggleSlider()
             }
             else -> {
-                Log.d(TAG, "Wrong string sent to function")
             }
         }
     }
@@ -315,7 +313,6 @@ class MapsActivity :
         editor.apply()
         if (reload) {
             startActivity(Intent(this, MapsActivity::class.java))
-//            recreate(this)
         }
     }
 
