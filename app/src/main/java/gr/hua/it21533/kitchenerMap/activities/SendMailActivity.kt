@@ -1,12 +1,16 @@
 package gr.hua.it21533.kitchenerMap.activities
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
 import android.support.v4.content.FileProvider
 import android.support.v7.app.AppCompatActivity
 import android.view.View
@@ -20,6 +24,7 @@ import java.util.*
 class SendMailActivity : AppCompatActivity() {
 
     private val TAG = "SEND_MAIL_ACTIVITY"
+    private val REQUEST_STORAGE_PERMISSIONS = 1
     private val REQUEST_TAKE_PHOTO = 1
     private var latitude: Double? = null
     private var longitude: Double? = null
@@ -32,7 +37,38 @@ class SendMailActivity : AppCompatActivity() {
         latitude = intent.getDoubleExtra("latitude", 0.0)
         longitude = intent.getDoubleExtra("longitude", 0.0)
         feedback_takePhoto_btn.setOnClickListener {
+            checkForCameraPermission()
+        }
+    }
+
+    private fun checkForCameraPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), REQUEST_STORAGE_PERMISSIONS)
+        } else {
             dispatchTakePictureIntent()
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        when (requestCode) {
+            REQUEST_STORAGE_PERMISSIONS -> {
+                if (grantResults.isNotEmpty()) {
+                    var permissionsGranted = true
+                    grantResults.forEach { i ->
+                        if (i != PackageManager.PERMISSION_GRANTED) {
+                            permissionsGranted = false
+                        }
+                    }
+                    if (permissionsGranted) {
+                        dispatchTakePictureIntent()
+                    }
+                }
+                return
+            }
+            else -> {
+                // Ignore all other requests.
+            }
         }
     }
 

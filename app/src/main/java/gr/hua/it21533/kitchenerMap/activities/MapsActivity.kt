@@ -1,6 +1,7 @@
 package gr.hua.it21533.kitchenerMap.activities
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -8,6 +9,7 @@ import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
+import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.GravityCompat
@@ -44,6 +46,7 @@ class MapsActivity :
     MenuView,
     MapsActivityView {
 
+    private val REQUEST_LOCATION_PERMISSIONS = 1
     private val TAG = "MAPS_ACTIVITY"
     private lateinit var baseMap: GoogleMap
     private lateinit var kitchenerMapOverlay: TileOverlay
@@ -76,6 +79,36 @@ class MapsActivity :
         menuFragment.delegate = this
     }
 
+    private fun checkForPermissions() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_LOCATION_PERMISSIONS)
+        } else {
+            enableLocationFunctionality()
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        when (requestCode) {
+            REQUEST_LOCATION_PERMISSIONS -> {
+                if (grantResults.isNotEmpty()) {
+                    var permissionsGranted = true
+                    grantResults.forEach { i ->
+                        if (i != PackageManager.PERMISSION_GRANTED) {
+                            permissionsGranted = false
+                        }
+                    }
+                    if (permissionsGranted) {
+                        checkForPermissions()
+                    }
+                }
+                return
+            }
+            else -> {
+                // Ignore all other requests.
+            }
+        }
+    }
+
     private fun initAllFragments() {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
@@ -91,7 +124,7 @@ class MapsActivity :
         baseMap = googleMap
         initKitchenerMap()
         setBoundariesAndZoom()
-        enableLocationFunctionality()
+        checkForPermissions()
         getCoordinatesOnLongClick()
         checkInfoWindowClick()
     }
@@ -282,6 +315,7 @@ class MapsActivity :
         editor.apply()
         if (reload) {
             startActivity(Intent(this, MapsActivity::class.java))
+//            recreate(this)
         }
     }
 
