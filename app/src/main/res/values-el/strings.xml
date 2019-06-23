@@ -4,7 +4,7 @@
     <string name="select_language">Γλώσσα:</string>
     <string name="menu_item_types_of_places">Σημεία Ενδιαφέροντος</string>
     <string name="menu_item_about_the_application">Σχετικά με την εφαρμογή</string>
-    <string name="menu_item_feedback">Feedback</string>
+    <string name="menu_item_feedback">Ανατροφοδότηση</string>
     <string name="menu_item_opacity_slider">Χαρτογραφικό Υπόβραθρο</string>
     <string name="about_heading_1">Σχετικά με την εφαρμογή</string>
     <string name="about_heading_2">Η αποτύπωση του Kitchener</string>
@@ -82,4 +82,13 @@
         σχόλιο και τη φωτογραφίας σας. Για να το κάνετε αυτό, πατήστε παρατεταμένα πάνω σε ένα σημείο στο χάρτη και
         έπειτα πατήστε στο παράθυρο πάνω απο την πινέζα.
     </string>
+    <string name="types_of_places_coffee_shops">Καφετέριες</string>
+    <string name="types_of_places_banks">Τράπεζες</string>
+    <string name="types_of_places_lodging">Καταλύματα</string>
+    <string name="types_of_places_museum">Μουσεία</string>
+    <string name="types_of_places_political">Πολιτικού ενδιαφέροντος</string>
+    <string name="types_of_places_hospitals">Νοσοκομεία</string>
+    <string name="types_of_places_library">Βιβλιοθήκες</string>
+    <string name="types_of_places_restaurant">Εστιατόρια</string>
+    <string name="types_of_places_supermarket">Σουπερμάρκετ</string>
 </resources>

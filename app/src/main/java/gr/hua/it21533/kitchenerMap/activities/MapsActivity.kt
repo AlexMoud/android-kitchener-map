@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
+import android.content.res.Resources
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.ActivityCompat
@@ -16,6 +17,7 @@ import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.util.Log
 import android.view.MenuItem
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -121,6 +123,11 @@ class MapsActivity :
 
     override fun onMapReady(googleMap: GoogleMap) {
         baseMap = googleMap
+        try {
+            baseMap.setMapStyle(MapStyleOptions(resources.getString(R.string.style_json)))
+        } catch (e : Resources.NotFoundException ) {
+            Log.e(TAG, "Can't find style. Error: ", e)
+        }
         initKitchenerMap()
         setBoundariesAndZoom()
         checkForPermissions()

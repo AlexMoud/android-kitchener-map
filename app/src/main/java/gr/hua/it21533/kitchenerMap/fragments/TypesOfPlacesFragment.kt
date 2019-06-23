@@ -36,12 +36,15 @@ class TypesOfPlacesFragment: Fragment() {
     }
 
     private fun addCheckboxesContent() {
-        types.add(TypesModel("cafe", "Coffee Shops"))
-        types.add(TypesModel("bank", "Banks"))
-        types.add(TypesModel("lodging", "Lodging"))
-        types.add(TypesModel("museum", "Museums"))
-        types.add(TypesModel("locality", "Locality"))
-        types.add(TypesModel("political", "Political"))
+        types.add(TypesModel("cafe", resources.getString(R.string.types_of_places_coffee_shops)))
+        types.add(TypesModel("bank", resources.getString(R.string.types_of_places_banks)))
+        types.add(TypesModel("lodging", resources.getString(R.string.types_of_places_lodging)))
+        types.add(TypesModel("museum", resources.getString(R.string.types_of_places_museum)))
+        types.add(TypesModel("hospital", resources.getString(R.string.types_of_places_hospitals)))
+        types.add(TypesModel("political", resources.getString(R.string.types_of_places_political)))
+        types.add(TypesModel("library", resources.getString(R.string.types_of_places_library)))
+        types.add(TypesModel("restaurant", resources.getString(R.string.types_of_places_restaurant)))
+        types.add(TypesModel("supermarket", resources.getString(R.string.types_of_places_supermarket)))
     }
 
     private fun addTypesOfPlacesCheckboxes() {

@@ -83,4 +83,25 @@
         σχόλιο και τη φωτογραφίας σας. Για να το κάνετε αυτό, πατήστε παρατεταμένα πάνω σε ένα σημείο στο χάρτη και
         έπειτα πατήστε στο παράθυρο πάνω απο την πινέζα.
     </string>
+    <string name="types_of_places_coffee_shops">Coffee Shops</string>
+    <string name="types_of_places_banks">Banks</string>
+    <string name="types_of_places_museum">Museums</string>
+    <string name="types_of_places_hospitals">Hospitals</string>
+    <string name="types_of_places_political">Political</string>
+    <string name="types_of_places_lodging">Lodging</string>
+    <string name="types_of_places_library">Libraries</string>
+    <string name="types_of_places_restaurant">Restaurants</string>
+    <string name="types_of_places_supermarket">Supermarkets</string>
+    <string name="style_json">
+        [
+            {
+                "elementType": "labels",
+                "stylers": [
+                    {
+                    "visibility": "off"
+                    }
+                ]
+            }
+        ]
+    </string>
 </resources>

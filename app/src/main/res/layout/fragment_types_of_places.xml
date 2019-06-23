@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
-            android:text="Types Of Places"
+            android:text="@string/menu_item_types_of_places"
             android:textSize="@dimen/text_large"
             android:textAlignment="center"/>
     </LinearLayout>

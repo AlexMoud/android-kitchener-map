@@ -83,4 +83,13 @@
     <string name="feedBackInstuctions_text">This application lets you send us a location with your own comment and
         photo. Just press on the map for two seconds and then press on the marker\'s info window.
     </string>
+    <string name="types_of_places_coffee_shops">Coffee Shops</string>
+    <string name="types_of_places_banks">Banks</string>
+    <string name="types_of_places_lodging">Lodging</string>
+    <string name="types_of_places_museum">Museums</string>
+    <string name="types_of_places_political">Political</string>
+    <string name="types_of_places_hospitals">Hospitals</string>
+    <string name="types_of_places_library">Libraries</string>
+    <string name="types_of_places_restaurant">Restaurants</string>
+    <string name="types_of_places_supermarket">Supermarkets</string>
 </resources>
