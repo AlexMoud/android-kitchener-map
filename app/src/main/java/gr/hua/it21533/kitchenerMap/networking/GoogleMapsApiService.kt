@@ -13,6 +13,10 @@ interface GoogleMapsApiService {
     fun nearBySearch(
         @QueryMap queryMap: HashMap<String, Any>): Observable<ApiModel.Result>
 
+    @GET("maps/api/place/textsearch/json?key=AIzaSyCQGxkJxY_7np6G7qEu9ylkpMG72gylgG8&radius=1500")
+    fun textSearch(
+        @QueryMap queryMap: HashMap<String, Any>): Observable<ApiModel.Result>
+
 
     companion object {
         fun create(): GoogleMapsApiService {

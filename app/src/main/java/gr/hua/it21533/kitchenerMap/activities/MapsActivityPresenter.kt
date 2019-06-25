@@ -8,18 +8,32 @@ import io.reactivex.schedulers.Schedulers
 
 class MapsActivityPresenter(private val view: MapsActivityView) {
 
-    private val query  = HashMap<String, Any>()
+    private val queryTypes  = HashMap<String, Any>()
+    private val querySearch = HashMap<String, Any>()
 
-    fun addToQuery(key: String, value: Any) {
-        query[key] = value
+    fun addToTypesQuery(key: String, value: Any) {
+        queryTypes[key] = value
+    }
+    fun addToTextSearchQuery(key: String, value: Any) {
+        querySearch[key] = value
     }
 
     private val googleMapsApiServe by lazy {
         GoogleMapsApiService.create()
     }
 
-    fun loadMarkers() {
-        googleMapsApiServe.nearBySearch(query)
+    fun loadTypesMarkers() {
+        googleMapsApiServe.nearBySearch(queryTypes)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                { result -> view.displayMarkers(result.results) },
+                { error -> Log.d("loadMarkers()","${error.message}") })
+    }
+
+
+    fun loadTextMarkers() {
+        googleMapsApiServe.textSearch(querySearch)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(

@@ -30,6 +30,7 @@ import com.google.android.gms.maps.model.*
 import gr.hua.it21533.kitchenerMap.R
 import gr.hua.it21533.kitchenerMap.fragments.FeedbackFragment
 import gr.hua.it21533.kitchenerMap.fragments.MenuFragment
+import gr.hua.it21533.kitchenerMap.fragments.SearchFragment
 import gr.hua.it21533.kitchenerMap.fragments.TypesOfPlacesFragment
 import gr.hua.it21533.kitchenerMap.interfaces.MapsActivityView
 import gr.hua.it21533.kitchenerMap.interfaces.MenuView
@@ -61,6 +62,7 @@ class MapsActivity :
     private val initialZoomLevel = 10.0f
     private val handler = Handler()
     private val typesOfPlacesFragment = TypesOfPlacesFragment()
+    private val searchFragment = SearchFragment()
     private val menuFragment = MenuFragment()
     private val feedbackFragment = FeedbackFragment()
     private var currentFragment: Fragment = menuFragment
@@ -75,8 +77,10 @@ class MapsActivity :
         loadLocale()
         initAllFragments()
         mapsPresenter = MapsActivityPresenter(this)
-        mapsPresenter.addToQuery("location", "$initialLatitude, $initialLongitude")
+        mapsPresenter.addToTypesQuery("location", "$initialLatitude, $initialLongitude")
+        mapsPresenter.addToTextSearchQuery("region", "cy")
         typesOfPlacesFragment.delegate = this
+        searchFragment.delegate = this
         menuFragment.delegate = this
     }
 
@@ -115,8 +119,10 @@ class MapsActivity :
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.add(R.id.fragment_container, menuFragment, "menu")
         fragmentTransaction.add(R.id.fragment_container, typesOfPlacesFragment, "types")
+        fragmentTransaction.add(R.id.fragment_container, searchFragment, "search")
         fragmentTransaction.add(R.id.fragment_container, feedbackFragment, "feedback")
         fragmentTransaction.hide(typesOfPlacesFragment)
+        fragmentTransaction.hide(searchFragment)
         fragmentTransaction.hide(feedbackFragment)
         fragmentTransaction.commit()
     }
@@ -235,6 +241,9 @@ class MapsActivity :
             "nav_types_of_places" -> {
                 openFragment(typesOfPlacesFragment)
             }
+            "nav_search" -> {
+                openFragment(searchFragment)
+            }
             "nav_feedback" -> {
                 openFragment(feedbackFragment)
             }
@@ -286,8 +295,14 @@ class MapsActivity :
     }
 
     override fun didFilterChange(filterValue: String, filterType: String) {
-        mapsPresenter.addToQuery(filterType, filterValue)
-        mapsPresenter.loadMarkers()
+        mapsPresenter.addToTypesQuery(filterType, filterValue)
+        mapsPresenter.loadTypesMarkers()
+        showLoading()
+    }
+
+    override fun onTextSearch(filterValue: String, filterType: String) {
+        mapsPresenter.addToTextSearchQuery(filterType, filterValue)
+        mapsPresenter.loadTextMarkers()
         showLoading()
     }
 

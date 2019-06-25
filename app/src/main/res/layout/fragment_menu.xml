@@ -48,6 +48,21 @@
 
     <include layout="@layout/partial_divider"/>
 
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/menu_item_search"
+            android:paddingLeft="@dimen/menu_item_padding_horizontal"
+            android:paddingTop="@dimen/menu_item_padding_vertical"
+            android:paddingBottom="@dimen/menu_item_padding_vertical"
+            android:paddingRight="@dimen/menu_item_padding_horizontal"
+            android:textSize="@dimen/text_medium"
+            android:id="@+id/nav_search"/>
+
+    <include layout="@layout/partial_divider"/>
+
+
     <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

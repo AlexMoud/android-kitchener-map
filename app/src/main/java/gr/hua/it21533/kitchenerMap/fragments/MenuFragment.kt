@@ -24,6 +24,9 @@ class MenuFragment : Fragment() {
         nav_types_of_places.setOnClickListener {
             delegate?.replaceMenuFragments("nav_types_of_places")
         }
+        nav_search.setOnClickListener {
+            delegate?.replaceMenuFragments("nav_search")
+        }
         nav_about.setOnClickListener {
             delegate?.replaceMenuFragments("nav_about")
         }
