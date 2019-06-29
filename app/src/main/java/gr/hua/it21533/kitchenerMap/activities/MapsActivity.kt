@@ -22,6 +22,7 @@ import android.view.MenuItem
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.SeekBar
+import android.widget.Toast
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -85,8 +86,16 @@ class MapsActivity :
     }
 
     private fun checkForPermissions() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_LOCATION_PERMISSIONS)
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                REQUEST_LOCATION_PERMISSIONS
+            )
         } else {
             enableLocationFunctionality()
         }
@@ -131,7 +140,7 @@ class MapsActivity :
         baseMap = googleMap
         try {
             baseMap.setMapStyle(MapStyleOptions(resources.getString(R.string.style_json)))
-        } catch (e : Resources.NotFoundException ) {
+        } catch (e: Resources.NotFoundException) {
             Log.e(TAG, "Can't find style. Error: ", e)
         }
         initKitchenerMap()
@@ -194,11 +203,26 @@ class MapsActivity :
             val marker = baseMap.addMarker(
                 MarkerOptions()
                     .position(LatLng(it.geometry.location.lat, it.geometry.location.lng))
-                    .title(it.name ?: "No title given by the API")
-                    .snippet(it.vicinity ?: "No description given by the API")
+                    .title(it.name ?: "No title")
+                    .snippet(it.vicinity ?: "")
                     .alpha(0.8f)
             )
             markersList.add(marker)
+        }
+        Log.d(TAG,"${markersList.size}")
+        if (markersList.size == 1) {
+            baseMap.moveCamera(
+                CameraUpdateFactory.newLatLngZoom(
+                    LatLng(
+                        markersList[0].position.latitude,
+                        markersList[0].position.longitude
+                    ), initialZoomLevel
+                )
+            )
+            drawer_layout.closeDrawers()
+        }
+        if(markersList.isEmpty()) {
+            Toast.makeText(this, "No results" , Toast.LENGTH_SHORT).show()
         }
         hideLoading()
     }
@@ -207,6 +231,7 @@ class MapsActivity :
         markersList.forEach {
             it.remove()
         }
+        markersList.clear()
     }
 
     private fun initSlider() {
