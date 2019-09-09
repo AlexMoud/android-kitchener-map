@@ -155,7 +155,7 @@ class MapsActivity :
             override fun getTileUrl(x: Int, y: Int, zoom: Int): URL? {
                 val reversedY = (1 shl zoom) - y - 1
                 val s = String.format(
-                    "https://gaia.hua.gr/tms/kitchener2/test/%d/%d/%d.png",
+                    "https://gaia.hua.gr/tms/kitchener_review/%d/%d/%d.jpg",
                     zoom, x, reversedY
                 )
                 try {
