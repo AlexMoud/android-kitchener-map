@@ -11,6 +11,7 @@ import gr.hua.it21533.kitchenerMap.adapters.MapLayersAdapter
 import gr.hua.it21533.kitchenerMap.helpers.LayersHelper
 import gr.hua.it21533.kitchenerMap.interfaces.MenuView
 import gr.hua.it21533.kitchenerMap.models.Base
+import gr.hua.it21533.kitchenerMap.multiCheckExpandableList.MultiCheckMapLayerParentAdapter
 import kotlinx.android.synthetic.main.fragment_types_of_places.*
 
 class TypesOfPlacesFragment: Fragment() {
@@ -42,7 +43,9 @@ class TypesOfPlacesFragment: Fragment() {
 
     private fun addTypesOfPlacesCheckboxes() {
         typesCheckboxes.layoutManager = LinearLayoutManager(context)
-        typesCheckboxes.adapter = MapLayersAdapter(types, context!!, selectedTypes) { item: String -> itemTypeClicked(item) }
+//        typesCheckboxes.adapter = MapLayersAdapter(types, context!!, selectedTypes) { item: String -> itemTypeClicked(item) }
+
+        typesCheckboxes.adapter = MultiCheckMapLayerParentAdapter(LayersHelper.getLayerParents())
     }
 
     private fun itemTypeClicked(item: String) {

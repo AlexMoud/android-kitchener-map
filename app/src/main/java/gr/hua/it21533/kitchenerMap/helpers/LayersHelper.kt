@@ -2,7 +2,10 @@ package gr.hua.it21533.kitchenerMap.helpers
 
 import com.google.gson.Gson
 import com.google.gson.JsonParser
+import gr.hua.it21533.kitchenerMap.KitchenerMap
 import gr.hua.it21533.kitchenerMap.models.Base
+import gr.hua.it21533.kitchenerMap.models.MapLayer
+import gr.hua.it21533.kitchenerMap.models.MapLayerParent
 
 object LayersHelper {
 
@@ -14,6 +17,28 @@ object LayersHelper {
         val result = ArrayList<Base>()
         json.forEach {
             result.add(Gson().fromJson(it, Base::class.java))
+        }
+        return result
+    }
+
+    fun getLayerParents() : MutableList<MapLayerParent> {
+        val data = getLayersData()
+        val result = ArrayList<MapLayerParent>()
+        val isEnglish = KitchenerMap.applicationContext().selectedLocale == "en"
+        data.forEach { base ->
+            val layers = ArrayList<MapLayer>()
+            base.layers.forEach {   lay ->
+                if (isEnglish) {
+                    layers.add(MapLayer(lay.name.en, false, lay))
+                }else {
+                    layers.add(MapLayer(lay.name.el, false, lay))
+                }
+            }
+            if (isEnglish) {
+                result.add(MapLayerParent(base.name.en, layers))
+            }else {
+                result.add(MapLayerParent(base.name.el, layers))
+            }
         }
         return result
     }
