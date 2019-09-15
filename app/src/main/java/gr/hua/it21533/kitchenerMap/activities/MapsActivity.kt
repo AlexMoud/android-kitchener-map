@@ -1,7 +1,6 @@
 package gr.hua.it21533.kitchenerMap.activities
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -33,11 +32,15 @@ import gr.hua.it21533.kitchenerMap.fragments.FeedbackFragment
 import gr.hua.it21533.kitchenerMap.fragments.MenuFragment
 import gr.hua.it21533.kitchenerMap.fragments.SearchFragment
 import gr.hua.it21533.kitchenerMap.fragments.TypesOfPlacesFragment
+import gr.hua.it21533.kitchenerMap.helpers.LayersHelper
 import gr.hua.it21533.kitchenerMap.interfaces.MapsActivityView
 import gr.hua.it21533.kitchenerMap.interfaces.MenuView
+import gr.hua.it21533.kitchenerMap.networking.API
 import gr.hua.it21533.kitchenerMap.networking.ApiModel
 import kotlinx.android.synthetic.main.activity_maps.*
 import kotlinx.android.synthetic.main.fragment_menu.*
+import retrofit2.Call
+import retrofit2.Response
 import java.net.MalformedURLException
 import java.net.URL
 import java.util.*
@@ -83,6 +86,25 @@ class MapsActivity :
         typesOfPlacesFragment.delegate = this
         searchFragment.delegate = this
         menuFragment.delegate = this
+
+        val layers = LayersHelper.getLayersData()
+        layers.forEach {
+            Log.w("LAYERS", it.name.en)
+        }
+    }
+
+    private fun testSettingsApi() {
+        val call = API.create().getSettings()
+        call.enqueue(object : retrofit2.Callback<String> {
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                Log.e(TAG, t.localizedMessage)
+            }
+
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                Log.d(TAG, response.body()!!)
+            }
+
+        })
     }
 
     private fun checkForPermissions() {
@@ -151,7 +173,7 @@ class MapsActivity :
     }
 
     private fun initKitchenerMap() {
-        var tileProvider: TileProvider = object : UrlTileProvider(256, 256) {
+        val tileProvider: TileProvider = object : UrlTileProvider(256, 256) {
             override fun getTileUrl(x: Int, y: Int, zoom: Int): URL? {
                 val reversedY = (1 shl zoom) - y - 1
                 val s = String.format(
@@ -261,8 +283,8 @@ class MapsActivity :
         }
     }
 
-    override fun replaceMenuFragments(menuId: String) {
-        when (menuId) {
+    override fun replaceMenuFragments(menuItem: String) {
+        when (menuItem) {
             "nav_types_of_places" -> {
                 openFragment(typesOfPlacesFragment)
             }
@@ -325,8 +347,8 @@ class MapsActivity :
         showLoading()
     }
 
-    override fun onTextSearch(filterValue: String, filterType: String) {
-        mapsPresenter.addToTextSearchQuery(filterType, filterValue)
+    override fun onTextSearch(searchValue: String, filterType: String) {
+        mapsPresenter.addToTextSearchQuery(filterType, searchValue)
         mapsPresenter.loadTextMarkers()
         showLoading()
     }
@@ -364,34 +386,30 @@ class MapsActivity :
     }
 
     private fun getCoordinatesOnLongClick() {
-        baseMap.setOnMapLongClickListener(object : GoogleMap.OnMapLongClickListener {
-            override fun onMapLongClick(latLng: LatLng) {
-                longClickMarkers.forEach {
-                    it.remove()
-                }
-                val marker = baseMap.addMarker(
-                    MarkerOptions()
-                        .position(LatLng(latLng.latitude, latLng.longitude))
-                        .title("Επιλεγμένο σημείο")
-                        .snippet("Θέλετε να αφήσετε σχόλιο;")
-                )
-                marker.showInfoWindow()
-                longClickMarkers.add(marker)
+        baseMap.setOnMapLongClickListener { latLng ->
+            longClickMarkers.forEach {
+                it.remove()
             }
-        })
+            val marker = baseMap.addMarker(
+                MarkerOptions()
+                    .position(LatLng(latLng.latitude, latLng.longitude))
+                    .title("Επιλεγμένο σημείο")
+                    .snippet("Θέλετε να αφήσετε σχόλιο;")
+            )
+            marker.showInfoWindow()
+            longClickMarkers.add(marker)
+        }
     }
 
     private fun checkInfoWindowClick() {
-        baseMap.setOnInfoWindowClickListener(object : GoogleMap.OnInfoWindowClickListener {
-            override fun onInfoWindowClick(marker: Marker) {
-                if (marker.title == "Επιλεγμένο σημείο") {
-                    val intent = Intent(applicationContext, SendMailActivity::class.java)
-                    intent.putExtra("latitude", marker.position.latitude)
-                    intent.putExtra("longitude", marker.position.longitude)
-                    startActivity(intent)
-                }
+        baseMap.setOnInfoWindowClickListener { marker ->
+            if (marker.title == "Επιλεγμένο σημείο") {
+                val intent = Intent(applicationContext, SendMailActivity::class.java)
+                intent.putExtra("latitude", marker.position.latitude)
+                intent.putExtra("longitude", marker.position.longitude)
+                startActivity(intent)
             }
-        })
+        }
     }
 
 }

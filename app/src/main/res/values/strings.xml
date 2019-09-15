@@ -75,8 +75,8 @@
         των τεσσάρων ετών του Πολέμου, οι 462.901 ενεγράφησαν τον Σεπτέμβριο του 1914, όταν κυκλοφόρησε η διάσημη πλέον
         αφίσα στρατολόγησης με τη φωτογραφία του.
     </string>
-    <string name="title_activity_about">AboutActivity</string>
-    <string name="title_activity_send_mail">SendMailActivity</string>
+    <string name="title_activity_about" translatable="false">AboutActivity</string>
+    <string name="title_activity_send_mail" translatable="false">SendMailActivity</string>
     <string name="feedback_comment_label">Σχόλιο:</string>
     <string name="feedback_takePhoto_button">Φωτογραφία</string>
     <string name="feedback_sendMail_button">Αποστολή Email</string>
@@ -92,7 +92,7 @@
     <string name="types_of_places_library">Βιβλιοθήκες</string>
     <string name="types_of_places_restaurant">Εστιατόρια</string>
     <string name="types_of_places_supermarket">Σουπερμάρκετ</string>
-    <string name="style_json">
+    <string name="style_json" translatable="false">
         [
             {
                 "elementType": "labels",
@@ -105,4 +105,1199 @@
         ]
     </string>
     <string name="types_of_places_coffee_shops">Καφετέριες</string>
+    <string name="layerGroups" translatable="false">[
+  {
+    "id":1,
+    "name":{"el":"WMS layer for kitchener data","en":"Map annotation and placenames"},
+    "groupIsOn":true,
+    "groupIsClosed":true,
+    "userOrder":1,
+    "opacity":1,
+    "type":"WMSContainer",
+    "layers":[
+      {
+        "type":"WMSContainer",
+        "id":"kitchener",
+        "nameID":"kitchener",
+        "name":{
+          "el":"ΞΞΉΞ±Ξ½ΟΟΞΌΞ±ΟΞΉΞΊΞ¬ Ξ΄Ξ΅Ξ΄ΞΏΞΌΞ­Ξ½Ξ± ΟΞ¬ΟΟΞ· Kitchener",
+          "en":"Kitchener map vector data"
+        },
+        "description":{"en":"","el":""},
+        "userOrder":1,
+        "isOn":true,
+        "opacity":1,
+        "src":"https://gaia.hua.gr/geoserver/ows?service=WMS&amp;resource=02422ff9-9e60-430f-bbc5-bb5324359198"
+      }
+    ]
+  },
+  {
+    "id":10,
+    "name":{
+      "el":"ΞΞ½ΞΏΞΌΞ±ΟΞΏΞ»ΞΏΞ³Ξ―Ξ± ΞΊΞ±ΞΉ ΟΞΏΟΟΞ½ΟΞΌΞΉΞ±",
+      "en":"Map annotation and placenames"
+    },
+    "description":{"en":"","el":""},
+    "groupIsOn":false,
+    "groupIsClosed":true,
+    "userOrder":50,
+    "opacity":1,
+    "hasTurnOffAllLayersButton":false,
+    "layers":[
+      {
+        "type":"WMSLabel",
+        "parent":"kitchener",
+        "id":10,
+        "name":{
+          "el":"ΞΞ½ΞΏΞΌΞ±ΟΞΏΞ»ΞΏΞ³Ξ―Ξ± ΞΏΟΞ±ΟΟΞ½ Ξ΅ΟΞΉΟΞ­Ξ΄ΟΞ½",
+          "en":"Placenames for visible layers"
+        },
+        "description":{
+          "en":"By enabling this option, feature labels will appear on the map next to each symbol, provided that the feature has a name and its level has been turned on.",
+          "el":"ΞΞ½Ξ΅ΟΞ³ΞΏΟΞΏΟΞΏΞΉΟΞ½ΟΞ±Ο ΟΞ·Ξ½ Ξ΅ΟΞΉΞ»ΞΏΞ³Ξ� Ξ±ΟΟΞ� ΞΈΞ± Ξ΅ΞΌΟΞ±Ξ½Ξ―ΞΆΞ΅ΟΞ±ΞΉ Ξ΄Ξ―ΟΞ»Ξ± Ξ±ΟΟ ΞΊΞ¬ΞΈΞ΅ ΟΟΞΌΞ²ΞΏΞ»ΞΏ ΟΞΏ ΟΞ½ΞΏΞΌΞ± ΟΞΏΟ Ξ³Ξ΅ΟΞ³ΟΞ±ΟΞΉΞΊΞΏΟ ΟΞ±ΟΞ±ΞΊΟΞ·ΟΞΉΟΟΞΉΞΊΞΏΟ Ξ΅ΟΟΟΞΏΞ½ ΟΞΏ ΟΞ±ΟΞ±ΞΊΟΞ·ΟΞΉΟΟΞΉΞΊΟ Ξ΄ΞΉΞ±ΞΈΞ­ΟΞ΅ΞΉ ΞΊΞ¬ΟΞΏΞΉΞΏ ΟΞ½ΞΏΞΌΞ± ΞΊΞ±ΞΉ Ξ­ΟΞ΅ΟΞ΅ Ξ΅Ξ½Ξ΅ΟΞ³ΞΏΟΞΏΞΉΞ�ΟΞ΅ΞΉ ΟΞΏ Ξ±Ξ½ΟΞ―ΟΟΞΏΞΉΟΞΏ Ξ΅ΟΞ―ΟΞ΅Ξ΄ΞΏ."
+        },
+        "opacity":1,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":20,
+        "name":{"en":"Other map annotation","el":"ΞΞΏΞΉΟΞ¬ ΟΞΏΟΟΞ½ΟΞΌΞΉΞ±"},
+        "description":{
+          "en":"This layer contains all placenames not related to the rest of the map levels",
+          "el":"Ξ£Ξ΅ Ξ±ΟΟΟ ΟΞΏ Ξ΅ΟΞ―ΟΞ΅Ξ΄ΞΏ ΟΞ΅ΟΞΉΞ»Ξ±ΞΌΞ²Ξ¬Ξ½ΞΏΞ½ΟΞ±ΞΉ ΟΞ± ΟΞΏΟΟΞ½ΟΞΌΞΉΞ± ΟΞΏΟ Ξ΄Ξ΅Ξ½ ΟΟΞ΅ΟΞ―ΞΆΞΏΞ½ΟΞ±ΞΉ ΞΌΞ΅ ΞΊΞ¬ΟΞΏΞΉΞΏ Ξ¬Ξ»Ξ»ΞΏ ΟΞ±ΟΟΞΏΞ³ΟΞ±ΟΞΉΞΊΟ Ξ΅ΟΞ―ΟΞ΅Ξ΄ΞΏ"
+        },
+        "src":"kitchener:toponym_po,kitchener_toponym_lin",
+        "opacity":1,
+        "userOrder":2,
+        "isOn":false
+      }
+    ]
+  },
+  {
+    "id":20,
+    "name":{"el":"ΞΞΉΞΊΞΉΟΞΌΞΏΞ―","en":"Settlements"},
+    "description":{"en":"","el":""},
+    "groupIsOn":true,
+    "userOrder":45,
+    "opacity":1,
+    "layers":[
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":113,
+        "name":{
+          "en":"Settlements with muslim population",
+          "el":"ΞΞΉΞΊΞΉΟΞΌΞΏΞ― ΞΌΞ΅ ΞΌΞΏΟΟΞΏΟΞ»ΞΌΞ±Ξ½ΞΉΞΊΟ ΟΞ»Ξ·ΞΈΟΟΞΌΟ"
+        },
+        "description":{
+          "en":"",
+          "el":"ΞΞΉΞΊΞΉΟΞΌΞΏΞ― ΞΌΞ΅ ΞΌΞΏΟΟΞΏΟΞ»ΞΌΞ±Ξ½ΞΉΞΊΟ ΟΞ»Ξ·ΞΈΟΟΞΌΟ."
+        },
+        "src":"kitchener:text_town_2",
+        "opacity":1,
+        "userOrder":7,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":112,
+        "name":{
+          "en":"Settlements with christian population",
+          "el":"ΞΞΉΞΊΞΉΟΞΌΞΏΞ― ΞΌΞ΅ ΟΟΞΉΟΟΞΉΞ±Ξ½ΞΉΞΊΟ ΟΞ»Ξ·ΞΈΟΟΞΌΟ"
+        },
+        "description":{
+          "en":"",
+          "el":"ΞΞΉΞΊΞΉΟΞΌΞΏΞ― ΞΌΞ΅ ΟΟΞΉΟΟΞΉΞ±Ξ½ΞΉΞΊΟ ΟΞ»Ξ·ΞΈΟΟΞΌΟ."
+        },
+        "src":"kitchener:text_town_1",
+        "opacity":1,
+        "userOrder":6,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":111,
+        "name":{
+          "en":"Settlements with mixed population",
+          "el":"ΞΞΉΞΊΞΉΟΞΌΞΏΞ― ΞΌΞ΅ ΞΌΞΉΞΊΟΟ ΟΞ»Ξ·ΞΈΟΟΞΌΟ"
+        },
+        "description":{
+          "en":"",
+          "el":"ΞΞΉΞΊΞΉΟΞΌΞΏΞ― Ξ³ΞΉΞ± ΟΞΏΟΟ ΞΏΟΞΏΞ―ΞΏΟΟ Ξ΄Ξ΅Ξ½ Ξ±Ξ½Ξ±Ξ³ΟΞ¬ΟΞ΅ΟΞ±ΞΉ ΟΞΏ ΞΈΟΞ�ΟΞΊΞ΅ΟΞΌΞ± ΟΟΞ½ ΞΊΞ±ΟΞΏΞ―ΞΊΟΞ½."
+        },
+        "src":"kitchener:text_town_0",
+        "opacity":1,
+        "userOrder":5,
+        "isOn":false
+      }
+    ]
+  },
+  {
+    "id":30,
+    "name":{"en":"Points of Interest","el":"Ξ£Ξ·ΞΌΞ΅Ξ―Ξ± Ξ΅Ξ½Ξ΄ΞΉΞ±ΟΞ­ΟΞΏΞ½ΟΞΏΟ"},
+    "description":{
+      "en":"This group contains separate layers for all the point map items found on the original Kitchener maps.",
+      "el":""
+    },
+    "groupIsOn":true,
+    "groupIsClosed":true,
+    "userOrder":40,
+    "opacity":1,
+    "sortLayers":"alphabetic",
+    "hasTurnOffAllLayersButton":true,
+    "layers":[
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":114,
+        "name":{"en":"Ruins","el":"ΞΟΞ΅Ξ―ΟΞΉΞ±"},
+        "description":{"en":"","el":"ΞΟΞ΅Ξ―ΟΞΉΞ±"},
+        "src":"kitchener:point_data_ruins",
+        "opacity":1,
+        "userOrder":8,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":115,
+        "name":{"el":"Ξ Ξ·Ξ³Ξ¬Ξ΄ΞΉΞ±","en":"Wells"},
+        "description":{"en":"","el":"Ξ Ξ·Ξ³Ξ¬Ξ΄ΞΉΞ±"},
+        "src":"kitchener:point_data_wells",
+        "opacity":1,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":116,
+        "name":{"el":"Ξ£ΟΞ·Ξ»ΞΉΞ­Ο","en":"Caves"},
+        "description":{"en":"","el":"Ξ£ΟΞ�Ξ»Ξ±ΞΉΞ±"},
+        "src":"kitchener:point_data_caves",
+        "opacity":1,
+        "userOrder":9,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":117,
+        "name":{"el":"Ξ Ξ·Ξ³Ξ­Ο","en":"Springs"},
+        "description":{"en":"","el":"Ξ Ξ·Ξ³Ξ­Ο"},
+        "src":"kitchener:point_data_springs",
+        "opacity":1,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":118,
+        "name":{"el":"ΞΞ―ΞΌΞ½Ξ΅Ο","en":"Ponds"},
+        "description":{"en":"","el":"Ξ Ξ·Ξ³Ξ­Ο"},
+        "src":"kitchener:point_data_ponds",
+        "opacity":1,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":120,
+        "name":{"el":"ΞΟΞ»ΞΏΞΉ","en":"Mills"},
+        "description":{"en":"","el":"ΞΟΞ»ΞΏΞΉ"},
+        "src":"kitchener:point_data_mills",
+        "opacity":1,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":121,
+        "name":{"el":"ΞΞΏΞΉΞΌΞ·ΟΞ�ΟΞΉΞ±","en":"Cemeteries"},
+        "description":{"en":"","el":""},
+        "src":"kitchener:point_data_cemeteries",
+        "opacity":1,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":122,
+        "name":{"el":"ΞΞΏΞ½Ξ±ΟΟΞ�ΟΞΉΞ±","en":"Monasteries"},
+        "description":{"en":"","el":""},
+        "src":"kitchener:point_data_monasteries",
+        "opacity":1,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":123,
+        "name":{"el":"ΞΞΊΞΊΞ»Ξ·ΟΞ―Ξ΅Ο","en":"Churches"},
+        "description":{"en":"","el":""},
+        "opacity":1,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":124,
+        "name":{"el":"ΞΟΞΊΞ»Ξ�ΟΞΉΞ± (Ξ)","en":"Chapels (A)"},
+        "description":{"en":"","el":""},
+        "src":"kitchener:point_data_churches_small",
+        "opacity":1,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":125,
+        "name":{"el":"ΞΟΞΊΞ»Ξ�ΟΞΉΞ± (Ξ)","en":"Chapels (Ξ)"},
+        "description":{"el":"","en":""},
+        "src":"kitchener:point_data_churches_small_double",
+        "opacity":1,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":126,
+        "name":{"el":"ΞΞ΅ΞΎΞ±ΞΌΞ΅Ξ½Ξ­Ο","en":"Tanks"},
+        "description":{"en":"","el":""},
+        "src":"kitchener:point_data_tanks",
+        "opacity":1,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":128,
+        "name":{"el":"Ξ¦ΟΞ¬Ξ³ΞΌΞ±ΟΞ±","en":"Weirs"},
+        "description":{"en":"","el":""},
+        "src":"kitchener:point_data_weirs",
+        "opacity":1,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":129,
+        "name":{
+          "el":"Ξ€ΟΞΉΞ³ΟΞ½ΞΏΞΌΞ΅ΟΟΞΉΞΊΞ¬ ΟΞ·ΞΌΞ΅Ξ―Ξ±",
+          "en":"Survey control points (trigonometric)"
+        },
+        "description":{"en":"","el":""},
+        "src":"kitchener:point_data_trig_points",
+        "opacity":1,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":130,
+        "name":{"el":"Ξ€ΟΞΌΞ²ΞΏΞΉ","en":"Tombs"},
+        "description":{"en":"","el":""},
+        "src":"kitchener:point_data_tombs",
+        "opacity":1,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":131,
+        "name":{"el":"ΞΟΟΟΞ¬","en":"Forts"},
+        "description":{"en":"","el":""},
+        "src":"kitchener:point_data_forts",
+        "opacity":1,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":132,
+        "name":{"el":"ΞΞ­ΟΟΟΞ΅Ο","en":"Bridges"},
+        "description":{"en":"","el":""},
+        "src":"kitchener:point_data_bridges",
+        "opacity":1,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":133,
+        "name":{"el":"Ξ ΞΏΞΉΞΌΞ½ΞΉΞΏΟΟΞ¬ΟΞΉΞ±","en":"Sheepfolds"},
+        "description":{"en":"","el":""},
+        "src":"kitchener:point_data_sheepfolds",
+        "opacity":1,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":134,
+        "name":{"el":"Ξ€Ξ¬ΟΞΏΞΉ","en":"Graves"},
+        "description":{"en":"","el":""},
+        "src":"kitchener:point_data_graves",
+        "opacity":1,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":135,
+        "name":{"el":"ΞΞ±ΟΞΏΞΌΞ΅Ξ―Ξ±","en":"Quarries"},
+        "description":{"en":"","el":""},
+        "src":"kitchener:point_data_quarries",
+        "opacity":1,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":136,
+        "name":{"el":"ΞΞ±ΞΌΞ―Ξ½ΞΉΞ±","en":"Furnaces"},
+        "description":{"el":"","en":""},
+        "src":"kitchener:point_data_furnaces",
+        "opacity":1,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":137,
+        "name":{"el":"ΞΞ¬Ξ½Ξ΄ΟΞ΅Ο (Walls)","en":"Walls"},
+        "description":{"el":"","en":""},
+        "src":"kitchener:point_data_mandras",
+        "opacity":1,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":138,
+        "name":{"el":"Ξ€ΞΆΞ±ΞΌΞΉΞ¬ (Mosques)","en":"Mosques"},
+        "description":{"el":"","en":""},
+        "src":"kitchener:point_data_mosques",
+        "opacity":1,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":139,
+        "name":{"el":"ΞΞ½Ξ΅ΞΌΟΞΌΟΞ»ΞΏΞΉ (windmills)","en":"Windmills"},
+        "description":{"el":"","en":""},
+        "src":"kitchener:point_data_windmills",
+        "opacity":1,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":140,
+        "name":{"el":"ΞΟΞ¬ΟΞΉΞ± (Stones)","en":"Stones"},
+        "description":{"el":"","en":""},
+        "src":"kitchener:point_data_stones",
+        "opacity":1,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":141,
+        "name":{"el":"Ξ£ΞΊΟΟΞ―Ξ΅Ο","en":"Slags"},
+        "description":{"el":"","en":""},
+        "src":"kitchener:point_data_slags",
+        "opacity":1,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":142,
+        "name":{
+          "el":"Ξ€Ξ±ΞΌΞΉΞ΅ΟΟΞ�ΟΞ΅Ο / ΟΞ΅ΟΞ½Ξ·ΟΞ­Ο Ξ»Ξ―ΞΌΞ½Ξ΅Ο",
+          "en":"Reservoirs"
+        },
+        "description":{"el":"","en":""},
+        "src":"kitchener:point_data_reservoirs",
+        "opacity":1,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":143,
+        "name":{"el":"Ξ ΟΟΞ³ΞΏΞΉ","en":"Towers"},
+        "description":{"el":"","en":""},
+        "src":"kitchener:point_data_towers",
+        "opacity":1,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":144,
+        "name":{"el":"ΞΟΞΏΞΈΞ�ΞΊΞ΅Ο","en":"Sheds"},
+        "description":{"el":"","en":""},
+        "src":"kitchener:point_data_sheds",
+        "opacity":1,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":145,
+        "name":{"el":"ΞΟΞ�Ξ½Ξ΅Ο (Fountains)","en":"Fountains"},
+        "description":{"el":"","en":""},
+        "src":"kitchener:point_data_fountains",
+        "opacity":1,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":146,
+        "name":{"el":"ΞΞ±Ξ»ΟΞ²Ξ΅Ο (Huts)","en":"Huts"},
+        "description":{"el":"","en":""},
+        "src":"kitchener:point_data_huts",
+        "opacity":1,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":147,
+        "name":{"el":"ΞΞ¬ΟΟΟΞ±","en":"Castles"},
+        "description":{"el":"","en":""},
+        "src":"kitchener:point_data_castles",
+        "opacity":1,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":148,
+        "name":{
+          "el":"ΞΞΏΞΉΟΞ¬ ΟΞ·ΞΌΞ΅Ξ―Ξ± Ξ΅Ξ½Ξ΄ΞΉΞ±ΟΞ­ΟΞΏΞ½ΟΞΏΟ",
+          "en":"Other points of interest"
+        },
+        "description":{"el":"","en":""},
+        "src":"kitchener:point_data_main_points",
+        "opacity":1,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":149,
+        "name":{
+          "el":"Ξ₯ΟΞΏΞΌΞ΅ΟΟΞΉΞΊΞ¬ ΟΞ·ΞΌΞ΅Ξ―Ξ± (ΟΞ΅ Ξ±Ξ³Ξ³Ξ»ΞΉΞΊΞ¬ ΟΟΞ΄ΞΉΞ±)",
+          "en":"Elevation points (in English feet)"
+        },
+        "description":{"el":"","en":""},
+        "src":"kitchener:elevation",
+        "opacity":0.9,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":150,
+        "name":{
+          "el":"ΞΟΞΏΟΟΞ¬ΟΞ΅ΞΉΟ (ΟΞ΅ Ξ±Ξ³Ξ³Ξ»ΞΉΞΊΞ¬ ΞΌΞ―Ξ»ΞΉΞ±)",
+          "en":"Distances in English miles (milestones)"
+        },
+        "description":{"el":"","en":""},
+        "src":"kitchener:km_distance",
+        "opacity":1,
+        "userOrder":1,
+        "isOn":false
+      }
+    ]
+  },
+  {
+    "id":40,
+    "name":{"el":"ΞΞ΄ΞΉΞΊΟ Ξ΄Ξ―ΞΊΟΟΞΏ","en":"Road Network"},
+    "description":{"en":"","el":""},
+    "groupIsOn":true,
+    "groupIsClosed":true,
+    "userOrder":35,
+    "opacity":1,
+    "hasTurnOffAllLayersButton":true,
+    "layers":[
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":10,
+        "name":{
+          "en":"Primary road network",
+          "el":"Ξ ΟΟΟΞ΅ΟΞΏΞ½ ΞΏΞ΄ΞΉΞΊΟ Ξ΄Ξ―ΞΊΟΟΞΏ"
+        },
+        "description":{"en":"","el":""},
+        "src":"kitchener:road_net_3_first",
+        "icon":{"className":""},
+        "opacity":1,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":20,
+        "name":{
+          "en":"Secondary road network - under construction",
+          "el":"ΞΞ΅ΟΟΞ΅ΟΞ΅ΟΞΏΞ½ ΞΏΞ΄ΞΉΞΊΟ Ξ΄Ξ―ΞΊΟΟΞΏ (ΟΟΟ ΞΊΞ±ΟΞ±ΟΞΊΞ΅ΟΞ�)"
+        },
+        "description":{"en":"","el":""},
+        "src":"kitchener:road_net_2_second",
+        "opacity":1,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":30,
+        "name":{
+          "en":"Tertiary road network",
+          "el":"Ξ€ΟΞΉΟΞ΅ΟΞΏΞ½ ΞΏΞ΄ΞΉΞΊΟ Ξ΄Ξ―ΞΊΟΟΞΏ"
+        },
+        "description":{"en":"","el":""},
+        "src":"kitchener:road_net_1_third",
+        "icon":{"className":""},
+        "opacity":1,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":40,
+        "name":{"en":"Urban road network","el":"ΞΟΟΞΉΞΊΟ ΞΏΞ΄ΞΉΞΊΟ Ξ΄Ξ―ΞΊΟΟΞΏ"},
+        "description":{"en":"","el":""},
+        "src":"kitchener:road_net_4_urban",
+        "opacity":1,
+        "userOrder":1,
+        "isOn":false
+      }
+    ]
+  },
+  {
+    "id":50,
+    "name":{"el":"Ξ₯Ξ΄ΟΞΏΞ³ΟΞ±ΟΞΉΞΊΟ Ξ΄Ξ―ΞΊΟΟΞΏ","en":"Hydrographic Network"},
+    "description":{"en":"","el":""},
+    "groupIsOn":true,
+    "groupIsClosed":true,
+    "userOrder":30,
+    "opacity":1,
+    "hasTurnOffAllLayersButton":true,
+    "layers":[
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":6,
+        "name":{
+          "en":"1st class (Main river - Perennial flow)",
+          "el":"1Ξ·Ο ΞΊΞ±ΟΞ·Ξ³ΞΏΟΞ―Ξ±Ο (Ξ ΞΏΟΞ±ΞΌΟΟ ΟΟΞ½Ξ΅ΟΞΏΟΟ ΟΞΏΞ�Ο)"
+        },
+        "description":{"en":"","el":""},
+        "src":"kitchener:river_network_1",
+        "opacity":1,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":6,
+        "name":{
+          "en":"2nd class (Main branch - Ephemeral flow)",
+          "el":"2Ξ·Ο ΞΊΞ±ΟΞ·Ξ³ΞΏΟΞ―Ξ±Ο (ΞΟΟΞΉΞΏΟ ΞΊΞ»Ξ¬Ξ΄ΞΏΟ Ξ΅ΟΞ�ΞΌΞ΅ΟΞ·Ο ΟΞΏΞ�Ο)"
+        },
+        "description":{"en":"","el":""},
+        "src":"kitchener:river_network_2",
+        "opacity":0.95,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":6,
+        "name":{
+          "en":"3rd class (stream)",
+          "el":"3Ξ·Ο ΞΊΞ±ΟΞ·Ξ³ΞΏΟΞ―Ξ±Ο (ΞΞΉΟΞ³Ξ¬Ξ³Ξ³Ξ΅ΞΉΞ± - Ξ΅ΟΞ�ΞΌΞ΅ΟΞ· ΟΞΏΞ�)"
+        },
+        "description":{"en":"","el":""},
+        "src":"kitchener:river_network_3",
+        "opacity":1,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":6,
+        "name":{"en":"Aqueduct","el":"Ξ₯Ξ΄ΟΞ±Ξ³ΟΞ³Ξ΅Ξ―ΞΏ"},
+        "description":{"en":"","el":""},
+        "src":"kitchener:river_network_4",
+        "opacity":1,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":7,
+        "name":{"en":"Irrigation channel","el":"ΞΟΞ΄Ξ΅ΟΟΞΉΞΊΟ ΞΊΞ±Ξ½Ξ¬Ξ»ΞΉ"},
+        "description":{"en":"","el":""},
+        "src":"kitchener:river_network_5",
+        "opacity":1,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":9,
+        "name":{"en":"Shoreline","el":"ΞΞΊΟΞΏΞ³ΟΞ±ΞΌΞΌΞ�"},
+        "description":{
+          "en":"",
+          "el":"Ξ Ξ±ΞΊΟΞΏΞ³ΟΞ±ΞΌΞΌΞ� ΟΟΟΟ Ξ­ΟΞ΅ΞΉ ΟΞ·ΟΞΉΞΏΟΞΏΞΉΞ·ΞΈΞ΅Ξ― Ξ±ΟΟ ΟΞΏΟΟ ΟΟΟΟΞΏΞ³Ξ΅Ξ½Ξ΅Ξ―Ο ΟΞ¬ΟΟΞ΅Ο ΟΞΏΟ Kitchener."
+        },
+        "src":"kitchener:aktogrammi",
+        "opacity":0.95,
+        "userOrder":1,
+        "isOn":false
+      }
+    ]
+  },
+  {
+    "id":55,
+    "name":{
+      "el":"ΞΞΉΞΏΞΉΞΊΞ·ΟΞΉΞΊΞ� Ξ΄ΞΉΞ±Ξ―ΟΞ΅ΟΞ·",
+      "en":"Administrative Division"
+    },
+    "description":{"en":"","el":""},
+    "groupIsOn":true,
+    "groupIsClosed":true,
+    "userOrder":25,
+    "opacity":1,
+    "hasTurnOffAllLayersButton":true,
+    "layers":[
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":10,
+        "name":{"en":"District boundaries","el":"ΞΟΞΉΞ± Ξ΅ΟΞ±ΟΟΞΉΟΞ½"},
+        "description":{"en":"","el":""},
+        "src":"kitchener:borders_1",
+        "opacity":0.9,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":20,
+        "name":{
+          "en":"Subdistrict boundaries",
+          "el":"ΞΟΞΉΞ± Ξ΅ΟΞ±ΟΟΞΉΞ±ΞΊΟΞ½ Ξ΅Ξ½ΞΏΟΞ�ΟΟΞ½"
+        },
+        "description":{"en":"","el":""},
+        "src":"kitchener:borders_2",
+        "opacity":0.9,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":11,
+        "name":{"en":"District polygons","el":"Ξ ΞΏΞ»ΟΞ³ΟΞ½Ξ± Ξ΅ΟΞ±ΟΟΞΉΟΞ½"},
+        "description":{"en":"","el":""},
+        "src":"kitchener:districts",
+        "opacity":0.5,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":21,
+        "name":{
+          "en":"Subdistrict polygons",
+          "el":"Ξ ΞΏΞ»ΟΞ³ΟΞ½Ξ± Ξ΅ΟΞ±ΟΟΞΉΞ±ΞΊΟΞ½ Ξ΅Ξ½ΞΏΟΞ�ΟΟΞ½"
+        },
+        "description":{"en":"","el":""},
+        "src":"kitchener:subdistricts",
+        "opacity":0.65,
+        "userOrder":1,
+        "isOn":false
+      }
+    ]
+  },
+  {
+    "id":56,
+    "name":{"el":"ΞΞ―ΞΊΟΟΞΏ ΟΞ·Ξ»Ξ΅Ξ³ΟΞ¬ΟΞΏΟ","en":"Telegraph Network"},
+    "description":{"en":"","el":""},
+    "groupIsOn":true,
+    "groupIsClosed":true,
+    "userOrder":20,
+    "opacity":1,
+    "hasTurnOffAllLayersButton":false,
+    "layers":[
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":5,
+        "name":{"en":"Telegraph line","el":"ΞΟΞ±ΞΌΞΌΞ� ΟΞ·Ξ»Ξ΅Ξ³ΟΞ¬ΟΞΏΟ"},
+        "description":{"en":"","el":""},
+        "src":"kitchener:telegraph",
+        "opacity":1,
+        "userOrder":1,
+        "isOn":false
+      }
+    ]
+  },
+  {
+    "id":70,
+    "name":{"en":"Land Cover","el":"ΞΞ¬Ξ»ΟΟΞ· Ξ³Ξ·Ο"},
+    "description":{"en":"This group contains the various land cover types.","el":""},
+    "groupIsOn":true,
+    "groupIsClosed":true,
+    "userOrder":15,
+    "opacity":1,
+    "sortLayers":"alphabetic",
+    "hasTurnOffAllLayersButton":true,
+    "layers":[
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":11,
+        "name":{
+          "en":"Dense mixed wooded areas with coniferous vegetation",
+          "el":"Ξ ΟΞΊΞ½Ξ­Ο ΞΌΞΉΞΊΟΞ­Ο Ξ΄Ξ±ΟΟΞ΄Ξ΅ΞΉΟ Ξ΅ΞΊΟΞ¬ΟΞ΅ΞΉΟ ΟΞ±ΟΞΏΟΟΞ―Ξ± ΞΊΟΞ½ΞΏΟΟΟΟΞ½"
+        },
+        "description":{"en":"","el":""},
+        "src":"kitchener:cover_11",
+        "opacity":0.65,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":12,
+        "name":{
+          "en":"Dense mixed wooded areas",
+          "el":"Ξ ΟΞΊΞ½Ξ­Ο ΞΌΞΉΞΊΟΞ­Ο Ξ΄Ξ±ΟΟΞ΄Ξ΅ΞΉΟ Ξ΅ΞΊΟΞ¬ΟΞ΅ΞΉΟ"
+        },
+        "description":{"en":"","el":""},
+        "src":"kitchener:cover_12",
+        "opacity":0.65,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":13,
+        "name":{
+          "en":"Sparse mixed wooded areas without coniferous vegetation",
+          "el":"ΞΟΞ±ΞΉΞ­Ο ΞΌΞΉΞΊΟΞ­Ο Ξ΄Ξ±ΟΟΞ΄Ξ΅ΞΉΟ Ξ΅ΞΊΟΞ¬ΟΞ΅ΞΉΟ Ξ±ΟΞΏΟΟΞ―Ξ± ΞΊΟΞ½ΞΏΟΟΟΟΞ½"
+        },
+        "description":{"en":"","el":""},
+        "src":"kitchener:cover_13",
+        "opacity":0.65,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":14,
+        "name":{"en":"Palm trees","el":"Ξ¦ΞΏΞΉΞ½ΞΉΞΊΟΞ΄Ξ΅Ξ½ΟΟΞ±"},
+        "description":{"en":"","el":""},
+        "src":"kitchener:cover_14",
+        "opacity":0.65,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":15,
+        "name":{
+          "en":"Aquatic riverside vegetation (arboreal or other)",
+          "el":"Ξ₯Ξ΄ΟΞΏΟΞ±ΟΞ�Ο ΟΞ±ΟΟΟΞΈΞΉΞ± Ξ²Ξ»Ξ¬ΟΟΞ·ΟΞ· (Ξ΄Ξ΅Ξ½Ξ΄ΟΟΞ΄Ξ·Ο Ξ� Ξ¬Ξ»Ξ»Ξ·)"
+        },
+        "description":{"en":"","el":""},
+        "src":"kitchener:cover_15",
+        "opacity":0.65,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":21,
+        "name":{
+          "en":"Cultivated crops (arboreal or other)",
+          "el":"ΞΟΞ³Ξ±Ξ½ΟΞΌΞ­Ξ½Ξ΅Ο ΞΊΞ±Ξ»Ξ»ΞΉΞ­ΟΞ³Ξ΅ΞΉΞ΅Ο (Ξ΄Ξ΅Ξ½Ξ΄ΟΟΞ΄Ξ΅ΞΉΟ Ξ� Ξ¬Ξ»Ξ»ΞΏΟ Ξ΅Ξ―Ξ΄ΞΏΟΟ)"
+        },
+        "description":{"en":"","el":""},
+        "src":"kitchener:cover_21",
+        "opacity":0.65,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":22,
+        "name":{
+          "en":"Arboreal crops or utilisations",
+          "el":"ΞΞ΅Ξ½Ξ΄ΟΟΞ΄Ξ΅ΞΉΟ ΞΊΞ±Ξ»Ξ»ΞΉΞ­ΟΞ³Ξ΅ΞΉΞ΅Ο Ξ� Ξ΅ΞΊΞΌΞ΅ΟΞ±Ξ»Ξ»Ξ΅ΟΟΞ΅ΞΉΟ"
+        },
+        "description":{"en":"","el":""},
+        "src":"kitchener:cover_22",
+        "opacity":0.65,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":23,
+        "name":{
+          "en":"High probability of crop (arboreal or other)",
+          "el":"Ξ₯ΟΞ·Ξ»Ξ� ΟΞΉΞΈΞ±Ξ½ΟΟΞ·ΟΞ± ΞΊΞ±Ξ»Ξ»ΞΉΞ­ΟΞ³Ξ΅ΞΉΞ±Ο (Ξ΄Ξ΅Ξ½Ξ΄ΟΟΞ΄ΞΏΟΟ Ξ� Ξ¬Ξ»Ξ»ΞΏΟ Ξ΅Ξ―Ξ΄ΞΏΟΟ)"
+        },
+        "description":{"en":"","el":""},
+        "src":"kitchener:cover_23",
+        "opacity":0.65,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":24,
+        "name":{"en":"Vineyards","el":"ΞΞΌΟΞ΅Ξ»ΟΞ½Ξ΅Ο"},
+        "description":{"en":"","el":""},
+        "src":"kitchener:cover_24",
+        "opacity":0.65,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":31,
+        "name":{"en":"Settlements","el":"ΞΞΉΞΊΞΉΟΞΌΞΏΞ―"},
+        "description":{"en":"","el":""},
+        "src":"kitchener:cover_31",
+        "opacity":0.65,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":32,
+        "name":{"en":"Chiftliks","el":"Ξ€ΟΞΉΟΞ»Ξ―ΞΊΞΉΞ±"},
+        "description":{"en":"","el":""},
+        "src":"kitchener:cover_32",
+        "opacity":0.65,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":33,
+        "name":{"en":"","el":""},
+        "description":{
+          "en":"Small clusters of man-made structures",
+          "el":"ΞΞΉΞΊΟΞΏΟΟΞ³ΞΊΞ΅Ξ½ΟΟΟΟΞ΅ΞΉΟ Ξ±Ξ½ΞΈΟΟΟΞΏΞ³Ξ΅Ξ½ΟΞ½ ΞΊΞ±ΟΞ±ΟΞΊΞ΅ΟΟΞ½"
+        },
+        "src":"kitchener:cover_33",
+        "opacity":0.65,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":34,
+        "name":{"en":"Military camps","el":"Ξ£ΟΟΞ±ΟΟΟΞ΅Ξ΄Ξ±"},
+        "description":{"en":"","el":""},
+        "src":"kitchener:cover_34",
+        "opacity":0.65,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":40,
+        "name":{"en":"Bare land","el":"ΞΟΞΏΞ³ΟΞΌΞ½ΟΞΌΞ­Ξ½Ξ± Ξ΅Ξ΄Ξ¬ΟΞ·"},
+        "description":{"en":"","el":""},
+        "src":"kitchener:cover_40",
+        "opacity":0.65,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":51,
+        "name":{
+          "en":"Sand areas or dunes",
+          "el":"ΞΞΌΞΌΟΞ΄Ξ΅ΞΉΟ Ξ΅ΞΊΟΞ¬ΟΞ΅ΞΉΟ Ξ� ΞΈΞ―Ξ½Ξ΅Ο"
+        },
+        "description":{"en":"","el":""},
+        "src":"kitchener:cover_51",
+        "opacity":0.65,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":52,
+        "name":{
+          "en":"Alluvial deposits",
+          "el":"ΞΞ»Ξ»ΞΏΟΞ²ΞΉΞ±ΞΊΞ­Ο Ξ±ΟΞΏΞΈΞ­ΟΞ΅ΞΉΟ (ΟΞ΅ΟΟΞ¬ ΟΞ»ΞΉΞΊΞ¬)"
+        },
+        "description":{"en":"","el":""},
+        "src":"kitchener:cover_52",
+        "opacity":0.65,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":53,
+        "name":{"en":"Island strips","el":"ΞΟΟΟΞ΅ΟΞΉΞΊΞ­Ο Ξ½Ξ·ΟΞ―Ξ΄Ξ΅Ο"},
+        "description":{"en":"","el":""},
+        "src":"kitchener:cover_53",
+        "opacity":0.65,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":54,
+        "name":{"en":"Coastal cliffs","el":"Ξ Ξ±ΟΞ¬ΞΊΟΞΉΞΏΞΉ ΞΊΟΞ·ΞΌΞ½ΞΏΞ―"},
+        "description":{"en":"","el":""},
+        "src":"kitchener:cover_54",
+        "opacity":0.65,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":55,
+        "name":{"en":"Dry stone walls","el":"ΞΞ΅ΟΞΏΞ»ΞΉΞΈΞΉΞ­Ο"},
+        "description":{"en":"","el":""},
+        "src":"kitchener:cover_55",
+        "opacity":0.65,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":61,
+        "name":{"en":"Swamps, marshes","el":"ΞΞ¬Ξ»ΟΞΏΞΉ, Ξ­Ξ»Ξ·"},
+        "description":{"en":"","el":""},
+        "src":"kitchener:cover_61",
+        "opacity":0.65,
+        "userOrder":1,
+        "isOn":false
+      },
+      {
+        "type":"WMSContained",
+        "parent":"kitchener",
+        "id":62,
+        "name":{"en":"Stagnant water","el":"ΞΞΉΞΌΞ½Ξ¬ΞΆΞΏΞ½ΟΞ± ΟΞ΄Ξ±ΟΞ±"},
+        "description":{"en":"","el":""},
+        "src":"kitchener:cover_62",
+        "opacity":0.65,
+        "userOrder":1,
+        "isOn":false
+      }
+    ]
+  },
+  {
+    "id":80,
+    "name":{
+      "el":"Ξ§Ξ±ΟΟΞΏΞ³ΟΞ±ΟΞΉΞΊΟ ΟΟΟΞ²Ξ±ΞΈΟΞΏ",
+      "en":"Background Basemaps"
+    },
+    "description":{
+      "en":"The list contains some basemaps to add as the map background.",
+      "el":""
+    },
+    "groupIsOn":true,
+    "groupIsClosed":true,
+    "userOrder":10,
+    "opacity":1,
+    "hasTurnOffAllLayersButton":false,
+    "layers":[
+      {
+        "id":20,
+        "name":{
+          "en":"Mosaic of Kitchener's original sheets",
+          "el":"ΞΟΟΞ±ΟΞΊΟ ΟΟΟΟΞΏΞ³Ξ΅Ξ½ΟΞ½ ΟΞΉΞ½Ξ±ΞΊΞ―Ξ΄ΟΞ½ Kitchener"
+        },
+        "description":{
+          "en":"This seamless map layer contains all the 16 original maps from the Kitchener's survey.",
+          "el":"Ξ€ΞΏ Ξ΅Ξ½ΞΏΟΞΏΞΉΞ·ΞΌΞ­Ξ½ΞΏ ΞΈΞ΅ΞΌΞ±ΟΞΉΞΊΟ Ξ±ΟΟΟ Ξ΅ΟΞ―ΟΞ΅Ξ΄o ΟΞ΅ΟΞΉΞ»Ξ±ΞΌΞ²Ξ¬Ξ½Ξ΅ΞΉ ΟΞΉΟ 16 ΟΟΟΟΞΏΞ³Ξ΅Ξ½Ξ΅Ξ―Ο ΟΞΉΞ½Ξ±ΞΊΞ―Ξ΄Ξ΅Ο ΟΞ·Ο Ξ±ΟΞΏΟΟΟΟΟΞ·Ο ΟΞΏΟ Kitchener."
+        },
+        "attribution":{"en":"","el":""},
+        "src":"https://gaia.hua.gr/tms/kitchener_review/{z}/{x}/{-y}.jpg",
+        "type":"tile",
+        "geometryType":"raster",
+        "iconLegend":"legend/icon_kitchener",
+        "opacity":1,
+        "userOrder":2,
+        "isOn":true,
+        "errorTileUrl":"error_tile.jpg",
+        "bounds":[[34,32],[35.8,34.8]],
+        "tileSize":512
+      },
+      {
+        "id":10,
+        "name":{
+          "en":"Kitchener sheet boundaries",
+          "el":"ΞΟΞΉΞ± ΟΞΉΞ½Ξ±ΞΊΞ―Ξ΄ΟΞ½ Kitchener"
+        },
+        "description":{
+          "en":"Helper level containing the borders of the 16 sheets of Kitchener's survey",
+          "el":"ΞΞΏΞ·ΞΈΞ·ΟΞΉΞΊΟ Ξ΅ΟΞ―ΟΞ΅Ξ΄ΞΏ ΟΞΏ ΞΏΟΞΏΞ―ΞΏ ΟΞ΅ΟΞΉΞ­ΟΞ΅ΞΉ ΟΞ± ΟΟΞΉΞ± ΟΟΞ½ 16 ΟΞΉΞ½Ξ±ΞΊΞ―Ξ΄ΟΞ½ ΟΞ·Ο Ξ±ΟΞΏΟΟΟΟΟΞ·Ο ΟΞΏΟ Kitchener"
+        },
+        "src":"kitchener:tiles",
+        "style":{},
+        "opacity":0.45,
+        "userOrder":1,
+        "isOn":false,
+        "properties":["OGR_FID","tilenumber"],
+        "propertyNames_el":["ΞΞ½Ξ±Ξ³Ξ½ΟΟΞΉΟΟΞΉΞΊΟ","ΞΟΞΉΞΈΞΌΟΟ ΟΞΉΞ½Ξ±ΞΊΞ―Ξ΄Ξ±Ο"],
+        "propertyNames_en":["ID","Tile number"]
+      },
+      {
+        "id":30,
+        "name":{"en":"OpenStreetMap (OSM)","el":"Ξ§Ξ¬ΟΟΞ·Ο OpenStreetMap (OSM)"},
+        "description":{
+          "en":"",
+          "el":"Ξ€ΞΏ ΟΞ±ΟΟΞΏΞ³ΟΞ±ΟΞΉΞΊΟ ΟΟΟΞ²Ξ±ΞΈΟΞΏ Ξ±ΟΟ ΟΞΏΞ½ ΞΏΟΞ³Ξ±Ξ½ΞΉΟΞΌΟ OpenStreetMap"
+        },
+        "attribution":{
+          "en":"OpenStreetMap",
+          "el":"OpenStreetMap"
+        },
+        "src":"//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        "iconLegend":"legend/icon_osm.png",
+        "type":"OSM",
+        "geometryType":"raster",
+        "opacity":1,
+        "bounds":[[30,23],[38,43]],
+        "userOrder":3,
+        "isOn":false,
+        "properties":[],
+        "showRecords":false,
+        "tileSize":256
+      },
+      {
+        "id":40,
+        "name":{
+          "en":"ESRI World Imagery",
+          "el":"ΞΞΏΟΟΟΞΏΟΞΉΞΊΞ� Ξ΅ΞΉΞΊΟΞ½Ξ± ESRI"
+        },
+        "description":{"en":" ESRI","el":" ESRI"},
+        "attribution":{
+          "en":"Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
+          "el":"Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community"
+        },
+        "src":"https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        "iconLegend":"legend/icon_osm.png",
+        "type":"tile",
+        "geometryType":"raster",
+        "opacity":1,
+        "bounds":[[30,23],[38,43]],
+        "userOrder":4,
+        "isOn":false,
+        "properties":[],
+        "showRecords":false,
+        "tileSize":256
+      },
+      {
+        "id":50,
+        "name":{
+          "en":"ESRI World Topographic Map",
+          "el":"Ξ Ξ±Ξ³ΞΊΟΟΞΌΞΉΞΏΟ ΟΞΏΟΞΏΞ³ΟΞ±ΟΞΉΞΊΟΟ ΟΞ¬ΟΟΞ·Ο ESRI"
+        },
+        "description":{"en":" ESRI","el":"ESRI"},
+        "attribution":{
+          "en":"Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community",
+          "el":"Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community"
+        },
+        "src":"https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
+        "iconLegend":"legend/icon_osm.png",
+        "type":"tile",
+        "geometryType":"raster",
+        "opacity":1,
+        "bounds":[[30,23],[38,43]],
+        "userOrder":5,
+        "isOn":false,
+        "properties":[],
+        "showRecords":false,
+        "tileSize":256
+      }
+    ]
+  }
+]</string>
 </resources>

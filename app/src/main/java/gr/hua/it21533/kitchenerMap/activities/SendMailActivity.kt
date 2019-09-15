@@ -105,7 +105,7 @@ class SendMailActivity : AppCompatActivity() {
 
     @Throws(IOException::class)
     private fun createImageFile(): File {
-        // Create an image file name
+        // Create an image file language
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         val storageDir: File = this.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File.createTempFile(
