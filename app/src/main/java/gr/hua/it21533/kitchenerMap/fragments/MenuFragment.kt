@@ -12,7 +12,6 @@ import kotlinx.android.synthetic.main.fragment_menu.*
 
 class MenuFragment : Fragment() {
 
-    private val TAG = "MENU_FRAGMENT"
     var delegate: MenuView? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

@@ -74,7 +74,7 @@
     <string name="menu_item_opacity_slider">Background Basemaps</string>
     <string name="menu_item_feedback">Feedback</string>
     <string name="menu_item_about_the_application">About this app</string>
-    <string name="menu_item_types_of_places">Places of interest</string>
+    <string name="menu_item_types_of_places">Map layers</string>
     <string name="select_language">Language:</string>
     <string name="title_activity_maps">Kitchener\'s Map</string>
     <string name="feedback_comment_label">Comment:</string>

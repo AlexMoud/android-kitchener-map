@@ -27,6 +27,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import gr.hua.it21533.kitchenerMap.KitchenerMap
 import gr.hua.it21533.kitchenerMap.R
 import gr.hua.it21533.kitchenerMap.fragments.FeedbackFragment
 import gr.hua.it21533.kitchenerMap.fragments.MenuFragment
@@ -86,25 +87,6 @@ class MapsActivity :
         typesOfPlacesFragment.delegate = this
         searchFragment.delegate = this
         menuFragment.delegate = this
-
-        val layers = LayersHelper.getLayersData()
-        layers.forEach {
-            Log.w("LAYERS", it.name.en)
-        }
-    }
-
-    private fun testSettingsApi() {
-        val call = API.create().getSettings()
-        call.enqueue(object : retrofit2.Callback<String> {
-            override fun onFailure(call: Call<String>, t: Throwable) {
-                Log.e(TAG, t.localizedMessage)
-            }
-
-            override fun onResponse(call: Call<String>, response: Response<String>) {
-                Log.d(TAG, response.body()!!)
-            }
-
-        })
     }
 
     private fun checkForPermissions() {
@@ -366,9 +348,7 @@ class MapsActivity :
     }
 
     private fun loadLocale() {
-        val sharedPreferences = getSharedPreferences("Settings", Activity.MODE_PRIVATE)
-        val language = sharedPreferences.getString("My Lang", "")
-        setLocale(language, false)
+        setLocale(KitchenerMap.applicationContext().selectedLocale, false)
     }
 
     override fun setLocale(lang: String, reload: Boolean) {
@@ -377,6 +357,7 @@ class MapsActivity :
         val config = Configuration()
         config.locale = locale
         resources.updateConfiguration(config, resources.displayMetrics)
+        KitchenerMap.applicationContext().saveLocale(lang)
         val editor = getSharedPreferences("Settings", Context.MODE_PRIVATE).edit()
         editor.putString("My Lang", lang)
         editor.apply()

@@ -2,7 +2,7 @@
     <string name="app_name">Kitchener\'s Map</string>
     <string name="title_activity_maps">Kitchener\'s Map</string>
     <string name="select_language">Γλώσσα:</string>
-    <string name="menu_item_types_of_places">Σημεία Ενδιαφέροντος</string>
+    <string name="menu_item_types_of_places">Χαρτογραφικά επίπεδα</string>
     <string name="menu_item_search">Αναζήτηση σημείου</string>
     <string name="menu_item_about_the_application">Σχετικά με την εφαρμογή</string>
     <string name="menu_item_feedback">Ανατροφοδότηση</string>

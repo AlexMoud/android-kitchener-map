@@ -10,7 +10,8 @@ object LayersHelper {
 
     fun getLayersData(): ArrayList<Base> {
         val json = JsonParser().parse(stringData).asJsonArray
-        var result = ArrayList<Base>()
+        json.remove(0)
+        val result = ArrayList<Base>()
         json.forEach {
             result.add(Gson().fromJson(it, Base::class.java))
         }
