@@ -1,7 +1,7 @@
 package gr.hua.it21533.kitchenerMap.interfaces
 
 interface MenuView {
-    fun didFilterChange(filterValue: String, filterType: String)
+    fun didFilterChange()
     fun onTextSearch(searchValue: String, filterType: String)
     fun backToMenu()
     fun replaceMenuFragments(menuItem: String)

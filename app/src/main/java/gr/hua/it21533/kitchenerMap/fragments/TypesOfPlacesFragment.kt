@@ -6,18 +6,20 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.thoughtbot.expandablecheckrecyclerview.listeners.OnCheckChildClickListener
+import com.thoughtbot.expandablecheckrecyclerview.models.CheckedExpandableGroup
 import gr.hua.it21533.kitchenerMap.R
 import gr.hua.it21533.kitchenerMap.adapters.MapLayersAdapter
 import gr.hua.it21533.kitchenerMap.helpers.LayersHelper
+import gr.hua.it21533.kitchenerMap.helpers.TileProviderFactory
 import gr.hua.it21533.kitchenerMap.interfaces.MenuView
 import gr.hua.it21533.kitchenerMap.models.Base
+import gr.hua.it21533.kitchenerMap.models.MapLayer
 import gr.hua.it21533.kitchenerMap.multiCheckExpandableList.MultiCheckMapLayerParentAdapter
 import kotlinx.android.synthetic.main.fragment_types_of_places.*
 
-class TypesOfPlacesFragment: Fragment() {
+class TypesOfPlacesFragment: Fragment(), OnCheckChildClickListener {
 
-    private var types = ArrayList<Base>()
-    private var selectedTypes = ArrayList<Base>()
     private var started = false
     var delegate: MenuView? = null
 
@@ -27,9 +29,7 @@ class TypesOfPlacesFragment: Fragment() {
 
     override fun onStart() {
         super.onStart()
-        if(!started) {
-            addCheckboxesContent()
-        }
+
         started = true
         addTypesOfPlacesCheckboxes()
         backToMenu.setOnClickListener {
@@ -37,23 +37,21 @@ class TypesOfPlacesFragment: Fragment() {
         }
     }
 
-    private fun addCheckboxesContent() {
-        types = LayersHelper.getLayersData()
-    }
-
     private fun addTypesOfPlacesCheckboxes() {
         typesCheckboxes.layoutManager = LinearLayoutManager(context)
-//        typesCheckboxes.adapter = MapLayersAdapter(types, context!!, selectedTypes) { item: String -> itemTypeClicked(item) }
 
-        typesCheckboxes.adapter = MultiCheckMapLayerParentAdapter(LayersHelper.getLayerParents())
+        val adapter = MultiCheckMapLayerParentAdapter(LayersHelper.data)
+        typesCheckboxes.adapter = adapter
+        adapter.setChildClickListener(this )
     }
 
-    private fun itemTypeClicked(item: String) {
-//        if (selectedTypes.contains(item)) {
-//            selectedTypes.remove(item)
-//        } else {
-//            selectedTypes.add(item)
-//        }
-        delegate?.didFilterChange(selectedTypes.joinToString(), "types")
+    override fun onCheckChildCLick(v: View?, checked: Boolean, group: CheckedExpandableGroup?, childIndex: Int) {
+        val layer = (group?.items?.get(childIndex) as MapLayer).data.src
+        if (checked) {
+            TileProviderFactory.layers.add(layer)
+        }else {
+            TileProviderFactory.layers.remove(layer)
+        }
+        delegate?.didFilterChange()
     }
 }

@@ -34,6 +34,7 @@ import gr.hua.it21533.kitchenerMap.fragments.MenuFragment
 import gr.hua.it21533.kitchenerMap.fragments.SearchFragment
 import gr.hua.it21533.kitchenerMap.fragments.TypesOfPlacesFragment
 import gr.hua.it21533.kitchenerMap.helpers.LayersHelper
+import gr.hua.it21533.kitchenerMap.helpers.TileProviderFactory
 import gr.hua.it21533.kitchenerMap.interfaces.MapsActivityView
 import gr.hua.it21533.kitchenerMap.interfaces.MenuView
 import gr.hua.it21533.kitchenerMap.networking.API
@@ -57,6 +58,8 @@ class MapsActivity :
     private val TAG = "MAPS_ACTIVITY"
     private lateinit var baseMap: GoogleMap
     private lateinit var kitchenerMapOverlay: TileOverlay
+    private lateinit var kitchenerMapWMSOverlay: TileOverlay
+    private lateinit var kitchenerMapWMSOverlayLegend: TileOverlay
     private lateinit var mapsPresenter: MapsActivityPresenter
     private var sliderVisible = true
     private var markersList = ArrayList<Marker>()
@@ -171,6 +174,10 @@ class MapsActivity :
         }
         kitchenerMapOverlay = baseMap.addTileOverlay(TileOverlayOptions().tileProvider(tileProvider))
         kitchenerMapOverlay.transparency = 0f
+
+        val tileProviderWMS = TileProviderFactory.tileProvider
+        kitchenerMapWMSOverlay = baseMap.addTileOverlay(TileOverlayOptions().tileProvider(tileProviderWMS))
+        kitchenerMapWMSOverlay.transparency = 0f
     }
 
     private fun enableLocationFunctionality() {
@@ -243,6 +250,7 @@ class MapsActivity :
 
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                 kitchenerMapOverlay.transparency = 1 - (progress.toFloat() / 100)
+                kitchenerMapWMSOverlay.transparency = kitchenerMapOverlay.transparency
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {
@@ -323,10 +331,10 @@ class MapsActivity :
         }
     }
 
-    override fun didFilterChange(filterValue: String, filterType: String) {
-        mapsPresenter.addToTypesQuery(filterType, filterValue)
-        mapsPresenter.loadTypesMarkers()
-        showLoading()
+    override fun didFilterChange() {
+
+        kitchenerMapWMSOverlay.remove()
+        kitchenerMapWMSOverlay = baseMap.addTileOverlay(TileOverlayOptions().tileProvider(TileProviderFactory.tileProvider))
     }
 
     override fun onTextSearch(searchValue: String, filterType: String) {

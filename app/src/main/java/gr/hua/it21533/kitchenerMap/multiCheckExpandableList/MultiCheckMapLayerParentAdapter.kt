@@ -1,8 +1,10 @@
 package gr.hua.it21533.kitchenerMap.multiCheckExpandableList
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import com.thoughtbot.expandablecheckrecyclerview.CheckableChildRecyclerViewAdapter
+import com.thoughtbot.expandablecheckrecyclerview.ChildCheckController
 import com.thoughtbot.expandablecheckrecyclerview.models.CheckedExpandableGroup
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup
 import gr.hua.it21533.kitchenerMap.R
@@ -32,4 +34,10 @@ class MultiCheckMapLayerParentAdapter(groups: MutableList<MapLayerParent>) : Che
     override fun onBindGroupViewHolder(holder: MapLayerParentViewHolder, flatPosition: Int, group: ExpandableGroup<*>) {
         holder.setTitle(group)
     }
+
+    override fun onChildCheckChanged(view: View?, checked: Boolean, flatPos: Int) {
+        super.onChildCheckChanged(view, checked, flatPos)
+    }
+
+
 }
