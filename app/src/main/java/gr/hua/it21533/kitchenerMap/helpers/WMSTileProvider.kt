@@ -9,7 +9,7 @@ abstract class WMSTileProvider(x: Int, y: Int) : UrlTileProvider(x, y) {
 
     // Return a web Mercator bounding box given tile x/y indexes and a zoom
     // level.
-    protected fun getBoundingBox(x: Int, y: Int, zoom: Int): DoubleArray {
+    fun getBoundingBox(x: Int, y: Int, zoom: Int): DoubleArray {
         val tileSize = MAP_SIZE / 2.0.pow(zoom.toDouble())
         val minx = TILE_ORIGIN[ORIG_X] + x * tileSize
         val maxx = TILE_ORIGIN[ORIG_X] + (x + 1) * tileSize

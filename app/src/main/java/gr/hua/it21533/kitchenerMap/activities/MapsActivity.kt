@@ -35,6 +35,7 @@ import gr.hua.it21533.kitchenerMap.fragments.SearchFragment
 import gr.hua.it21533.kitchenerMap.fragments.TypesOfPlacesFragment
 import gr.hua.it21533.kitchenerMap.helpers.LayersHelper
 import gr.hua.it21533.kitchenerMap.helpers.TileProviderFactory
+import gr.hua.it21533.kitchenerMap.helpers.WMSTileProvider
 import gr.hua.it21533.kitchenerMap.interfaces.MapsActivityView
 import gr.hua.it21533.kitchenerMap.interfaces.MenuView
 import gr.hua.it21533.kitchenerMap.networking.API
@@ -47,19 +48,14 @@ import java.net.MalformedURLException
 import java.net.URL
 import java.util.*
 
-class MapsActivity :
-    AppCompatActivity(),
-    GoogleMap.OnMyLocationButtonClickListener,
-    OnMapReadyCallback,
-    MenuView,
-    MapsActivityView {
+class MapsActivity : AppCompatActivity(), GoogleMap.OnMyLocationButtonClickListener, OnMapReadyCallback, MenuView, MapsActivityView, GoogleMap.OnMapClickListener {
 
     private val REQUEST_LOCATION_PERMISSIONS = 1
     private val TAG = "MAPS_ACTIVITY"
     private lateinit var baseMap: GoogleMap
     private lateinit var kitchenerMapOverlay: TileOverlay
     private lateinit var kitchenerMapWMSOverlay: TileOverlay
-    private lateinit var kitchenerMapWMSOverlayLegend: TileOverlay
+    private lateinit var tileProviderWMS: WMSTileProvider
     private lateinit var mapsPresenter: MapsActivityPresenter
     private var sliderVisible = true
     private var markersList = ArrayList<Marker>()
@@ -175,9 +171,11 @@ class MapsActivity :
         kitchenerMapOverlay = baseMap.addTileOverlay(TileOverlayOptions().tileProvider(tileProvider))
         kitchenerMapOverlay.transparency = 0f
 
-        val tileProviderWMS = TileProviderFactory.tileProvider
+        tileProviderWMS = TileProviderFactory.tileProvider
         kitchenerMapWMSOverlay = baseMap.addTileOverlay(TileOverlayOptions().tileProvider(tileProviderWMS))
         kitchenerMapWMSOverlay.transparency = 0f
+
+        baseMap.setOnMapClickListener(this)
     }
 
     private fun enableLocationFunctionality() {
@@ -401,4 +399,35 @@ class MapsActivity :
         }
     }
 
+    override fun onMapClick(p0: LatLng?) {
+        val point = baseMap.projection.toScreenLocation(p0)
+        var stringUrl = TileProviderFactory.featureInfoString
+        stringUrl = stringUrl + "&i=" + point.x + "&j=" + point.y
+        Log.e("on tap", stringUrl)
+
+    }
+
+    val ORIGIN_SHIFT = Math.PI * 6378137.0
+
+    /**
+     * Transform the y map meter in y cordinate
+     *
+     * @param latitude the latitude of map
+     * @return meters of y cordinate
+     */
+    private fun inMetersYCoordinate(latitude: Double): Double {
+        return if (latitude < 0) {
+            -inMetersYCoordinate(-latitude)
+        } else Math.log(Math.tan((90.0 + latitude) * Math.PI / 360.0)) / (Math.PI / 180.0) * ORIGIN_SHIFT / 180.0
+    }
+
+    /**
+     * Transform the x map meter in x cordinate
+     *
+     * @param longitude the longitude of map
+     * @return meters of x cordinate
+     */
+    private fun inMetersXCoordinate(longitude: Double): Double {
+        return longitude * ORIGIN_SHIFT / 180.0
+    }
 }

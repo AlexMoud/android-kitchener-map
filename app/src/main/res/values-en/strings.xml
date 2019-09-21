@@ -93,4 +93,6 @@
     <string name="types_of_places_restaurant">Restaurants</string>
     <string name="types_of_places_supermarket">Supermarkets</string>
     <string name="menu_item_search">Search for a place</string>
+    <string name="search_hint">Enter search term</string>
+    <string name="search_subtitle">Please type at least 3 characters</string>
 </resources>

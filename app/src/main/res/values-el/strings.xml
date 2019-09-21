@@ -92,4 +92,6 @@
     <string name="types_of_places_restaurant">Εστιατόρια</string>
     <string name="types_of_places_supermarket">Σουπερμάρκετ</string>
     <string name="menu_item_search">Αναζήτηση σημείου</string>
+    <string name="search_hint">Κείμενο για αναζήτηση</string>
+    <string name="search_subtitle">Πληκτρολογήστε τουλάχιστον 3 χαρακτήρες</string>
 </resources>
