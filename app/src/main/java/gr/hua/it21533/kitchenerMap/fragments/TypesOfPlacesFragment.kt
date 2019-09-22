@@ -9,11 +9,9 @@ import android.view.ViewGroup
 import com.thoughtbot.expandablecheckrecyclerview.listeners.OnCheckChildClickListener
 import com.thoughtbot.expandablecheckrecyclerview.models.CheckedExpandableGroup
 import gr.hua.it21533.kitchenerMap.R
-import gr.hua.it21533.kitchenerMap.adapters.MapLayersAdapter
 import gr.hua.it21533.kitchenerMap.helpers.LayersHelper
 import gr.hua.it21533.kitchenerMap.helpers.TileProviderFactory
 import gr.hua.it21533.kitchenerMap.interfaces.MenuView
-import gr.hua.it21533.kitchenerMap.models.Base
 import gr.hua.it21533.kitchenerMap.models.MapLayer
 import gr.hua.it21533.kitchenerMap.multiCheckExpandableList.MultiCheckMapLayerParentAdapter
 import kotlinx.android.synthetic.main.fragment_types_of_places.*

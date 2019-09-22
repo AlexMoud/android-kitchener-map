@@ -1,31 +1,29 @@
 package gr.hua.it21533.kitchenerMap.fragments
 
-import SearchResult
+import gr.hua.it21533.kitchenerMap.models.SearchResult
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.google.gson.Gson
 import com.google.gson.JsonParser
 import gr.hua.it21533.kitchenerMap.R
 import gr.hua.it21533.kitchenerMap.activities.MapsActivity
-import gr.hua.it21533.kitchenerMap.helpers.LayersHelper
+import gr.hua.it21533.kitchenerMap.adapters.POIAdapter
 import gr.hua.it21533.kitchenerMap.interfaces.MenuView
-import gr.hua.it21533.kitchenerMap.models.Base
+import gr.hua.it21533.kitchenerMap.models.Features
 import gr.hua.it21533.kitchenerMap.networking.API
 import kotlinx.android.synthetic.main.fragment_search.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.http.GET
 
 
 class SearchFragment : Fragment(), SearchView.OnQueryTextListener, Callback<String> {
 
 
-    private val TAG = "SEARCH_FRAGMENT"
     var delegate: MenuView? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -39,6 +37,18 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener, Callback<Stri
         }
 
         search_bar.setOnQueryTextListener(this)
+        context?.let {
+            val adapter = POIAdapter(it, ArrayList()) {
+                //TODO: on feature selection
+            }
+            recycler.layoutManager = LinearLayoutManager(it)
+            recycler.adapter = adapter
+        }
+    }
+
+    private fun reloadRecycler(features: List<Features>) {
+        (recycler.adapter as? POIAdapter)?.data = features
+        recycler.adapter?.notifyDataSetChanged()
     }
 
     override fun onQueryTextSubmit(p0: String?): Boolean {
@@ -61,11 +71,24 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener, Callback<Stri
                 val call = API.create().textSearch(baseUrl)
                 call.enqueue(this)
             }else {
-                //TODO: clear recycler
+                clearSearch()
             }
         }
 
         return true
+    }
+
+    private fun clearSearch() {
+        reloadRecycler(ArrayList())
+        subtitle.text = activity?.resources?.getString(R.string.search_subtitle)
+    }
+
+    private fun refreshSearch(searchResult: SearchResult) {
+        var s = activity?.resources?.getString(R.string.search_result_subtitle)
+        s = s?.replace("$", searchResult.numberReturned.toString(), false)
+        subtitle.text = s
+
+        reloadRecycler(searchResult.features)
     }
 
     override fun onFailure(call: Call<String>, t: Throwable) {
@@ -74,10 +97,8 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener, Callback<Stri
 
     override fun onResponse(call: Call<String>, response: Response<String>) {
         val json = JsonParser().parse(response.body()).asJsonObject
-        print(json)
-        val result: SearchResult = Gson().fromJson(json, SearchResult::class.java)
-        //TODO: refresh Recycler
-        print(result)
+        val result = SearchResult(json)
+        refreshSearch(result)
     }
 }
 

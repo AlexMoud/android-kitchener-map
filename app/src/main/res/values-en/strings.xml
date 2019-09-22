@@ -95,4 +95,5 @@
     <string name="menu_item_search">Search for a place</string>
     <string name="search_hint">Enter search term</string>
     <string name="search_subtitle">Please type at least 3 characters</string>
+    <string name="search_result_subtitle">$ results found</string>
 </resources>

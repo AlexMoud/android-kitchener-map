@@ -107,4 +107,5 @@
     <string name="types_of_places_coffee_shops">Καφετέριες</string>
     <string name="search_hint">Enter search term</string>
     <string name="search_subtitle">Please type at least 3 characters</string>
+    <string name="search_result_subtitle">$ results found</string>
 </resources>

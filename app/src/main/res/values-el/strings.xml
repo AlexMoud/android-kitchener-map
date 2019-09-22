@@ -94,4 +94,5 @@
     <string name="menu_item_search">Αναζήτηση σημείου</string>
     <string name="search_hint">Κείμενο για αναζήτηση</string>
     <string name="search_subtitle">Πληκτρολογήστε τουλάχιστον 3 χαρακτήρες</string>
+    <string name="search_result_subtitle">$ αποτελέσματα βρέθηκαν</string>
 </resources>
