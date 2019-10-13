@@ -40,6 +40,7 @@ import gr.hua.it21533.kitchenerMap.interfaces.MenuView
 import gr.hua.it21533.kitchenerMap.models.Features
 import gr.hua.it21533.kitchenerMap.networking.API
 import gr.hua.it21533.kitchenerMap.networking.ApiModel
+import gr.hua.it21533.kitchenerMap.networking.Interactor
 import kotlinx.android.synthetic.main.activity_maps.*
 import kotlinx.android.synthetic.main.fragment_menu.*
 import retrofit2.Call
@@ -420,46 +421,8 @@ class MapsActivity : AppCompatActivity(), GoogleMap.OnMyLocationButtonClickListe
     }
 
     private fun loadFeaturesOnLocation(location: LatLng) {
-        val latSW = location.latitude - 0.00001
-        val lonSW = location.longitude - 0.00001
-        val latNE = location.latitude + 0.00001
-        val lonNE = location.longitude + 0.00001
-        var baseUrl = "geoserver/ows?service=WMS&resource=02422ff9-9e60-430f-bbc5-bb5324359198" +
-                "&version=1.3.0" +
-                "&request=GetFeatureInfo" +
-                "&FORMAT=image/png" +
-                "&TRANSPARENT=true" +
-                "&INFO_FORMAT=application/json" +
-                "&FEATURE_COUNT=1000" +
-                "&EXCEPTIONS=application/json" +
-                "&QUERY_LAYERS=%t" +
-                "&LAYERS=%s" +
-                "&I=50" +
-                "&J=50" +
-                "&CRS=EPSG:4326" +
-                "&STYLES=" +
-                "&WIDTH=101" +
-                "&HEIGHT=101" +
-                "&BBOX=" + latSW + "," + lonSW + "," + latNE + "," + lonNE
-
-        val layerString = LayersHelper.allLayersUrlEncoded
-        baseUrl = baseUrl.replace("%t",layerString).replace("%s", layerString)
-        val call = API.create().getFeatureDetails(baseUrl)
-        call.enqueue(object: Callback<String> {
-            override fun onFailure(call: Call<String>, t: Throwable) {
-
-            }
-
-            override fun onResponse(call: Call<String>, response: Response<String>) {
-                if (response.body() != null) {
-//                    val json = JsonParser().parse(response.body()).asJsonObject
-//TODO: parse object
-                }
-
-            }
-
-        })
+        Interactor.shared.loadFeauteresOnLocation(location) { featuresArray ->
+            Log.d("on map click", featuresArray.first().toString())
+        }
     }
-
-    //TODO: create info window for feature details
 }

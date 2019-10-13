@@ -4,14 +4,11 @@ import com.google.gson.JsonObject
 import gr.hua.it21533.kitchenerMap.KitchenerMap
 
 
-class SearchResult(json: JsonObject) {
+open class SearchResult(json: JsonObject) {
 
 	val type : String = json.get("type").asString
 	val features : List<Features>
-	val totalFeatures : Int = json.get("totalFeatures").asInt
-	val numberMatched : Int = json.get("numberMatched").asInt
 	val numberReturned : Int = json.get("numberReturned").asInt
-	val timeStamp : String = json.get("timeStamp").asString
 	var crs : Crs? = null
 
 	init {
