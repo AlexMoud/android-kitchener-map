@@ -1,6 +1,7 @@
 package gr.hua.it21533.kitchenerMap.helpers
 
 import com.google.android.gms.maps.model.TileProvider
+import gr.hua.it21533.kitchenerMap.models.MapLayer
 import java.net.MalformedURLException
 import java.net.URL
 

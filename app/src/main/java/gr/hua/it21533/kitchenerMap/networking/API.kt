@@ -16,6 +16,9 @@ interface API {
     @GET
     fun textSearch(@Url url: String): Call<String>
 
+    @GET
+    fun getFeatureDetails(@Url url: String): Call<String>
+
     companion object {
         fun create(): API {
 

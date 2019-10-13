@@ -5,15 +5,21 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
 import com.google.gson.JsonParser
 import gr.hua.it21533.kitchenerMap.R
 import gr.hua.it21533.kitchenerMap.activities.MapsActivity
 import gr.hua.it21533.kitchenerMap.adapters.POIAdapter
+import gr.hua.it21533.kitchenerMap.helpers.LayersHelper
+import gr.hua.it21533.kitchenerMap.helpers.TileProviderFactory
 import gr.hua.it21533.kitchenerMap.interfaces.MenuView
 import gr.hua.it21533.kitchenerMap.models.Features
+import gr.hua.it21533.kitchenerMap.models.MapLayer
 import gr.hua.it21533.kitchenerMap.networking.API
 import kotlinx.android.synthetic.main.fragment_search.*
 import retrofit2.Call
@@ -38,12 +44,16 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener, Callback<Stri
 
         search_bar.setOnQueryTextListener(this)
         context?.let {
-            val adapter = POIAdapter(it, ArrayList()) {
-                //TODO: on feature selection
+            val adapter = POIAdapter(it, ArrayList()) { features ->
+                loadFeatureDetails(features)
             }
             recycler.layoutManager = LinearLayoutManager(it)
             recycler.adapter = adapter
         }
+    }
+
+    private fun loadFeatureDetails(features: Features) {
+        delegate?.zoomOnPlace(features)
     }
 
     private fun reloadRecycler(features: List<Features>) {
@@ -66,7 +76,7 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener, Callback<Stri
                         "&viewparams=term:" +
                         it +
                         "&resource=02422ff9-9e60-430f-bbc5-bb5324359198" +
-                        "&srsName=EPSG:3857"
+                        "&srsName=EPSG:4326"
 
                 val call = API.create().textSearch(baseUrl)
                 call.enqueue(this)

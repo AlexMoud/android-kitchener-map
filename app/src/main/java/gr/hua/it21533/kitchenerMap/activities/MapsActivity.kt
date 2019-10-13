@@ -1,7 +1,6 @@
 package gr.hua.it21533.kitchenerMap.activities
 
 import android.Manifest
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -38,11 +37,13 @@ import gr.hua.it21533.kitchenerMap.helpers.TileProviderFactory
 import gr.hua.it21533.kitchenerMap.helpers.WMSTileProvider
 import gr.hua.it21533.kitchenerMap.interfaces.MapsActivityView
 import gr.hua.it21533.kitchenerMap.interfaces.MenuView
+import gr.hua.it21533.kitchenerMap.models.Features
 import gr.hua.it21533.kitchenerMap.networking.API
 import gr.hua.it21533.kitchenerMap.networking.ApiModel
 import kotlinx.android.synthetic.main.activity_maps.*
 import kotlinx.android.synthetic.main.fragment_menu.*
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Response
 import java.net.MalformedURLException
 import java.net.URL
@@ -335,10 +336,18 @@ class MapsActivity : AppCompatActivity(), GoogleMap.OnMyLocationButtonClickListe
         kitchenerMapWMSOverlay = baseMap.addTileOverlay(TileOverlayOptions().tileProvider(TileProviderFactory.tileProvider))
     }
 
-    override fun onTextSearch(searchValue: String, filterType: String) {
-        mapsPresenter.addToTextSearchQuery(filterType, searchValue)
-        mapsPresenter.loadTextMarkers()
+    override fun showLoader() {
         showLoading()
+    }
+
+    override fun hideLoader() {
+        hideLoading()
+    }
+
+    override fun zoomOnPlace(features: Features) {
+        val location = features.geometry.point ?: features.geometry.points?.first()
+        baseMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, baseMap.cameraPosition.zoom))
+        drawer_layout.closeDrawer(GravityCompat.START)
     }
 
     override fun backToMenu() {
@@ -405,29 +414,52 @@ class MapsActivity : AppCompatActivity(), GoogleMap.OnMyLocationButtonClickListe
         stringUrl = stringUrl + "&i=" + point.x + "&j=" + point.y
         Log.e("on tap", stringUrl)
 
+        p0?.let {
+            loadFeaturesOnLocation(it)
+        }
     }
 
-    val ORIGIN_SHIFT = Math.PI * 6378137.0
+    private fun loadFeaturesOnLocation(location: LatLng) {
+        val latSW = location.latitude - 0.00001
+        val lonSW = location.longitude - 0.00001
+        val latNE = location.latitude + 0.00001
+        val lonNE = location.longitude + 0.00001
+        var baseUrl = "geoserver/ows?service=WMS&resource=02422ff9-9e60-430f-bbc5-bb5324359198" +
+                "&version=1.3.0" +
+                "&request=GetFeatureInfo" +
+                "&FORMAT=image/png" +
+                "&TRANSPARENT=true" +
+                "&INFO_FORMAT=application/json" +
+                "&FEATURE_COUNT=1000" +
+                "&EXCEPTIONS=application/json" +
+                "&QUERY_LAYERS=%t" +
+                "&LAYERS=%s" +
+                "&I=50" +
+                "&J=50" +
+                "&CRS=EPSG:4326" +
+                "&STYLES=" +
+                "&WIDTH=101" +
+                "&HEIGHT=101" +
+                "&BBOX=" + latSW + "," + lonSW + "," + latNE + "," + lonNE
 
-    /**
-     * Transform the y map meter in y cordinate
-     *
-     * @param latitude the latitude of map
-     * @return meters of y cordinate
-     */
-    private fun inMetersYCoordinate(latitude: Double): Double {
-        return if (latitude < 0) {
-            -inMetersYCoordinate(-latitude)
-        } else Math.log(Math.tan((90.0 + latitude) * Math.PI / 360.0)) / (Math.PI / 180.0) * ORIGIN_SHIFT / 180.0
+        val layerString = LayersHelper.allLayersUrlEncoded
+        baseUrl = baseUrl.replace("%t",layerString).replace("%s", layerString)
+        val call = API.create().getFeatureDetails(baseUrl)
+        call.enqueue(object: Callback<String> {
+            override fun onFailure(call: Call<String>, t: Throwable) {
+
+            }
+
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                if (response.body() != null) {
+//                    val json = JsonParser().parse(response.body()).asJsonObject
+//TODO: parse object
+                }
+
+            }
+
+        })
     }
 
-    /**
-     * Transform the x map meter in x cordinate
-     *
-     * @param longitude the longitude of map
-     * @return meters of x cordinate
-     */
-    private fun inMetersXCoordinate(longitude: Double): Double {
-        return longitude * ORIGIN_SHIFT / 180.0
-    }
+    //TODO: create info window for feature details
 }

@@ -14,8 +14,8 @@ class Geometry(json: JsonObject) {
 	init {
 	    when {
 			isPoint -> {
-				val lat = json.getAsJsonArray("coordinates").get(0).asDouble
-				val lng = json.getAsJsonArray("coordinates").get(1).asDouble
+				val lng = json.getAsJsonArray("coordinates").get(0).asDouble
+				val lat = json.getAsJsonArray("coordinates").get(1).asDouble
 				if (lat != null && lng != null) {
 					point = LatLng(lat, lng)
 				}
@@ -26,8 +26,8 @@ class Geometry(json: JsonObject) {
 					val points = ArrayList<LatLng>()
 					val realArray = coordinatesArray.get(0).asJsonArray
 					for (i in 0 until realArray.size()) {
-						val lat = realArray.get(i).asJsonArray.get(0).asDouble
-						val lng = realArray.get(i).asJsonArray.get(1).asDouble
+						val lng = realArray.get(i).asJsonArray.get(0).asDouble
+						val lat = realArray.get(i).asJsonArray.get(1).asDouble
 						if (lat != null && lng != null) {
 							points.add(LatLng(lat, lng))
 						}
