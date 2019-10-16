@@ -108,4 +108,9 @@
     <string name="search_hint">Enter search term</string>
     <string name="search_subtitle">Please type at least 3 characters</string>
     <string name="search_result_subtitle">$ results found</string>
+    <string name="name">Name:</string>
+    <string name="name_in_greek">Name in Greek:</string>
+    <string name="name_in_english">Name in English:</string>
+    <string name="second_name">Second name:</string>
+    <string name="district">District:</string>
 </resources>

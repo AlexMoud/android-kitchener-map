@@ -16,10 +16,10 @@ class Interactor {
     }
 
     fun loadFeauteresOnLocation(location: LatLng, onSuccess: (List<Features>) -> Unit) {
-        val latSW = location.latitude - 0.00001
-        val lonSW = location.longitude - 0.00001
-        val latNE = location.latitude + 0.00001
-        val lonNE = location.longitude + 0.00001
+        val latSW = location.latitude - 0.05
+        val lonSW = location.longitude - 0.05
+        val latNE = location.latitude + 0.05
+        val lonNE = location.longitude + 0.05
         var baseUrl = "geoserver/ows?service=WMS&resource=02422ff9-9e60-430f-bbc5-bb5324359198" +
                 "&version=1.3.0" +
                 "&request=GetFeatureInfo" +
@@ -38,7 +38,10 @@ class Interactor {
                 "&HEIGHT=101" +
                 "&BBOX=" + latSW + "," + lonSW + "," + latNE + "," + lonNE
 
-        val layerString = LayersHelper.allLayersUrlEncoded
+        val layerString = LayersHelper.getLayers()
+        if (layerString == "") {
+            return
+        }
         baseUrl = baseUrl.replace("%t",layerString).replace("%s", layerString)
 
 
@@ -51,7 +54,7 @@ class Interactor {
             override fun onResponse(call: Call<String>, response: Response<String>) {
                 response.body()?.let { body ->
                     val parsedBody = JsonParser().parse(body)
-                    if (parsedBody.isJsonObject && parsedBody.asJsonObject.get("features").isJsonArray) {
+                    if (parsedBody.isJsonObject && parsedBody.asJsonObject.has("features") && parsedBody.asJsonObject.get("features").isJsonArray) {
                         val result = SearchResult(parsedBody.asJsonObject)
                         onSuccess(result.features)
                     }

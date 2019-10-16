@@ -43,7 +43,7 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
     }
 
     private fun loadFeatureDetails(features: Features) {
-        delegate?.zoomOnPlace(features)
+        delegate?.zoomOnPlace(features, null)
     }
 
     private fun reloadRecycler(features: List<Features>) {

@@ -95,4 +95,10 @@
     <string name="search_hint">Κείμενο για αναζήτηση</string>
     <string name="search_subtitle">Πληκτρολογήστε τουλάχιστον 3 χαρακτήρες</string>
     <string name="search_result_subtitle">$ αποτελέσματα βρέθηκαν</string>
+    <string name="name">Όνομα:</string>
+    <string name="name_in_greek">Όνομα στα Ελληνικά:</string>
+    <string name="name_in_english">Όνομα στα Αγγλικά:</string>
+    <string name="second_name">Δεύτερο όνομα:</string>
+    <string name="district">Περιοχή:</string>
+
 </resources>

@@ -17,9 +17,10 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.MenuItem
-import android.view.View.GONE
-import android.view.View.VISIBLE
+import android.view.View
+import android.view.View.*
 import android.widget.SeekBar
+import android.widget.TextView
 import android.widget.Toast
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -32,25 +33,21 @@ import gr.hua.it21533.kitchenerMap.fragments.FeedbackFragment
 import gr.hua.it21533.kitchenerMap.fragments.MenuFragment
 import gr.hua.it21533.kitchenerMap.fragments.SearchFragment
 import gr.hua.it21533.kitchenerMap.fragments.TypesOfPlacesFragment
-import gr.hua.it21533.kitchenerMap.helpers.LayersHelper
 import gr.hua.it21533.kitchenerMap.helpers.TileProviderFactory
 import gr.hua.it21533.kitchenerMap.helpers.WMSTileProvider
 import gr.hua.it21533.kitchenerMap.interfaces.MapsActivityView
 import gr.hua.it21533.kitchenerMap.interfaces.MenuView
 import gr.hua.it21533.kitchenerMap.models.Features
-import gr.hua.it21533.kitchenerMap.networking.API
 import gr.hua.it21533.kitchenerMap.networking.ApiModel
 import gr.hua.it21533.kitchenerMap.networking.Interactor
 import kotlinx.android.synthetic.main.activity_maps.*
+import kotlinx.android.synthetic.main.custom_info_window.view.*
 import kotlinx.android.synthetic.main.fragment_menu.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.net.MalformedURLException
 import java.net.URL
 import java.util.*
 
-class MapsActivity : AppCompatActivity(), GoogleMap.OnMyLocationButtonClickListener, OnMapReadyCallback, MenuView, MapsActivityView, GoogleMap.OnMapClickListener {
+class MapsActivity : AppCompatActivity(), GoogleMap.OnMyLocationButtonClickListener, OnMapReadyCallback, MenuView, MapsActivityView, GoogleMap.OnMapClickListener, GoogleMap.OnCameraMoveStartedListener {
 
     private val REQUEST_LOCATION_PERMISSIONS = 1
     private val TAG = "MAPS_ACTIVITY"
@@ -148,6 +145,7 @@ class MapsActivity : AppCompatActivity(), GoogleMap.OnMyLocationButtonClickListe
         } catch (e: Resources.NotFoundException) {
             Log.e(TAG, "Can't find style. Error: ", e)
         }
+        baseMap.setOnCameraMoveStartedListener(this)
         initKitchenerMap()
         setBoundariesAndZoom()
         checkForPermissions()
@@ -345,10 +343,16 @@ class MapsActivity : AppCompatActivity(), GoogleMap.OnMyLocationButtonClickListe
         hideLoading()
     }
 
-    override fun zoomOnPlace(features: Features) {
-        val location = features.geometry.point ?: features.geometry.points?.first()
-        baseMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, baseMap.cameraPosition.zoom))
-        drawer_layout.closeDrawer(GravityCompat.START)
+    override fun zoomOnPlace(features: Features, location: LatLng?) {
+        var latlng = features.geometry.point ?: features.geometry.points?.first()
+        if (latlng == null) {
+            latlng = location
+        }
+        latlng?.let {
+            baseMap.animateCamera(CameraUpdateFactory.newLatLngZoom(it, baseMap.cameraPosition.zoom))
+            drawer_layout.closeDrawer(GravityCompat.START)
+            showInfoWindow(features)
+        }
     }
 
     override fun backToMenu() {
@@ -410,11 +414,6 @@ class MapsActivity : AppCompatActivity(), GoogleMap.OnMyLocationButtonClickListe
     }
 
     override fun onMapClick(p0: LatLng?) {
-        val point = baseMap.projection.toScreenLocation(p0)
-        var stringUrl = TileProviderFactory.featureInfoString
-        stringUrl = stringUrl + "&i=" + point.x + "&j=" + point.y
-        Log.e("on tap", stringUrl)
-
         p0?.let {
             loadFeaturesOnLocation(it)
         }
@@ -422,7 +421,56 @@ class MapsActivity : AppCompatActivity(), GoogleMap.OnMyLocationButtonClickListe
 
     private fun loadFeaturesOnLocation(location: LatLng) {
         Interactor.shared.loadFeauteresOnLocation(location) { featuresArray ->
-            Log.d("on map click", featuresArray.first().toString())
+            if (featuresArray.isNotEmpty()) {
+                zoomOnPlace(featuresArray.first(), location)
+            } else {
+                hideInfoWindow()
+            }
+        }
+    }
+
+    private fun showInfoWindow(feature: Features) {
+        fakeView.visibility = VISIBLE
+        val isGreek = KitchenerMap.applicationContext().selectedLocale == "el"
+        custom_window.title.text = if (!isGreek) {
+            feature.properties?.values?.nameEN ?: "No Name"
+        } else {
+            feature.properties?.values?.nameEL ?: "Χωρίς Όνομα"
+        }
+        if (!isGreek) {
+            setData(custom_window.category, feature.properties?.values?.categoryEN, null)
+        } else {
+            setData(custom_window.category, feature.properties?.values?.categoryEL, null)
+        }
+
+        setData(custom_window.poi_name, feature.poiProperties?.name, custom_window.name_layout)
+        setData(custom_window.nameGreek, feature.poiProperties?.nameGreek, custom_window.greek_layout)
+        setData(custom_window.nameRoman, feature.poiProperties?.nameRoman, custom_window.english_layout)
+        setData(custom_window.second_name, feature.poiProperties?.secondName, custom_window.second_name_layout)
+        setData(custom_window.district, feature.poiProperties?.district, custom_window.district_layout)
+        custom_window.visibility = VISIBLE
+        custom_window.cancel.setOnClickListener {
+            hideInfoWindow()
+        }
+    }
+
+    private fun setData(textView: TextView, data: String?, parentLayout: View?) {
+        textView.text = data
+        if (textView.text == null || textView.text == "") {
+            parentLayout?.visibility = GONE
+        }else {
+            parentLayout?.visibility = VISIBLE
+        }
+    }
+
+    private fun hideInfoWindow() {
+        fakeView.visibility = GONE
+        custom_window.visibility = GONE
+    }
+
+    override fun onCameraMoveStarted(p0: Int) {
+        if (p0 == 1) {
+            hideInfoWindow()
         }
     }
 }

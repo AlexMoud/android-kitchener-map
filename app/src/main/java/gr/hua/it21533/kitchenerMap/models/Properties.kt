@@ -53,10 +53,12 @@ class PropertyName(json: JsonArray) {
 					nameEL = elString
 					nameEN = enString
 				}
+				"district_1" -> {
+
+				}
 			}
 		}
 	}
-
 }
 
 

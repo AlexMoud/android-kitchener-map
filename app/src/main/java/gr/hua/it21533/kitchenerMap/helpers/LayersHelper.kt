@@ -62,4 +62,14 @@ object LayersHelper {
         allLayersUrlEncoded.removeSuffix(",")
         return result
     }
+
+    fun getLayers() : String {
+        var layerString = ""
+        TileProviderFactory.layers.forEach {
+            layerString = "$layerString$it,"
+        }
+        layerString.replace("null,", "")
+        layerString = layerString.removeSuffix(",")
+        return  layerString
+    }
 }

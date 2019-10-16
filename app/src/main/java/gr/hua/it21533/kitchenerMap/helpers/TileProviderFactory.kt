@@ -46,6 +46,7 @@ object TileProviderFactory {
             layers.forEach {
                 layerString = "$layerString$it,"
             }
+            layerString.replace("null,", "")
             layerString = layerString.removeSuffix(",")
             val s = GEOSERVER_FORMAT.replace("%s", layerString).replace("%f", bbox[MINX].toString()).replace("%e", bbox[MINY].toString()).replace("%d", bbox[MAXX].toString()).replace("%g", bbox[MAXY].toString())
 
