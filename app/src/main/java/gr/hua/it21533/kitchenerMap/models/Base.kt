@@ -1,8 +1,5 @@
 package gr.hua.it21533.kitchenerMap.models
 
-import com.google.gson.annotations.SerializedName
-
-
 data class Base (
 
 	val id : Int,

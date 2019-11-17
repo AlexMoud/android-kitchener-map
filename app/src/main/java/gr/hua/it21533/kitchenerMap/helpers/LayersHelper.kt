@@ -29,6 +29,10 @@ object LayersHelper {
         return result
     }
 
+    fun reloadLayers() {
+        data = getLayerParents()
+    }
+
     private fun getLayerParents() : MutableList<MapLayerParent> {
         val data = getLayersData()
         val result = ArrayList<MapLayerParent>()

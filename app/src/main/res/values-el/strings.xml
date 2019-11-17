@@ -100,5 +100,6 @@
     <string name="name_in_english">Όνομα στα Αγγλικά:</string>
     <string name="second_name">Δεύτερο όνομα:</string>
     <string name="district">Περιοχή:</string>
+    <string name="clear">Επαναφορά</string>
 
 </resources>

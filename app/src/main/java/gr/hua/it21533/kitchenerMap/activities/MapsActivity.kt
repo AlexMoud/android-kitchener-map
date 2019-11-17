@@ -13,7 +13,6 @@ import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBar
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.MenuItem
@@ -33,6 +32,8 @@ import gr.hua.it21533.kitchenerMap.fragments.FeedbackFragment
 import gr.hua.it21533.kitchenerMap.fragments.MenuFragment
 import gr.hua.it21533.kitchenerMap.fragments.SearchFragment
 import gr.hua.it21533.kitchenerMap.fragments.TypesOfPlacesFragment
+import gr.hua.it21533.kitchenerMap.helpers.CachingTileProvider
+import gr.hua.it21533.kitchenerMap.helpers.LayersHelper
 import gr.hua.it21533.kitchenerMap.helpers.TileProviderFactory
 import gr.hua.it21533.kitchenerMap.helpers.WMSTileProvider
 import gr.hua.it21533.kitchenerMap.interfaces.MapsActivityView
@@ -43,11 +44,9 @@ import gr.hua.it21533.kitchenerMap.networking.Interactor
 import kotlinx.android.synthetic.main.activity_maps.*
 import kotlinx.android.synthetic.main.custom_info_window.view.*
 import kotlinx.android.synthetic.main.fragment_menu.*
-import java.net.MalformedURLException
-import java.net.URL
 import java.util.*
 
-class MapsActivity : AppCompatActivity(), GoogleMap.OnMyLocationButtonClickListener, OnMapReadyCallback, MenuView, MapsActivityView, GoogleMap.OnMapClickListener, GoogleMap.OnCameraMoveStartedListener {
+class MapsActivity : BaseActivity(), GoogleMap.OnMyLocationButtonClickListener, OnMapReadyCallback, MenuView, MapsActivityView, GoogleMap.OnMapClickListener, GoogleMap.OnCameraMoveStartedListener {
 
     private val REQUEST_LOCATION_PERMISSIONS = 1
     private val TAG = "MAPS_ACTIVITY"
@@ -75,6 +74,7 @@ class MapsActivity : AppCompatActivity(), GoogleMap.OnMyLocationButtonClickListe
         setContentView(R.layout.activity_maps)
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+        LayersHelper.reloadLayers()
         initSlider()
         initSideMenu()
         loadLocale()
@@ -85,6 +85,9 @@ class MapsActivity : AppCompatActivity(), GoogleMap.OnMyLocationButtonClickListe
         typesOfPlacesFragment.delegate = this
         searchFragment.delegate = this
         menuFragment.delegate = this
+        clear.setOnClickListener {
+            clearFilters()
+        }
     }
 
     private fun checkForPermissions() {
@@ -151,21 +154,18 @@ class MapsActivity : AppCompatActivity(), GoogleMap.OnMyLocationButtonClickListe
         checkForPermissions()
         getCoordinatesOnLongClick()
         checkInfoWindowClick()
+        baseMap.uiSettings.isZoomControlsEnabled = true
     }
 
     private fun initKitchenerMap() {
-        val tileProvider: TileProvider = object : UrlTileProvider(256, 256) {
-            override fun getTileUrl(x: Int, y: Int, zoom: Int): URL? {
-                val reversedY = (1 shl zoom) - y - 1
+        val tileProvider: CachingTileProvider = object : CachingTileProvider(256, 256, this) {
+            override fun getTileUrl(x: Int, y: Int, z: Int): String {
+                val reversedY = (1 shl z) - y - 1
                 val s = String.format(
                     "https://gaia.hua.gr/tms/kitchener_review/%d/%d/%d.jpg",
-                    zoom, x, reversedY
+                    z, x, reversedY
                 )
-                try {
-                    return URL(s)
-                } catch (e: MalformedURLException) {
-                    throw AssertionError(e)
-                }
+                return s
             }
         }
         kitchenerMapOverlay = baseMap.addTileOverlay(TileOverlayOptions().tileProvider(tileProvider))
@@ -335,6 +335,12 @@ class MapsActivity : AppCompatActivity(), GoogleMap.OnMyLocationButtonClickListe
         kitchenerMapWMSOverlay = baseMap.addTileOverlay(TileOverlayOptions().tileProvider(TileProviderFactory.tileProvider))
     }
 
+    private fun clearFilters() {
+        TileProviderFactory.layers.clear()
+        didFilterChange()
+        typesOfPlacesFragment.clear()
+    }
+
     override fun showLoader() {
         showLoading()
     }
@@ -382,6 +388,7 @@ class MapsActivity : AppCompatActivity(), GoogleMap.OnMyLocationButtonClickListe
         editor.putString("My Lang", lang)
         editor.apply()
         if (reload) {
+            finish()
             startActivity(Intent(this, MapsActivity::class.java))
         }
     }

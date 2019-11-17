@@ -52,4 +52,8 @@ class TypesOfPlacesFragment: Fragment(), OnCheckChildClickListener {
         }
         delegate?.didFilterChange()
     }
+
+    fun clear() {
+        (typesCheckboxes.adapter as MultiCheckMapLayerParentAdapter?)?.clearChoices()
+    }
 }
