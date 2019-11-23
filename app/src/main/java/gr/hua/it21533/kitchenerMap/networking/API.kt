@@ -1,5 +1,6 @@
 package gr.hua.it21533.kitchenerMap.networking
 
+import gr.hua.it21533.kitchenerMap.models.Gravoura
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -14,6 +15,12 @@ interface API {
 
     @GET
     fun getFeatureDetails(@Url url: String): Call<String>
+
+    @GET("en/coastal_cyprus/visualrepresentations/json")
+    fun getGravouraEn(): Call<Gravoura>
+
+    @GET("el/coastal_cyprus/visualrepresentations/json")
+    fun getGravouraEl(): Call<Gravoura>
 
     companion object {
         fun create(): API {

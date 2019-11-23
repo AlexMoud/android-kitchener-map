@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.content.res.Resources
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.ActivityCompat
@@ -18,6 +19,7 @@ import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.View.*
+import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
@@ -26,27 +28,28 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import com.squareup.picasso.Picasso
 import gr.hua.it21533.kitchenerMap.KitchenerMap
 import gr.hua.it21533.kitchenerMap.R
 import gr.hua.it21533.kitchenerMap.fragments.FeedbackFragment
 import gr.hua.it21533.kitchenerMap.fragments.MenuFragment
 import gr.hua.it21533.kitchenerMap.fragments.SearchFragment
 import gr.hua.it21533.kitchenerMap.fragments.TypesOfPlacesFragment
-import gr.hua.it21533.kitchenerMap.helpers.CachingTileProvider
-import gr.hua.it21533.kitchenerMap.helpers.LayersHelper
-import gr.hua.it21533.kitchenerMap.helpers.TileProviderFactory
-import gr.hua.it21533.kitchenerMap.helpers.WMSTileProvider
+import gr.hua.it21533.kitchenerMap.helpers.*
 import gr.hua.it21533.kitchenerMap.interfaces.MapsActivityView
 import gr.hua.it21533.kitchenerMap.interfaces.MenuView
 import gr.hua.it21533.kitchenerMap.models.Features
+import gr.hua.it21533.kitchenerMap.models.Gravoura
+import gr.hua.it21533.kitchenerMap.models.GravouraInfoWindowData
 import gr.hua.it21533.kitchenerMap.networking.ApiModel
 import gr.hua.it21533.kitchenerMap.networking.Interactor
 import kotlinx.android.synthetic.main.activity_maps.*
 import kotlinx.android.synthetic.main.custom_info_window.view.*
 import kotlinx.android.synthetic.main.fragment_menu.*
+import java.net.URI
 import java.util.*
 
-class MapsActivity : BaseActivity(), GoogleMap.OnMyLocationButtonClickListener, OnMapReadyCallback, MenuView, MapsActivityView, GoogleMap.OnMapClickListener, GoogleMap.OnCameraMoveStartedListener {
+class MapsActivity : BaseActivity(), GoogleMap.OnMyLocationButtonClickListener, OnMapReadyCallback, MenuView, MapsActivityView, GoogleMap.OnMapClickListener, GoogleMap.OnCameraMoveStartedListener, GoogleMap.OnInfoWindowClickListener {
 
     private val REQUEST_LOCATION_PERMISSIONS = 1
     private val TAG = "MAPS_ACTIVITY"
@@ -149,12 +152,15 @@ class MapsActivity : BaseActivity(), GoogleMap.OnMyLocationButtonClickListener, 
             Log.e(TAG, "Can't find style. Error: ", e)
         }
         baseMap.setOnCameraMoveStartedListener(this)
+        baseMap.setOnInfoWindowClickListener(this)
         initKitchenerMap()
         setBoundariesAndZoom()
         checkForPermissions()
         getCoordinatesOnLongClick()
         checkInfoWindowClick()
         baseMap.uiSettings.isZoomControlsEnabled = true
+
+        addMarkersOfGravoura()
     }
 
     private fun initKitchenerMap() {
@@ -200,6 +206,32 @@ class MapsActivity : BaseActivity(), GoogleMap.OnMyLocationButtonClickListener, 
                 initialZoomLevel
             )
         )
+    }
+
+    private fun addMarkersOfGravoura() {
+        val isGreek = KitchenerMap.applicationContext().selectedLocale == "el"
+        val gravoures: Gravoura? = if (isGreek) {
+            GravouresHelper.gravouresEl
+        } else {
+            GravouresHelper.gravouresEn
+        }
+        baseMap.setInfoWindowAdapter(CustomInfoWindowGoogleMap(this))
+        baseMap.setOnInfoWindowClickListener(this)
+        gravoures?.features?.forEach { feature ->
+            if (feature.geometry.coordinates.size == 2) {
+                val markerOptions = MarkerOptions()
+                    .position(LatLng(feature.geometry.coordinates[1], feature.geometry.coordinates[0]))
+                    .title(feature.properties.getNameCrpped())
+                    .icon(KitchenerMap.applicationContext().bitmapDescriptorFromVector(this, R.drawable.ic_place_black_24dp))
+                val infoWindowData = GravouraInfoWindowData()
+                infoWindowData.name = feature.properties.getNameCrpped()
+                infoWindowData.image = "https://gaia.hua.gr" + feature.properties.thumbnail
+                infoWindowData.link = "https://gaia.hua.gr" + feature.properties.link
+                Picasso.get().load(infoWindowData.image).into(ImageView(this))
+                val marker = baseMap.addMarker(markerOptions)
+                marker.tag = infoWindowData
+            }
+        }
     }
 
     override fun onMyLocationButtonClick(): Boolean {
@@ -478,6 +510,14 @@ class MapsActivity : BaseActivity(), GoogleMap.OnMyLocationButtonClickListener, 
     override fun onCameraMoveStarted(p0: Int) {
         if (p0 == 1) {
             hideInfoWindow()
+        }
+    }
+
+    override fun onInfoWindowClick(p0: Marker?) {
+        val info = p0?.tag as GravouraInfoWindowData?
+        info?.link.let {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(it))
+            startActivity(intent)
         }
     }
 }
