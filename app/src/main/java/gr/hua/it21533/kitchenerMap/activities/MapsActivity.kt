@@ -204,13 +204,29 @@ class MapsActivity : BaseActivity(),
         kitchenerMapOverlay = baseMap.addTileOverlay(TileOverlayOptions().tileProvider(tileProvider))
         kitchenerMapOverlay.transparency = 0f
 
+        initSecondBaseMap()
+
         tileProviderWMS = TileProviderFactory.tileProvider
         kitchenerMapWMSOverlay = baseMap.addTileOverlay(TileOverlayOptions().tileProvider(tileProviderWMS))
         kitchenerMapWMSOverlay.transparency = 0f
 
         baseMap.setOnMapClickListener(this)
 
-        initSecondBaseMap()
+        baseMap.setOnCameraMoveListener {
+            updateNikosiaLayerLevel()
+        }
+        baseMap.setOnCameraIdleListener {
+            updateNikosiaLayerLevel()
+        }
+
+    }
+
+    private fun updateNikosiaLayerLevel() {
+        if (baseMap.cameraPosition.zoom <= 15) {
+            kitchenerMapLeukosiaOverlay.transparency = 1f
+        } else {
+            kitchenerMapLeukosiaOverlay.transparency = kitchenerMapOverlay.transparency
+        }
     }
 
     private fun initSecondBaseMap() {
@@ -239,7 +255,7 @@ class MapsActivity : BaseActivity(),
     private fun setBoundariesAndZoom() {
         val boundaries = LatLngBounds(LatLng(34.541328, 32.211591), LatLng(35.721089, 34.621623))
         baseMap.setLatLngBoundsForCameraTarget(boundaries)
-        baseMap.setMaxZoomPreference(20.0f)
+        baseMap.setMaxZoomPreference(17.99f)
         baseMap.setMinZoomPreference(7.0f)
         baseMap.moveCamera(
             CameraUpdateFactory.newLatLngZoom(
@@ -324,7 +340,7 @@ class MapsActivity : BaseActivity(),
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                 kitchenerMapOverlay.transparency = 1 - (progress.toFloat() / 100)
                 kitchenerMapWMSOverlay.transparency = kitchenerMapOverlay.transparency
-                kitchenerMapLeukosiaOverlay.transparency = kitchenerMapOverlay.transparency
+                updateNikosiaLayerLevel()
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {
