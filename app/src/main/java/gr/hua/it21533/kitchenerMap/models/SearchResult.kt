@@ -27,6 +27,9 @@ open class SearchResult(json: JsonObject) {
 				it.properties?.values?.nameEL
 			}
 		}
+		features.removeAll {
+			it.geometry.point == null && it.geometry.points == null
+		}
 		this.features = features
 		if (json.get("crs").isJsonObject) {
 			crs = Crs(json.getAsJsonObject("crs"))

@@ -18,8 +18,6 @@ import kotlinx.android.synthetic.main.fragment_search.*
 
 
 class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
-
-
     var delegate: MenuView? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

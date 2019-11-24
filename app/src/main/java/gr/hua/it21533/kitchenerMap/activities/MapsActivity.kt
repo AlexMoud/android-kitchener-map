@@ -63,9 +63,12 @@ class MapsActivity : BaseActivity(),
     private val TAG = "MAPS_ACTIVITY"
     private lateinit var baseMap: GoogleMap
     private lateinit var kitchenerMapOverlay: TileOverlay
+    private lateinit var kitchenerMapLeukosiaOverlay: TileOverlay
     private lateinit var kitchenerMapWMSOverlay: TileOverlay
     private lateinit var tileProviderWMS: WMSTileProvider
     private lateinit var mapsPresenter: MapsActivityPresenter
+    private var selectedPolyline: Polyline? = null
+    private var selectedPolygon: Polygon? = null
     private var sliderVisible = true
     private var markersList = ArrayList<Marker>()
     private var longClickMarkers = ArrayList<Marker>()
@@ -206,6 +209,20 @@ class MapsActivity : BaseActivity(),
         kitchenerMapWMSOverlay.transparency = 0f
 
         baseMap.setOnMapClickListener(this)
+
+        initSecondBaseMap()
+    }
+
+    private fun initSecondBaseMap() {
+        val tileProvider: CachingTileProvider = object : CachingTileProvider(256, 256, this) {
+            override fun getTileUrl(x: Int, y: Int, z: Int): String {
+                val reversedY = (1 shl z) - y - 1
+                val s = String.format("https://gaia.hua.gr/tms/kitchener_nicosia_plan/%d/%d/%d.png", z, x, reversedY)
+                return s
+            }
+        }
+        kitchenerMapLeukosiaOverlay = baseMap.addTileOverlay(TileOverlayOptions().tileProvider(tileProvider))
+        kitchenerMapLeukosiaOverlay.transparency = 0f
     }
 
     private fun enableLocationFunctionality() {
@@ -220,9 +237,9 @@ class MapsActivity : BaseActivity(),
     }
 
     private fun setBoundariesAndZoom() {
-        val boundaries = LatLngBounds(LatLng(34.476619, 32.163363), LatLng(35.847896, 34.838356))
+        val boundaries = LatLngBounds(LatLng(34.541328, 32.211591), LatLng(35.721089, 34.621623))
         baseMap.setLatLngBoundsForCameraTarget(boundaries)
-        baseMap.setMaxZoomPreference(15.0f)
+        baseMap.setMaxZoomPreference(20.0f)
         baseMap.setMinZoomPreference(7.0f)
         baseMap.moveCamera(
             CameraUpdateFactory.newLatLngZoom(
@@ -307,6 +324,7 @@ class MapsActivity : BaseActivity(),
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                 kitchenerMapOverlay.transparency = 1 - (progress.toFloat() / 100)
                 kitchenerMapWMSOverlay.transparency = kitchenerMapOverlay.transparency
+                kitchenerMapLeukosiaOverlay.transparency = kitchenerMapOverlay.transparency
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {
@@ -407,13 +425,53 @@ class MapsActivity : BaseActivity(),
     }
 
     override fun zoomOnPlace(features: Features, location: LatLng?) {
-        var latlng = features.geometry.point ?: features.geometry.points?.first()
-        if (latlng == null) {
-            latlng = location
+        selectedPolyline?.remove()
+        selectedPolygon?.remove()
+        val builder = LatLngBounds.Builder()
+        val points = ArrayList<LatLng>()
+        features.geometry.point?.let {
+            points.add(it)
         }
-        latlng?.let {
-            baseMap.animateCamera(CameraUpdateFactory.newLatLngZoom(it, baseMap.cameraPosition.zoom))
-            drawer_layout.closeDrawer(GravityCompat.START)
+        features.geometry.points?.let {
+            points.addAll(it)
+        }
+        val polyline = PolylineOptions().clickable(true).width(20f).color(ContextCompat.getColor(applicationContext, R.color.colorAccent)).zIndex(200f)
+        points.forEach {
+            polyline.add(it)
+            builder.include(it)
+        }
+        selectedPolyline = baseMap.addPolyline(polyline)
+
+        drawer_layout.closeDrawer(GravityCompat.START)
+
+
+        val bounds = builder.build()
+
+        if (points.size > 1) {
+            baseMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 10))
+        } else if (points.size == 1) {
+            val polygonOptions = PolygonOptions()
+                .clickable(true)
+                .strokeWidth(20f)
+                .strokeJointType(JointType.ROUND)
+                .fillColor(ContextCompat.getColor(applicationContext, R.color.colorAccentAlpha))
+                .strokeColor(ContextCompat.getColor(applicationContext, R.color.colorAccent))
+                .zIndex(200f)
+            polygonOptions.add(LatLng(points[0].latitude - 0.0005, points[0].longitude - 0.001))
+            polygonOptions.add(LatLng(points[0].latitude + 0.0005, points[0].longitude - 0.001))
+            polygonOptions.add(LatLng(points[0].latitude + 0.0005, points[0].longitude + 0.001))
+            polygonOptions.add(LatLng(points[0].latitude - 0.0005, points[0].longitude + 0.001))
+
+            selectedPolygon = baseMap.addPolygon(polygonOptions)
+            baseMap.animateCamera(CameraUpdateFactory.newLatLngZoom(points.first(), 14f))
+            showInfoWindow(features)
+
+            baseMap.setOnPolygonClickListener {
+                showInfoWindow(features)
+            }
+        }
+
+        baseMap.setOnPolylineClickListener {
             showInfoWindow(features)
         }
     }
@@ -481,11 +539,21 @@ class MapsActivity : BaseActivity(),
     private fun loadFeaturesOnLocation(location: LatLng) {
         Interactor.shared.loadFeauteresOnLocation(location) { featuresArray ->
             if (featuresArray.isNotEmpty()) {
-                zoomOnPlace(featuresArray.first(), location)
+                zoomOnPlaceTapped(featuresArray.first(), location)
             } else {
                 hideInfoWindow()
             }
         }
+    }
+
+    private fun zoomOnPlaceTapped(features: Features, location: LatLng) {
+        var latlng = features.geometry.point ?: features.geometry.points?.first()
+        if (latlng == null) {
+            latlng = location
+        }
+        baseMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, baseMap.cameraPosition.zoom))
+        drawer_layout.closeDrawer(GravityCompat.START)
+        showInfoWindow(features)
     }
 
     private fun showInfoWindow(feature: Features) {
