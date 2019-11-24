@@ -87,11 +87,11 @@ class SendMailActivity : AppCompatActivity() {
             if (userComment.equals("")) {
                 Toast.makeText(this, "You must provide us with a comment...", Toast.LENGTH_SHORT).show()
             } else {
-                val emailIntent = Intent(android.content.Intent.ACTION_SEND)
+                val emailIntent = Intent(Intent.ACTION_SEND)
                 emailIntent.type = "image/*"
-                emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, arrayOf("alexmoud5@gmail.com"))
-                emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Coordinates $latitude, $longitude")
-                emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, userComment)
+                emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf("gaia_webmaster@hua.gr"))
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Coordinates $latitude, $longitude")
+                emailIntent.putExtra(Intent.EXTRA_TEXT, userComment)
                 emailIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 val fileName = File(currentPhotoPath.substringAfterLast("/"))
                 emailIntent.putExtra(

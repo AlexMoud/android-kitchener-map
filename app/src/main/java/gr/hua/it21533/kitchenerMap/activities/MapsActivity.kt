@@ -18,7 +18,8 @@ import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
-import android.view.View.*
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
@@ -46,10 +47,17 @@ import gr.hua.it21533.kitchenerMap.networking.Interactor
 import kotlinx.android.synthetic.main.activity_maps.*
 import kotlinx.android.synthetic.main.custom_info_window.view.*
 import kotlinx.android.synthetic.main.fragment_menu.*
-import java.net.URI
 import java.util.*
+import kotlin.collections.ArrayList
 
-class MapsActivity : BaseActivity(), GoogleMap.OnMyLocationButtonClickListener, OnMapReadyCallback, MenuView, MapsActivityView, GoogleMap.OnMapClickListener, GoogleMap.OnCameraMoveStartedListener, GoogleMap.OnInfoWindowClickListener {
+class MapsActivity : BaseActivity(),
+    GoogleMap.OnMyLocationButtonClickListener,
+    OnMapReadyCallback,
+    MenuView,
+    MapsActivityView,
+    GoogleMap.OnMapClickListener,
+    GoogleMap.OnCameraMoveStartedListener,
+    GoogleMap.OnInfoWindowClickListener {
 
     private val REQUEST_LOCATION_PERMISSIONS = 1
     private val TAG = "MAPS_ACTIVITY"
@@ -61,6 +69,7 @@ class MapsActivity : BaseActivity(), GoogleMap.OnMyLocationButtonClickListener, 
     private var sliderVisible = true
     private var markersList = ArrayList<Marker>()
     private var longClickMarkers = ArrayList<Marker>()
+    private var gravouraMarkers = ArrayList<Marker>()
     private var hasInteractedWithSeekBar = false
     private val initialLatitude: Double = 35.17
     private val initialLongitude: Double = 33.36
@@ -91,6 +100,22 @@ class MapsActivity : BaseActivity(), GoogleMap.OnMyLocationButtonClickListener, 
         clear.setOnClickListener {
             clearFilters()
         }
+    }
+
+    override fun onBackPressed() {
+        if (longClickMarkers.isNotEmpty() && longClickMarkers.first().isInfoWindowShown) {
+            longClickMarkers.first().hideInfoWindow()
+            return
+        }
+        if (gravouraMarkers.isNotEmpty()) {
+            gravouraMarkers.forEach {
+                if (it.isInfoWindowShown) {
+                    it.hideInfoWindow()
+                    return
+                }
+            }
+        }
+        super.onBackPressed()
     }
 
     private fun checkForPermissions() {
@@ -157,7 +182,6 @@ class MapsActivity : BaseActivity(), GoogleMap.OnMyLocationButtonClickListener, 
         setBoundariesAndZoom()
         checkForPermissions()
         getCoordinatesOnLongClick()
-        checkInfoWindowClick()
         baseMap.uiSettings.isZoomControlsEnabled = true
 
         addMarkersOfGravoura()
@@ -209,6 +233,7 @@ class MapsActivity : BaseActivity(), GoogleMap.OnMyLocationButtonClickListener, 
     }
 
     private fun addMarkersOfGravoura() {
+        gravouraMarkers.clear()
         val isGreek = KitchenerMap.applicationContext().selectedLocale == "el"
         val gravoures: Gravoura? = if (isGreek) {
             GravouresHelper.gravouresEl
@@ -230,6 +255,7 @@ class MapsActivity : BaseActivity(), GoogleMap.OnMyLocationButtonClickListener, 
                 Picasso.get().load(infoWindowData.image).into(ImageView(this))
                 val marker = baseMap.addMarker(markerOptions)
                 marker.tag = infoWindowData
+                gravouraMarkers.add(marker)
             }
         }
     }
@@ -362,7 +388,6 @@ class MapsActivity : BaseActivity(), GoogleMap.OnMyLocationButtonClickListener, 
     }
 
     override fun didFilterChange() {
-
         kitchenerMapWMSOverlay.remove()
         kitchenerMapWMSOverlay = baseMap.addTileOverlay(TileOverlayOptions().tileProvider(TileProviderFactory.tileProvider))
     }
@@ -430,25 +455,20 @@ class MapsActivity : BaseActivity(), GoogleMap.OnMyLocationButtonClickListener, 
             longClickMarkers.forEach {
                 it.remove()
             }
-            val marker = baseMap.addMarker(
-                MarkerOptions()
-                    .position(LatLng(latLng.latitude, latLng.longitude))
-                    .title("Επιλεγμένο σημείο")
-                    .snippet("Θέλετε να αφήσετε σχόλιο;")
-            )
+            val isGreek = KitchenerMap.applicationContext().selectedLocale == "el"
+            val title = if (isGreek) "Επιλεγμένο σημείο" else "Selected point"
+            val snipet = if (isGreek) "Θέλετε να αφήσετε σχόλιο;" else "would you like to add a comment?"
+            val markerOptions = MarkerOptions()
+                .position(LatLng(latLng.latitude, latLng.longitude))
+                .title(title)
+                .snippet(snipet)
+            val infoWindowData = GravouraInfoWindowData()
+            infoWindowData.name = title
+            infoWindowData.snipet = snipet
+            val marker = baseMap.addMarker(markerOptions)
+            marker.tag = infoWindowData
             marker.showInfoWindow()
             longClickMarkers.add(marker)
-        }
-    }
-
-    private fun checkInfoWindowClick() {
-        baseMap.setOnInfoWindowClickListener { marker ->
-            if (marker.title == "Επιλεγμένο σημείο") {
-                val intent = Intent(applicationContext, SendMailActivity::class.java)
-                intent.putExtra("latitude", marker.position.latitude)
-                intent.putExtra("longitude", marker.position.longitude)
-                startActivity(intent)
-            }
         }
     }
 
@@ -514,10 +534,17 @@ class MapsActivity : BaseActivity(), GoogleMap.OnMyLocationButtonClickListener, 
     }
 
     override fun onInfoWindowClick(p0: Marker?) {
-        val info = p0?.tag as GravouraInfoWindowData?
-        info?.link.let {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(it))
+        if (p0 != null && longClickMarkers.contains(p0)) {
+            val intent = Intent(applicationContext, SendMailActivity::class.java)
+            intent.putExtra("latitude", p0.position.latitude)
+            intent.putExtra("longitude", p0.position.longitude)
             startActivity(intent)
+        } else {
+            val info = p0?.tag as GravouraInfoWindowData?
+            info?.link?.let {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(it))
+                startActivity(intent)
+            }
         }
     }
 }

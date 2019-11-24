@@ -24,9 +24,14 @@ class CustomInfoWindowGoogleMap(private val context: Context) : GoogleMap.InfoWi
         val infoWindowData = marker.tag as GravouraInfoWindowData?
 
         view.name.text = infoWindowData?.name
+        view.snipet.text = infoWindowData?.snipet
 
         Picasso.get().load(infoWindowData?.image).into(view.pic)
-//        Glide.with(context).load(infoWindowData?.image).into(view.pic)
+        if (infoWindowData?.image == null) {
+            view.pic.visibility = View.GONE
+        } else {
+            view.snipet.visibility = View.GONE
+        }
 
         return view
     }
