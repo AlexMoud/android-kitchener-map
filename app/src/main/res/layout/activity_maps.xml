@@ -65,6 +65,15 @@
                 tools:context=".activities.MapsActivity"
                 android:name="com.google.android.gms.maps.SupportMapFragment"/>
 
+            <com.github.pengrad.mapscaleview.MapScaleView
+                    android:id="@+id/scaleView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|end"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="4dp"/>
+
             <include
                 android:layout_above="@+id/fakeView"
                 android:id="@+id/custom_window"
@@ -100,6 +109,8 @@
                 android:progress="100"
                 android:visibility="gone"
                 android:id="@+id/mapSlider"/>
+
+
 
         </RelativeLayout>
 

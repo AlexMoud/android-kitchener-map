@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.content.res.Resources
+import android.location.Location
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -24,6 +25,8 @@ import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -71,11 +74,11 @@ class MapsActivity : BaseActivity(),
     private var selectedPolygon: Polygon? = null
     private var sliderVisible = true
     private var markersList = ArrayList<Marker>()
-    private var longClickMarkers = ArrayList<Marker>()
+    private var longClickMarker: Marker? = null
     private var gravouraMarkers = ArrayList<Marker>()
     private var hasInteractedWithSeekBar = false
-    private val initialLatitude: Double = 35.17
-    private val initialLongitude: Double = 33.36
+    private var initialLatitude: Double = 35.17
+    private var initialLongitude: Double = 33.36
     private val initialZoomLevel = 10.0f
     private val handler = Handler()
     private val typesOfPlacesFragment = TypesOfPlacesFragment()
@@ -83,6 +86,7 @@ class MapsActivity : BaseActivity(),
     private val menuFragment = MenuFragment()
     private val feedbackFragment = FeedbackFragment()
     private var currentFragment: Fragment = menuFragment
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -103,11 +107,13 @@ class MapsActivity : BaseActivity(),
         clear.setOnClickListener {
             clearFilters()
         }
+        scaleView.metersOnly()
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
     }
 
     override fun onBackPressed() {
-        if (longClickMarkers.isNotEmpty() && longClickMarkers.first().isInfoWindowShown) {
-            longClickMarkers.first().hideInfoWindow()
+        if (longClickMarker?.isInfoWindowShown == true) {
+            longClickMarker?.hideInfoWindow()
             return
         }
         if (gravouraMarkers.isNotEmpty()) {
@@ -122,16 +128,8 @@ class MapsActivity : BaseActivity(),
     }
 
     private fun checkForPermissions() {
-        if (ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                REQUEST_LOCATION_PERMISSIONS
-            )
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_LOCATION_PERMISSIONS)
         } else {
             enableLocationFunctionality()
         }
@@ -186,7 +184,7 @@ class MapsActivity : BaseActivity(),
         checkForPermissions()
         getCoordinatesOnLongClick()
         baseMap.uiSettings.isZoomControlsEnabled = true
-
+        baseMap.setPadding(4,4,4,40)
         addMarkersOfGravoura()
     }
 
@@ -214,9 +212,11 @@ class MapsActivity : BaseActivity(),
 
         baseMap.setOnCameraMoveListener {
             updateNikosiaLayerLevel()
+            scaleView.update(baseMap.cameraPosition.zoom, baseMap.cameraPosition.target.latitude)
         }
         baseMap.setOnCameraIdleListener {
             updateNikosiaLayerLevel()
+            scaleView.update(baseMap.cameraPosition.zoom, baseMap.cameraPosition.target.latitude)
         }
 
     }
@@ -257,12 +257,18 @@ class MapsActivity : BaseActivity(),
         baseMap.setLatLngBoundsForCameraTarget(boundaries)
         baseMap.setMaxZoomPreference(17.99f)
         baseMap.setMinZoomPreference(7.0f)
-        baseMap.moveCamera(
-            CameraUpdateFactory.newLatLngZoom(
-                LatLng(initialLatitude, initialLongitude),
-                initialZoomLevel
-            )
-        )
+
+        baseMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(initialLatitude, initialLongitude), initialZoomLevel))
+
+        fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+            location?.let {
+                val userLatLng = LatLng(it.latitude, it.longitude)
+                if (boundaries.contains(userLatLng)) {
+                    baseMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, initialZoomLevel))
+                }
+            }
+
+        }
     }
 
     private fun addMarkersOfGravoura() {
@@ -526,9 +532,8 @@ class MapsActivity : BaseActivity(),
 
     private fun getCoordinatesOnLongClick() {
         baseMap.setOnMapLongClickListener { latLng ->
-            longClickMarkers.forEach {
-                it.remove()
-            }
+            longClickMarker?.remove()
+            longClickMarker = null
             val isGreek = KitchenerMap.applicationContext().selectedLocale == "el"
             val title = if (isGreek) "Επιλεγμένο σημείο" else "Selected point"
             val snipet = if (isGreek) "Θέλετε να αφήσετε σχόλιο;" else "would you like to add a comment?"
@@ -539,10 +544,9 @@ class MapsActivity : BaseActivity(),
             val infoWindowData = GravouraInfoWindowData()
             infoWindowData.name = title
             infoWindowData.snipet = snipet
-            val marker = baseMap.addMarker(markerOptions)
-            marker.tag = infoWindowData
-            marker.showInfoWindow()
-            longClickMarkers.add(marker)
+            longClickMarker = baseMap.addMarker(markerOptions)
+            longClickMarker?.tag = infoWindowData
+            longClickMarker?.showInfoWindow()
         }
     }
 
@@ -618,7 +622,7 @@ class MapsActivity : BaseActivity(),
     }
 
     override fun onInfoWindowClick(p0: Marker?) {
-        if (p0 != null && longClickMarkers.contains(p0)) {
+        if (p0 != null && longClickMarker == p0) {
             val intent = Intent(applicationContext, SendMailActivity::class.java)
             intent.putExtra("latitude", p0.position.latitude)
             intent.putExtra("longitude", p0.position.longitude)
