@@ -185,7 +185,7 @@ class MapsActivity : BaseActivity(),
         getCoordinatesOnLongClick()
         baseMap.uiSettings.isZoomControlsEnabled = true
         baseMap.setPadding(4,4,4,40)
-        addMarkersOfGravoura()
+//        addMarkersOfGravoura()
     }
 
     private fun initKitchenerMap() {
@@ -527,6 +527,16 @@ class MapsActivity : BaseActivity(),
         if (reload) {
             finish()
             startActivity(Intent(this, MapsActivity::class.java))
+        }
+    }
+
+    override fun gravouraSelected() {
+        addMarkersOfGravoura()
+    }
+
+    override fun gravouraDeselected() {
+        gravouraMarkers.forEach {
+            it.remove()
         }
     }
 

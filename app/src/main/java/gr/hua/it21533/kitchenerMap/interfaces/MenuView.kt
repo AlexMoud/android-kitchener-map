@@ -11,4 +11,6 @@ interface MenuView {
     fun backToMenu()
     fun replaceMenuFragments(menuItem: String)
     fun setLocale(lang: String, reload: Boolean)
+    fun gravouraSelected()
+    fun gravouraDeselected()
 }

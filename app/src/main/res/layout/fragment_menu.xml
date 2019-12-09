@@ -62,6 +62,20 @@
 
     <include layout="@layout/partial_divider"/>
 
+    <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/gravoures"
+            android:paddingLeft="@dimen/menu_item_padding_horizontal"
+            android:paddingTop="@dimen/menu_item_padding_vertical"
+            android:paddingBottom="@dimen/menu_item_padding_vertical"
+            android:paddingRight="@dimen/menu_item_padding_horizontal"
+            android:textSize="@dimen/text_medium"
+            android:layoutDirection="rtl"
+            android:id="@+id/gravoures"/>
+
+    <include layout="@layout/partial_divider"/>
+
 
     <TextView
             android:layout_width="match_parent"

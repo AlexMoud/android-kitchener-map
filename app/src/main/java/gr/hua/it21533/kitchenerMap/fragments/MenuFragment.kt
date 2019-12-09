@@ -41,6 +41,13 @@ class MenuFragment : Fragment() {
         english_language.setOnClickListener {
             delegate?.setLocale("en", true)
         }
+        gravoures.setOnClickListener {
+            if (gravoures.isChecked) {
+                delegate?.gravouraSelected()
+            } else {
+                delegate?.gravouraDeselected()
+            }
+        }
     }
 }
 
