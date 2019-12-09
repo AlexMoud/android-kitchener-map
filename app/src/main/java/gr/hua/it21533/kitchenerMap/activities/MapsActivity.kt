@@ -106,6 +106,7 @@ class MapsActivity : BaseActivity(),
         menuFragment.delegate = this
         clear.setOnClickListener {
             clearFilters()
+            clearTextSearchResults()
         }
         scaleView.metersOnly()
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
@@ -436,6 +437,12 @@ class MapsActivity : BaseActivity(),
         TileProviderFactory.layers.clear()
         didFilterChange()
         typesOfPlacesFragment.clear()
+    }
+
+    private fun clearTextSearchResults() {
+        hideInfoWindow()
+        selectedPolyline?.remove()
+        selectedPolygon?.remove()
     }
 
     override fun showLoader() {
