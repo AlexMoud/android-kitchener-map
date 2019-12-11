@@ -1,6 +1,7 @@
 package gr.hua.it21533.kitchenerMap.networking
 
 import gr.hua.it21533.kitchenerMap.models.Gravoura
+import gr.hua.it21533.kitchenerMap.models.HuaSettings
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -21,6 +22,9 @@ interface API {
 
     @GET("el/coastal_cyprus/visualrepresentations/json")
     fun getGravouraEl(): Call<Gravoura>
+
+    @GET("/kitchener_review/js/settings.json")
+    fun getBaseMaps(): Call<HuaSettings>
 
     companion object {
         fun create(): API {

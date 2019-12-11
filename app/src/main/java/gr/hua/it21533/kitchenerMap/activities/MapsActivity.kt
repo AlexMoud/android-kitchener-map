@@ -373,6 +373,7 @@ class MapsActivity : BaseActivity(),
     override fun replaceMenuFragments(menuItem: String) {
         when (menuItem) {
             "nav_types_of_places" -> {
+                typesOfPlacesFragment.refresh()
                 openFragment(typesOfPlacesFragment)
             }
             "nav_search" -> {
@@ -532,6 +533,7 @@ class MapsActivity : BaseActivity(),
         editor.putString("My Lang", lang)
         editor.apply()
         if (reload) {
+            clearFilters()
             finish()
             startActivity(Intent(this, MapsActivity::class.java))
         }

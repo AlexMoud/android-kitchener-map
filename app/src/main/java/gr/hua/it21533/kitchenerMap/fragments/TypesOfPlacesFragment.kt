@@ -35,9 +35,14 @@ class TypesOfPlacesFragment: Fragment(), OnCheckChildClickListener {
         }
     }
 
+    fun refresh() {
+        addTypesOfPlacesCheckboxes()
+    }
+
     private fun addTypesOfPlacesCheckboxes() {
         typesCheckboxes.layoutManager = LinearLayoutManager(context)
 
+        LayersHelper.reloadLayers()
         val adapter = MultiCheckMapLayerParentAdapter(LayersHelper.data)
         typesCheckboxes.adapter = adapter
         adapter.setChildClickListener(this )
