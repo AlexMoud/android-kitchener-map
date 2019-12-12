@@ -44,12 +44,23 @@ class TypesOfPlacesFragment: Fragment(), OnCheckChildClickListener {
 
         LayersHelper.reloadLayers()
         val adapter = MultiCheckMapLayerParentAdapter(LayersHelper.data)
+        if (adapter.groups.size > 0) {
+            adapter.checkChild(true, 0, 0)
+        }
         typesCheckboxes.adapter = adapter
         adapter.setChildClickListener(this )
     }
 
     override fun onCheckChildCLick(v: View?, checked: Boolean, group: CheckedExpandableGroup?, childIndex: Int) {
-        val layer = (group?.items?.get(childIndex) as MapLayer).data.src
+        val data = (group?.items?.get(childIndex) as MapLayer).data
+        if (data.type == "tile" && data.userOrder <= 2) {
+            delegate?.didSelectMapOverlay(data, childIndex)
+            return
+        } else if (data.type == "tile") {
+            delegate?.didSelectMapOverlay(data, data.userOrder)
+            return
+        }
+        val layer = data.src
         if (checked) {
             TileProviderFactory.layers.add(layer)
         }else {

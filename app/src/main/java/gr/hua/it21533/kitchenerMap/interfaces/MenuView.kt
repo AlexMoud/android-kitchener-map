@@ -2,8 +2,11 @@ package gr.hua.it21533.kitchenerMap.interfaces
 
 import com.google.android.gms.maps.model.LatLng
 import gr.hua.it21533.kitchenerMap.models.Features
+import gr.hua.it21533.kitchenerMap.models.LayerX
+import gr.hua.it21533.kitchenerMap.models.MapLayer
 
 interface MenuView {
+    fun didSelectMapOverlay(layer: LayerX, position: Int)
     fun didFilterChange()
     fun showLoader()
     fun hideLoader()

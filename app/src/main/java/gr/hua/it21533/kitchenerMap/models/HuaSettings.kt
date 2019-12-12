@@ -14,7 +14,7 @@ data class BaseMapGroup(
     val groupIsOn: Boolean,
     val hasTurnOffAllLayersButton: Boolean,
     val id: Int,
-    val layers: List<Layer>,
+    val layers: List<LayerX>,
     val name: Name,
     val opacity: Int,
     val userOrder: Int
@@ -39,6 +39,19 @@ data class Layer(
     val showRecords: Boolean,
     val src: String,
     val tileSize: Int,
+    val type: String,
+    val userOrder: Int
+)
+
+data class LayerX(
+    val bounds: List<Double>?,
+    val description: Description,
+    val id: String,
+    val isOn: Boolean,
+    val name: Name,
+    val opacity: Double,
+    val parent: String?,
+    val src: String,
     val type: String,
     val userOrder: Int
 )
@@ -92,18 +105,6 @@ data class LayerGroup(
     val name: Name,
     val opacity: Int,
     val sortLayers: String,
-    val type: String,
-    val userOrder: Int
-)
-
-data class LayerX(
-    val description: Description,
-    val id: String,
-    val isOn: Boolean,
-    val name: Name,
-    val opacity: Double,
-    val parent: String,
-    val src: String,
     val type: String,
     val userOrder: Int
 )

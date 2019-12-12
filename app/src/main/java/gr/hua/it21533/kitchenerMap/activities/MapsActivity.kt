@@ -45,6 +45,7 @@ import gr.hua.it21533.kitchenerMap.interfaces.MenuView
 import gr.hua.it21533.kitchenerMap.models.Features
 import gr.hua.it21533.kitchenerMap.models.Gravoura
 import gr.hua.it21533.kitchenerMap.models.GravouraInfoWindowData
+import gr.hua.it21533.kitchenerMap.models.LayerX
 import gr.hua.it21533.kitchenerMap.networking.ApiModel
 import gr.hua.it21533.kitchenerMap.networking.Interactor
 import kotlinx.android.synthetic.main.activity_maps.*
@@ -62,11 +63,16 @@ class MapsActivity : BaseActivity(),
     GoogleMap.OnCameraMoveStartedListener,
     GoogleMap.OnInfoWindowClickListener {
 
+    private var transparency: Float = 0f
     private val REQUEST_LOCATION_PERMISSIONS = 1
     private val TAG = "MAPS_ACTIVITY"
     private lateinit var baseMap: GoogleMap
-    private lateinit var kitchenerMapOverlay: TileOverlay
-    private lateinit var kitchenerMapLeukosiaOverlay: TileOverlay
+//    private var mapOverlays: ArrayList<TileOverlay> = ArrayList()
+    private var kitchenerMapOverlay: TileOverlay? = null
+    private var kitchenerMapLeukosiaOverlay: TileOverlay? = null
+    private var kitchenerMapLimasolOverlay: TileOverlay? = null
+    private var modernMapOverlayA: TileOverlay? = null
+    private var modernMapOverlayB: TileOverlay? = null
     private lateinit var kitchenerMapWMSOverlay: TileOverlay
     private lateinit var tileProviderWMS: WMSTileProvider
     private lateinit var mapsPresenter: MapsActivityPresenter
@@ -186,28 +192,67 @@ class MapsActivity : BaseActivity(),
         getCoordinatesOnLongClick()
         baseMap.uiSettings.isZoomControlsEnabled = true
         baseMap.setPadding(4,4,4,40)
-//        addMarkersOfGravoura()
     }
 
-    private fun initKitchenerMap() {
+    private fun setKitchenerMap() {
         val tileProvider: CachingTileProvider = object : CachingTileProvider(256, 256, this) {
             override fun getTileUrl(x: Int, y: Int, z: Int): String {
                 val reversedY = (1 shl z) - y - 1
-                val s = String.format(
-                    "https://gaia.hua.gr/tms/kitchener_review/%d/%d/%d.jpg",
-                    z, x, reversedY
-                )
-                return s
+                return String.format("https://gaia.hua.gr/tms/kitchener_review/%d/%d/%d.jpg", z, x, reversedY)
             }
         }
         kitchenerMapOverlay = baseMap.addTileOverlay(TileOverlayOptions().tileProvider(tileProvider))
-        kitchenerMapOverlay.transparency = 0f
+        kitchenerMapOverlay?.transparency = transparency
+    }
 
-        initSecondBaseMap()
+    private fun setNikosiaMap() {
+        val tileProvider: CachingTileProvider = object : CachingTileProvider(256, 256, this) {
+            override fun getTileUrl(x: Int, y: Int, z: Int): String {
+                val reversedY = (1 shl z) - y - 1
+                return String.format("https://gaia.hua.gr/tms/kitchener_nicosia_plan/%d/%d/%d.png", z, x, reversedY)
+            }
+        }
+        kitchenerMapLeukosiaOverlay = baseMap.addTileOverlay(TileOverlayOptions().tileProvider(tileProvider))
+        kitchenerMapLeukosiaOverlay?.transparency = transparency
+    }
 
+    private fun setLimasolMap() {
+        val tileProvider: CachingTileProvider = object : CachingTileProvider(256, 256, this) {
+            override fun getTileUrl(x: Int, y: Int, z: Int): String {
+                val reversedY = (1 shl z) - y - 1
+                return String.format("https://gaia.hua.gr/tms/kitchener_limassol_plan/%d/%d/%d.png", z, x, reversedY)
+            }
+        }
+        kitchenerMapLimasolOverlay = baseMap.addTileOverlay(TileOverlayOptions().tileProvider(tileProvider))
+        kitchenerMapLimasolOverlay?.transparency = transparency
+    }
+
+    private fun setModernMapA() {
+        val tileProvider: CachingTileProvider = object : CachingTileProvider(256, 256, this) {
+            override fun getTileUrl(x: Int, y: Int, z: Int): String {
+                return String.format("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/%d/%d/%d", z, y, x)
+            }
+        }
+        modernMapOverlayA = baseMap.addTileOverlay(TileOverlayOptions().tileProvider(tileProvider))
+        modernMapOverlayA?.transparency = transparency
+    }
+
+    private fun setModernMapB() {
+        val tileProvider: CachingTileProvider = object : CachingTileProvider(256, 256, this) {
+            override fun getTileUrl(x: Int, y: Int, z: Int): String {
+                return String.format("https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/%d/%d/%d", z, y, x)
+            }
+        }
+        modernMapOverlayB = baseMap.addTileOverlay(TileOverlayOptions().tileProvider(tileProvider))
+        modernMapOverlayB?.transparency = transparency
+    }
+
+    private fun initKitchenerMap() {
+        setKitchenerMap()
         tileProviderWMS = TileProviderFactory.tileProvider
         kitchenerMapWMSOverlay = baseMap.addTileOverlay(TileOverlayOptions().tileProvider(tileProviderWMS))
         kitchenerMapWMSOverlay.transparency = 0f
+        kitchenerMapWMSOverlay.zIndex = 50f
 
         baseMap.setOnMapClickListener(this)
 
@@ -224,22 +269,10 @@ class MapsActivity : BaseActivity(),
 
     private fun updateNikosiaLayerLevel() {
         if (baseMap.cameraPosition.zoom <= 15) {
-            kitchenerMapLeukosiaOverlay.transparency = 1f
+            kitchenerMapLeukosiaOverlay?.transparency = 1f
         } else {
-            kitchenerMapLeukosiaOverlay.transparency = kitchenerMapOverlay.transparency
+            kitchenerMapLeukosiaOverlay?.transparency = transparency
         }
-    }
-
-    private fun initSecondBaseMap() {
-        val tileProvider: CachingTileProvider = object : CachingTileProvider(256, 256, this) {
-            override fun getTileUrl(x: Int, y: Int, z: Int): String {
-                val reversedY = (1 shl z) - y - 1
-                val s = String.format("https://gaia.hua.gr/tms/kitchener_nicosia_plan/%d/%d/%d.png", z, x, reversedY)
-                return s
-            }
-        }
-        kitchenerMapLeukosiaOverlay = baseMap.addTileOverlay(TileOverlayOptions().tileProvider(tileProvider))
-        kitchenerMapLeukosiaOverlay.transparency = 0f
     }
 
     private fun enableLocationFunctionality() {
@@ -345,8 +378,12 @@ class MapsActivity : BaseActivity(),
         mapSlider.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
 
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-                kitchenerMapOverlay.transparency = 1 - (progress.toFloat() / 100)
-                kitchenerMapWMSOverlay.transparency = kitchenerMapOverlay.transparency
+                transparency = 1 - (progress.toFloat() / 100)
+                kitchenerMapOverlay?.transparency = transparency
+                kitchenerMapWMSOverlay.transparency = transparency
+                kitchenerMapLimasolOverlay?.transparency = transparency
+                modernMapOverlayA?.transparency = transparency
+                modernMapOverlayB?.transparency = transparency
                 updateNikosiaLayerLevel()
             }
 
@@ -426,6 +463,54 @@ class MapsActivity : BaseActivity(),
                 true
             }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun didSelectMapOverlay(layer: LayerX, position: Int) {
+        when(position) {
+            0 -> {
+                if (kitchenerMapOverlay == null) {
+                    setKitchenerMap()
+                } else {
+                    kitchenerMapOverlay?.remove()
+                    kitchenerMapOverlay = null
+                }
+            }
+            1 -> {
+                if (kitchenerMapLeukosiaOverlay == null) {
+                    setNikosiaMap()
+                } else {
+                    kitchenerMapLeukosiaOverlay?.remove()
+                    kitchenerMapLeukosiaOverlay = null
+                }
+            }
+            2 -> {
+                if (kitchenerMapLimasolOverlay == null) {
+                    setLimasolMap()
+                } else {
+                    kitchenerMapLimasolOverlay?.remove()
+                    kitchenerMapLimasolOverlay = null
+                }
+            }
+            4 -> {
+                if (modernMapOverlayA == null) {
+                    setModernMapA()
+                } else {
+                    modernMapOverlayA?.remove()
+                    modernMapOverlayA = null
+                }
+            }
+            5 -> {
+                if (modernMapOverlayB == null) {
+                    setModernMapB()
+                } else {
+                    modernMapOverlayB?.remove()
+                    modernMapOverlayB = null
+                }
+            }
+            else -> {
+
+            }
         }
     }
 
