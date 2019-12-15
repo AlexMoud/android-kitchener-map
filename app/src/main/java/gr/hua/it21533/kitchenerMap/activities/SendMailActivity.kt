@@ -89,7 +89,7 @@ class SendMailActivity : AppCompatActivity() {
             } else {
                 val emailIntent = Intent(Intent.ACTION_SEND)
                 emailIntent.type = "image/*"
-                emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf("gaia_webmaster@hua.gr"))
+                emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf("kitchenermaps@hua.gr"))
                 emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Coordinates $latitude, $longitude")
                 emailIntent.putExtra(Intent.EXTRA_TEXT, userComment)
                 emailIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
