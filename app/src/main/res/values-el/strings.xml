@@ -101,6 +101,7 @@
     <string name="second_name">Δεύτερο όνομα:</string>
     <string name="district">Περιοχή:</string>
     <string name="clear">Επαναφορά</string>
-    <string name="gravoures">Γκραβούρες</string>
+    <string name="gravoures">Αναπαραστάσεις</string>
+    <string name="menu_item_terms">\'Οροι χρήσης και Πολιτική απορρήτου</string>
 
 </resources>

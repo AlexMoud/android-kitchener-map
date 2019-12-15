@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto" android:orientation="vertical"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
@@ -76,20 +77,6 @@
 
     <include layout="@layout/partial_divider"/>
 
-
-    <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/menu_item_about_the_application"
-            android:paddingLeft="@dimen/menu_item_padding_horizontal"
-            android:paddingTop="@dimen/menu_item_padding_vertical"
-            android:paddingBottom="@dimen/menu_item_padding_vertical"
-            android:paddingRight="@dimen/menu_item_padding_horizontal"
-            android:textSize="@dimen/text_medium"
-            android:id="@+id/nav_about"/>
-
-    <include layout="@layout/partial_divider"/>
-
     <CheckBox
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -114,16 +101,30 @@
             android:textSize="@dimen/text_medium"
             android:id="@+id/nav_feedback"/>
 
-<!--    <include layout="@layout/partial_divider"/>-->
-<!--    -->
-<!--    <Switch-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text=""-->
-<!--            android:paddingLeft="@dimen/menu_item_padding_horizontal"-->
-<!--            android:paddingTop="@dimen/menu_item_padding_vertical"-->
-<!--            android:paddingBottom="@dimen/menu_item_padding_vertical"-->
-<!--            android:paddingRight="@dimen/menu_item_padding_horizontal"-->
-<!--            android:textSize="@dimen/text_medium"/>-->
+    <include layout="@layout/partial_divider"/>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/menu_item_about_the_application"
+            android:paddingLeft="@dimen/menu_item_padding_horizontal"
+            android:paddingTop="@dimen/menu_item_padding_vertical"
+            android:paddingBottom="@dimen/menu_item_padding_vertical"
+            android:paddingRight="@dimen/menu_item_padding_horizontal"
+            android:textSize="@dimen/text_medium"
+            android:id="@+id/nav_about"/>
+
+    <include layout="@layout/partial_divider"/>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/menu_item_terms"
+            android:paddingLeft="@dimen/menu_item_padding_horizontal"
+            android:paddingTop="@dimen/menu_item_padding_vertical"
+            android:paddingBottom="@dimen/menu_item_padding_vertical"
+            android:paddingRight="@dimen/menu_item_padding_horizontal"
+            android:textSize="@dimen/text_medium"
+            android:id="@+id/terms"/>
 
 </LinearLayout>

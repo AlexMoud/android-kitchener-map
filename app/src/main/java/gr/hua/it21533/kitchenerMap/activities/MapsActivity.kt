@@ -17,6 +17,7 @@ import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBar
 import android.support.v7.widget.Toolbar
 import android.util.Log
+import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
 import android.view.View.GONE
@@ -51,6 +52,7 @@ import gr.hua.it21533.kitchenerMap.networking.Interactor
 import kotlinx.android.synthetic.main.activity_maps.*
 import kotlinx.android.synthetic.main.custom_info_window.view.*
 import kotlinx.android.synthetic.main.fragment_menu.*
+import kotlinx.android.synthetic.main.partial_navigation_view.view.*
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -66,6 +68,7 @@ class MapsActivity : BaseActivity(),
     private var transparency: Float = 0f
     private val REQUEST_LOCATION_PERMISSIONS = 1
     private val TAG = "MAPS_ACTIVITY"
+
     private lateinit var baseMap: GoogleMap
 //    private var mapOverlays: ArrayList<TileOverlay> = ArrayList()
     private var kitchenerMapOverlay: TileOverlay? = null
@@ -75,23 +78,30 @@ class MapsActivity : BaseActivity(),
     private var modernMapOverlayB: TileOverlay? = null
     private lateinit var kitchenerMapWMSOverlay: TileOverlay
     private lateinit var tileProviderWMS: WMSTileProvider
+
     private lateinit var mapsPresenter: MapsActivityPresenter
     private var selectedPolyline: Polyline? = null
     private var selectedPolygon: Polygon? = null
+
     private var sliderVisible = true
+
     private var markersList = ArrayList<Marker>()
     private var longClickMarker: Marker? = null
     private var gravouraMarkers = ArrayList<Marker>()
+
     private var hasInteractedWithSeekBar = false
     private var initialLatitude: Double = 35.17
     private var initialLongitude: Double = 33.36
     private val initialZoomLevel = 10.0f
+
     private val handler = Handler()
+
     private val typesOfPlacesFragment = TypesOfPlacesFragment()
     private val searchFragment = SearchFragment()
     private val menuFragment = MenuFragment()
     private val feedbackFragment = FeedbackFragment()
     private var currentFragment: Fragment = menuFragment
+
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -119,6 +129,14 @@ class MapsActivity : BaseActivity(),
     }
 
     override fun onBackPressed() {
+        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
+            if (currentFragment != menuFragment) {
+                backToMenu()
+                return
+            }
+            drawer_layout.closeDrawer(Gravity.START)
+            return
+        }
         if (longClickMarker?.isInfoWindowShown == true) {
             longClickMarker?.hideInfoWindow()
             return

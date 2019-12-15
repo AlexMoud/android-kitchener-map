@@ -116,7 +116,8 @@
 
     </LinearLayout>
 
-    <include layout="@layout/partial_navigation_view" />
+    <include android:id="@+id/menuView"
+            layout="@layout/partial_navigation_view" />
 
 </android.support.v4.widget.DrawerLayout>
 

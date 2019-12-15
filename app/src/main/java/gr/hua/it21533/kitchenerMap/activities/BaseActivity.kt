@@ -16,7 +16,7 @@ import java.util.*
 open class BaseActivity : AppCompatActivity() {
 
     companion object {
-        public var dLocale: Locale? = null
+        var dLocale: Locale? = null
     }
 
     init {
