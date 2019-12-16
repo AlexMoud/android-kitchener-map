@@ -102,6 +102,7 @@
     <string name="district">Περιοχή:</string>
     <string name="clear">Επαναφορά</string>
     <string name="gravoures">Αναπαραστάσεις</string>
-    <string name="menu_item_terms">\'Οροι χρήσης και Πολιτική απορρήτου</string>
+    <string name="menu_item_terms">\'Οροι χρήσης</string>
+    <string name="menu_item_policy"> Πολιτική απορρήτου</string>
 
 </resources>

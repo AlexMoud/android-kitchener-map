@@ -23,24 +23,25 @@ class Interactor {
         var baseUrl = "geoserver/ows?service=WMS&resource=02422ff9-9e60-430f-bbc5-bb5324359198" +
                 "&version=1.3.0" +
                 "&request=GetFeatureInfo" +
+                "&SERVICE=WMS" +
                 "&FORMAT=image/png" +
                 "&TRANSPARENT=true" +
                 "&INFO_FORMAT=application/json" +
-                "&FEATURE_COUNT=1000" +
+                "&FEATURE_COUNT=1" +
                 "&EXCEPTIONS=application/json" +
                 "&QUERY_LAYERS=%t" +
                 "&LAYERS=%s" +
                 "&I=50" +
                 "&J=50" +
-                "&CRS=EPSG:4326" +
+                "&CRS=EPSG:3857" +
                 "&STYLES=" +
                 "&WIDTH=101" +
                 "&HEIGHT=101" +
                 "&BBOX=" + latSW + "," + lonSW + "," + latNE + "," + lonNE
 
-        val layerString = LayersHelper.getLayers()
+        var layerString = LayersHelper.getLayers()
         if (layerString == "") {
-            return
+            layerString = LayersHelper.allLayersUrlEncoded
         }
         baseUrl = baseUrl.replace("%t",layerString).replace("%s", layerString)
 

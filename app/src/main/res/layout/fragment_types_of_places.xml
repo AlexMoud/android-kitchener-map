@@ -6,7 +6,7 @@
               android:layout_height="wrap_content"
               android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -21,13 +21,14 @@
             android:id="@+id/backToMenu"/>
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
             android:padding="16dp"
             android:text="@string/menu_item_types_of_places"
             android:textSize="@dimen/text_large"
             android:textAlignment="center"/>
-    </LinearLayout>
+    </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/typesCheckboxes"

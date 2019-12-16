@@ -114,7 +114,7 @@ object LayersHelper {
     fun getLayers() : String {
         var layerString = ""
         TileProviderFactory.layers.forEach {
-            layerString = "$layerString$it,"
+            layerString += "$layerString$it,"
         }
         layerString.replace("null,", "")
         layerString = layerString.removeSuffix(",")

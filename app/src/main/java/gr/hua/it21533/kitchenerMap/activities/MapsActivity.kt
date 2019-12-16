@@ -36,10 +36,7 @@ import com.google.android.gms.maps.model.*
 import com.squareup.picasso.Picasso
 import gr.hua.it21533.kitchenerMap.KitchenerMap
 import gr.hua.it21533.kitchenerMap.R
-import gr.hua.it21533.kitchenerMap.fragments.FeedbackFragment
-import gr.hua.it21533.kitchenerMap.fragments.MenuFragment
-import gr.hua.it21533.kitchenerMap.fragments.SearchFragment
-import gr.hua.it21533.kitchenerMap.fragments.TypesOfPlacesFragment
+import gr.hua.it21533.kitchenerMap.fragments.*
 import gr.hua.it21533.kitchenerMap.helpers.*
 import gr.hua.it21533.kitchenerMap.interfaces.MapsActivityView
 import gr.hua.it21533.kitchenerMap.interfaces.MenuView
@@ -101,6 +98,8 @@ class MapsActivity : BaseActivity(),
     private val menuFragment = MenuFragment()
     private val feedbackFragment = FeedbackFragment()
     private var currentFragment: Fragment = menuFragment
+    private val termsFragment = TermsFragment()
+    private val policyFragment = PolicyFragment()
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
@@ -124,7 +123,7 @@ class MapsActivity : BaseActivity(),
             clearFilters()
             clearTextSearchResults()
         }
-        scaleView.metersOnly()
+        scaleView.metersAndMiles()
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
     }
 
@@ -189,9 +188,13 @@ class MapsActivity : BaseActivity(),
         fragmentTransaction.add(R.id.fragment_container, typesOfPlacesFragment, "types")
         fragmentTransaction.add(R.id.fragment_container, searchFragment, "search")
         fragmentTransaction.add(R.id.fragment_container, feedbackFragment, "feedback")
+        fragmentTransaction.add(R.id.fragment_container, termsFragment, "terms")
+        fragmentTransaction.add(R.id.fragment_container, policyFragment, "policy")
         fragmentTransaction.hide(typesOfPlacesFragment)
         fragmentTransaction.hide(searchFragment)
         fragmentTransaction.hide(feedbackFragment)
+        fragmentTransaction.hide(termsFragment)
+        fragmentTransaction.hide(policyFragment)
         fragmentTransaction.commit()
     }
 
@@ -282,7 +285,6 @@ class MapsActivity : BaseActivity(),
             updateNikosiaLayerLevel()
             scaleView.update(baseMap.cameraPosition.zoom, baseMap.cameraPosition.target.latitude)
         }
-
     }
 
     private fun updateNikosiaLayerLevel() {
@@ -295,11 +297,7 @@ class MapsActivity : BaseActivity(),
 
     private fun enableLocationFunctionality() {
         baseMap.setOnMyLocationButtonClickListener(this)
-        if (ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             baseMap.isMyLocationEnabled = true
         }
     }
@@ -445,6 +443,12 @@ class MapsActivity : BaseActivity(),
             }
             "nav_opacity_slider" -> {
                 toggleSlider()
+            }
+            "terms" -> {
+                openFragment(termsFragment)
+            }
+            "policy" -> {
+                openFragment(policyFragment)
             }
             else -> {
             }

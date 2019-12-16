@@ -1,5 +1,7 @@
 package gr.hua.it21533.kitchenerMap.fragments
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -47,6 +49,20 @@ class MenuFragment : Fragment() {
             } else {
                 delegate?.gravouraDeselected()
             }
+        }
+        terms.setOnClickListener {
+            delegate?.replaceMenuFragments("terms")
+        }
+        policy.setOnClickListener {
+            delegate?.replaceMenuFragments("policy")
+        }
+        logo_a.setOnClickListener {
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.sylviaioannoufoundation.org/el/"))
+            startActivity(browserIntent)
+        }
+        logo_b.setOnClickListener {
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.hua.gr"))
+            startActivity(browserIntent)
         }
     }
 }

@@ -23,7 +23,7 @@ interface API {
     @GET("el/coastal_cyprus/visualrepresentations/json")
     fun getGravouraEl(): Call<Gravoura>
 
-    @GET("/kitchener_review/js/settings.json")
+    @GET("/kitchener_review/js/settings_web.json")
     fun getBaseMaps(): Call<HuaSettings>
 
     companion object {

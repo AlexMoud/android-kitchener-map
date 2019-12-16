@@ -36,95 +36,138 @@
 
     <include layout="@layout/partial_divider"/>
 
-    <TextView
+    <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/menu_item_types_of_places"
-            android:paddingLeft="@dimen/menu_item_padding_horizontal"
-            android:paddingTop="@dimen/menu_item_padding_vertical"
-            android:paddingBottom="@dimen/menu_item_padding_vertical"
-            android:paddingRight="@dimen/menu_item_padding_horizontal"
-            android:textSize="@dimen/text_medium"
-            android:id="@+id/nav_types_of_places"/>
+            android:layout_height="wrap_content">
 
-    <include layout="@layout/partial_divider"/>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/menu_item_search"
+                    android:paddingLeft="@dimen/menu_item_padding_horizontal"
+                    android:paddingTop="@dimen/menu_item_padding_vertical"
+                    android:paddingBottom="@dimen/menu_item_padding_vertical"
+                    android:paddingRight="@dimen/menu_item_padding_horizontal"
+                    android:textSize="@dimen/text_medium"
+                    android:id="@+id/nav_search"/>
 
-    <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/menu_item_search"
-            android:paddingLeft="@dimen/menu_item_padding_horizontal"
-            android:paddingTop="@dimen/menu_item_padding_vertical"
-            android:paddingBottom="@dimen/menu_item_padding_vertical"
-            android:paddingRight="@dimen/menu_item_padding_horizontal"
-            android:textSize="@dimen/text_medium"
-            android:id="@+id/nav_search"/>
+            <include layout="@layout/partial_divider"/>
 
-    <include layout="@layout/partial_divider"/>
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/menu_item_types_of_places"
+                    android:paddingLeft="@dimen/menu_item_padding_horizontal"
+                    android:paddingTop="@dimen/menu_item_padding_vertical"
+                    android:paddingBottom="@dimen/menu_item_padding_vertical"
+                    android:paddingRight="@dimen/menu_item_padding_horizontal"
+                    android:textSize="@dimen/text_medium"
+                    android:id="@+id/nav_types_of_places"/>
 
-    <CheckBox
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/gravoures"
-            android:paddingLeft="@dimen/menu_item_padding_horizontal"
-            android:paddingTop="@dimen/menu_item_padding_vertical"
-            android:paddingBottom="@dimen/menu_item_padding_vertical"
-            android:paddingRight="@dimen/menu_item_padding_horizontal"
-            android:textSize="@dimen/text_medium"
-            android:layoutDirection="rtl"
-            android:id="@+id/gravoures"/>
+            <include layout="@layout/partial_divider"/>
 
-    <include layout="@layout/partial_divider"/>
+            <CheckBox
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gravoures"
+                    android:paddingLeft="@dimen/menu_item_padding_horizontal"
+                    android:paddingTop="@dimen/menu_item_padding_vertical"
+                    android:paddingBottom="@dimen/menu_item_padding_vertical"
+                    android:paddingRight="@dimen/menu_item_padding_horizontal"
+                    android:textSize="@dimen/text_medium"
+                    android:layoutDirection="rtl"
+                    android:id="@+id/gravoures"/>
 
-    <CheckBox
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/menu_item_opacity_slider"
-            android:paddingVertical="@dimen/menu_item_padding_vertical"
-            android:paddingHorizontal="@dimen/menu_item_padding_horizontal"
-            android:textSize="@dimen/text_medium"
-            android:gravity="left|center"
-            android:layoutDirection="rtl"
-            android:id="@+id/nav_opacity_slider"/>
+            <include layout="@layout/partial_divider"/>
 
-    <include layout="@layout/partial_divider"/>
+            <CheckBox
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/menu_item_opacity_slider"
+                    android:paddingVertical="@dimen/menu_item_padding_vertical"
+                    android:paddingHorizontal="@dimen/menu_item_padding_horizontal"
+                    android:textSize="@dimen/text_medium"
+                    android:gravity="left|center"
+                    android:layoutDirection="rtl"
+                    android:id="@+id/nav_opacity_slider"/>
 
-    <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/menu_item_feedback"
-            android:paddingLeft="@dimen/menu_item_padding_horizontal"
-            android:paddingTop="@dimen/menu_item_padding_vertical"
-            android:paddingBottom="@dimen/menu_item_padding_vertical"
-            android:paddingRight="@dimen/menu_item_padding_horizontal"
-            android:textSize="@dimen/text_medium"
-            android:id="@+id/nav_feedback"/>
+            <include layout="@layout/partial_divider"/>
 
-    <include layout="@layout/partial_divider"/>
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/menu_item_feedback"
+                    android:paddingLeft="@dimen/menu_item_padding_horizontal"
+                    android:paddingTop="@dimen/menu_item_padding_vertical"
+                    android:paddingBottom="@dimen/menu_item_padding_vertical"
+                    android:paddingRight="@dimen/menu_item_padding_horizontal"
+                    android:textSize="@dimen/text_medium"
+                    android:id="@+id/nav_feedback"/>
 
-    <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/menu_item_about_the_application"
-            android:paddingLeft="@dimen/menu_item_padding_horizontal"
-            android:paddingTop="@dimen/menu_item_padding_vertical"
-            android:paddingBottom="@dimen/menu_item_padding_vertical"
-            android:paddingRight="@dimen/menu_item_padding_horizontal"
-            android:textSize="@dimen/text_medium"
-            android:id="@+id/nav_about"/>
+            <include layout="@layout/partial_divider"/>
 
-    <include layout="@layout/partial_divider"/>
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/menu_item_about_the_application"
+                    android:paddingLeft="@dimen/menu_item_padding_horizontal"
+                    android:paddingTop="@dimen/menu_item_padding_vertical"
+                    android:paddingBottom="@dimen/menu_item_padding_vertical"
+                    android:paddingRight="@dimen/menu_item_padding_horizontal"
+                    android:textSize="@dimen/text_medium"
+                    android:id="@+id/nav_about"/>
 
-    <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/menu_item_terms"
-            android:paddingLeft="@dimen/menu_item_padding_horizontal"
-            android:paddingTop="@dimen/menu_item_padding_vertical"
-            android:paddingBottom="@dimen/menu_item_padding_vertical"
-            android:paddingRight="@dimen/menu_item_padding_horizontal"
-            android:textSize="@dimen/text_medium"
-            android:id="@+id/terms"/>
+            <include layout="@layout/partial_divider"/>
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/menu_item_terms"
+                    android:paddingLeft="@dimen/menu_item_padding_horizontal"
+                    android:paddingTop="@dimen/menu_item_padding_vertical"
+                    android:paddingBottom="@dimen/menu_item_padding_vertical"
+                    android:paddingRight="@dimen/menu_item_padding_horizontal"
+                    android:textSize="@dimen/text_medium"
+                    android:id="@+id/terms"/>
+
+            <include layout="@layout/partial_divider"/>
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/menu_item_policy"
+                    android:paddingLeft="@dimen/menu_item_padding_horizontal"
+                    android:paddingTop="@dimen/menu_item_padding_vertical"
+                    android:paddingBottom="@dimen/menu_item_padding_vertical"
+                    android:paddingRight="@dimen/menu_item_padding_horizontal"
+                    android:textSize="@dimen/text_medium"
+                    android:id="@+id/policy"/>
+
+            <include layout="@layout/partial_divider"/>
+
+            <ImageView
+                    android:layout_marginTop="12dp"
+                    android:id="@+id/logo_b"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/silvia_iwannou"
+                    android:layout_gravity="center"/>
+
+            <ImageView
+                    android:layout_marginTop="20dp"
+                    android:id="@+id/logo_a"
+                    android:layout_width="138dp"
+                    android:layout_height="123dp"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/charposter" />
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>
