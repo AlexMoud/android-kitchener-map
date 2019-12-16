@@ -33,7 +33,7 @@ class Interactor {
                 "&LAYERS=%s" +
                 "&I=50" +
                 "&J=50" +
-                "&CRS=EPSG:3857" +
+                "&CRS=EPSG:4326" +
                 "&STYLES=" +
                 "&WIDTH=101" +
                 "&HEIGHT=101" +

@@ -685,16 +685,16 @@ class MapsActivity : BaseActivity(),
     private fun loadFeaturesOnLocation(location: LatLng) {
         Interactor.shared.loadFeauteresOnLocation(location) { featuresArray ->
             if (featuresArray.isNotEmpty()) {
-                zoomOnPlaceTapped(featuresArray.first(), location)
+                zoomOnPlaceTapped(featuresArray.first(), location, true)
             } else {
                 hideInfoWindow()
             }
         }
     }
 
-    private fun zoomOnPlaceTapped(features: Features, location: LatLng) {
+    private fun zoomOnPlaceTapped(features: Features, location: LatLng, isOnMapClick: Boolean) {
         var latlng = features.geometry.point ?: features.geometry.points?.first()
-        if (latlng == null) {
+        if (latlng == null || isOnMapClick) {
             latlng = location
         }
         baseMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, baseMap.cameraPosition.zoom))
