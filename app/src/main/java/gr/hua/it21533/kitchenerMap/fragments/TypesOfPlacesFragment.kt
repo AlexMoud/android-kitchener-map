@@ -18,6 +18,7 @@ import kotlinx.android.synthetic.main.fragment_types_of_places.*
 
 class TypesOfPlacesFragment: Fragment(), OnCheckChildClickListener {
 
+    private lateinit var adapter: MultiCheckMapLayerParentAdapter
     private var started = false
     var delegate: MenuView? = null
 
@@ -36,14 +37,16 @@ class TypesOfPlacesFragment: Fragment(), OnCheckChildClickListener {
     }
 
     fun refresh() {
-        addTypesOfPlacesCheckboxes()
+        if (adapter.groups.size == 0) {
+            addTypesOfPlacesCheckboxes()
+        }
     }
 
     private fun addTypesOfPlacesCheckboxes() {
         typesCheckboxes.layoutManager = LinearLayoutManager(context)
 
         LayersHelper.reloadLayers()
-        val adapter = MultiCheckMapLayerParentAdapter(LayersHelper.data)
+        adapter = MultiCheckMapLayerParentAdapter(LayersHelper.data)
         if (adapter.groups.size > 0) {
             adapter.checkChild(true, 0, 0)
         }

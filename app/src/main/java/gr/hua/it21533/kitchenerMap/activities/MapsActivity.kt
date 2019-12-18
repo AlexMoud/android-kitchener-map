@@ -235,6 +235,7 @@ class MapsActivity : BaseActivity(),
         }
         kitchenerMapLeukosiaOverlay = baseMap.addTileOverlay(TileOverlayOptions().tileProvider(tileProvider))
         kitchenerMapLeukosiaOverlay?.transparency = transparency
+        updateNikosiaLayerLevel()
     }
 
     private fun setLimasolMap() {
@@ -246,6 +247,7 @@ class MapsActivity : BaseActivity(),
         }
         kitchenerMapLimasolOverlay = baseMap.addTileOverlay(TileOverlayOptions().tileProvider(tileProvider))
         kitchenerMapLimasolOverlay?.transparency = transparency
+        updateLimasolLayerLevel()
     }
 
     private fun setModernMapA() {
@@ -279,10 +281,12 @@ class MapsActivity : BaseActivity(),
 
         baseMap.setOnCameraMoveListener {
             updateNikosiaLayerLevel()
+            updateLimasolLayerLevel()
             scaleView.update(baseMap.cameraPosition.zoom, baseMap.cameraPosition.target.latitude)
         }
         baseMap.setOnCameraIdleListener {
             updateNikosiaLayerLevel()
+            updateLimasolLayerLevel()
             scaleView.update(baseMap.cameraPosition.zoom, baseMap.cameraPosition.target.latitude)
         }
     }
@@ -292,6 +296,14 @@ class MapsActivity : BaseActivity(),
             kitchenerMapLeukosiaOverlay?.transparency = 1f
         } else {
             kitchenerMapLeukosiaOverlay?.transparency = transparency
+        }
+    }
+
+    private fun updateLimasolLayerLevel() {
+        if (baseMap.cameraPosition.zoom <= 15) {
+            kitchenerMapLimasolOverlay?.transparency = 1f
+        } else {
+            kitchenerMapLimasolOverlay?.transparency = transparency
         }
     }
 
