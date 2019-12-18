@@ -129,6 +129,23 @@
                         android:padding="10dp"
                         android:text="@string/about_paragraph_10"/>
 
+
+                <ImageView
+                        android:layout_marginTop="12dp"
+                        android:id="@+id/logo_b"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:src="@mipmap/silvia_logo"
+                        android:layout_gravity="center"/>
+
+                <ImageView
+                        android:layout_marginTop="20dp"
+                        android:id="@+id/logo_a"
+                        android:layout_width="110dp"
+                        android:layout_height="110dp"
+                        android:layout_gravity="center"
+                        android:src="@mipmap/harokopio_logo" />
+
                 </LinearLayout>
 
         </TableLayout>
