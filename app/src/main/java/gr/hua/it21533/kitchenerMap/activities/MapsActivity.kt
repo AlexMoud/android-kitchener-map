@@ -546,6 +546,7 @@ class MapsActivity : BaseActivity(),
 
             }
         }
+        didFilterChange()
     }
 
     override fun didFilterChange() {
@@ -555,6 +556,17 @@ class MapsActivity : BaseActivity(),
 
     private fun clearFilters() {
         TileProviderFactory.layers.clear()
+        if (kitchenerMapOverlay == null) {
+            setKitchenerMap()
+        }
+        kitchenerMapLimasolOverlay?.remove()
+        kitchenerMapLimasolOverlay = null
+        kitchenerMapLeukosiaOverlay?.remove()
+        kitchenerMapLeukosiaOverlay = null
+        modernMapOverlayA?.remove()
+        modernMapOverlayA = null
+        modernMapOverlayB?.remove()
+        modernMapOverlayB = null
         didFilterChange()
         typesOfPlacesFragment.clear()
     }

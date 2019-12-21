@@ -74,5 +74,10 @@ class TypesOfPlacesFragment: Fragment(), OnCheckChildClickListener {
 
     fun clear() {
         (typesCheckboxes.adapter as MultiCheckMapLayerParentAdapter?)?.clearChoices()
+        if (adapter.groups.size > 0) {
+            adapter.setChildClickListener(null)
+            adapter.checkChild(true, 0, 0)
+            adapter.setChildClickListener(this)
+        }
     }
 }
