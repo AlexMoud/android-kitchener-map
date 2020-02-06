@@ -10,11 +10,13 @@ class MapLayer : Parcelable {
         private set
     var isFavorite: Boolean = false
     lateinit var data: LayerX
+    var order: Int = 0
 
-    constructor(name: String, isFavorite: Boolean, data: LayerX) {
+    constructor(name: String, isFavorite: Boolean, data: LayerX, order: Int) {
         this.name = name
         this.isFavorite = isFavorite
         this.data = data
+        this.order = order + data.userOrder
     }
 
     private constructor(`in`: Parcel) {

@@ -64,9 +64,9 @@ object LayersHelper {
                 wmsMaps.layers.forEach { layer ->
                     if (layer.type != "OSM") {
                         if (isEnglish) {
-                            mapLayers.add(MapLayer(layer.name.en, false, layer))
+                            mapLayers.add(MapLayer(layer.name.en, false, layer, wmsMaps.userOrder))
                         } else {
-                            mapLayers.add(MapLayer(layer.name.el, false, layer))
+                            mapLayers.add(MapLayer(layer.name.el, false, layer, wmsMaps.userOrder))
                         }
                         mapOverlays.add(layer.src)
                     }
@@ -84,9 +84,9 @@ object LayersHelper {
                 val layers = ArrayList<MapLayer>()
                 base.layers.forEach { lay ->
                     if (isEnglish) {
-                        layers.add(MapLayer(lay.name.en, false, lay))
+                        layers.add(MapLayer(lay.name.en, false, lay, 0))
                     } else {
-                        layers.add(MapLayer(lay.name.el, false, lay))
+                        layers.add(MapLayer(lay.name.el, false, lay, 0))
                     }
                     allLayersUrlEncoded += lay.src + ","
                 }

@@ -28,7 +28,9 @@ class TypesOfPlacesFragment: Fragment(), OnCheckChildClickListener {
 
     override fun onStart() {
         super.onStart()
-
+        if (started) {
+            return
+        }
         started = true
         addTypesOfPlacesCheckboxes()
         backToMenu.setOnClickListener {
@@ -56,6 +58,7 @@ class TypesOfPlacesFragment: Fragment(), OnCheckChildClickListener {
 
     override fun onCheckChildCLick(v: View?, checked: Boolean, group: CheckedExpandableGroup?, childIndex: Int) {
         val data = (group?.items?.get(childIndex) as MapLayer).data
+
         if (data.type == "tile" && data.userOrder <= 2) {
             delegate?.didSelectMapOverlay(data, childIndex)
             return
@@ -63,11 +66,10 @@ class TypesOfPlacesFragment: Fragment(), OnCheckChildClickListener {
             delegate?.didSelectMapOverlay(data, data.userOrder)
             return
         }
-        val layer = data.src
         if (checked) {
-            TileProviderFactory.layers.add(layer)
+            TileProviderFactory.layers.add(data)
         }else {
-            TileProviderFactory.layers.remove(layer)
+            TileProviderFactory.layers.remove(data)
         }
         delegate?.didFilterChange()
     }

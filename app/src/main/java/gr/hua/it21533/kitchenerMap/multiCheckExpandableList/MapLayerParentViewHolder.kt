@@ -28,14 +28,14 @@ class MapLayerParentViewHolder(itemView: View) : GroupViewHolder(itemView) {
 
     private fun animateExpand() {
         val rotate = RotateAnimation(360f, 180f, RELATIVE_TO_SELF, 0.5f, RELATIVE_TO_SELF, 0.5f)
-        rotate.duration = 300
+        rotate.duration = 200
         rotate.fillAfter = true
         arrow.animation = rotate
     }
 
     private fun animateCollapse() {
         val rotate = RotateAnimation(180f, 360f, RELATIVE_TO_SELF, 0.5f, RELATIVE_TO_SELF, 0.5f)
-        rotate.duration = 300
+        rotate.duration = 200
         rotate.fillAfter = true
         arrow.animation = rotate
     }
