@@ -1,5 +1,6 @@
 package gr.hua.it21533.kitchenerMap.helpers
 
+import gr.hua.it21533.kitchenerMap.KitchenerMap
 import gr.hua.it21533.kitchenerMap.models.LayerX
 import java.net.MalformedURLException
 import java.net.URL
@@ -35,10 +36,10 @@ object TileProviderFactory {
     var layers: ArrayList<LayerX> = ArrayList()
 
     // return a geoserver wms tile layer
-    val tileProvider: WMSTileProvider get() = object: WMSTileProvider(256, 256) {
+    val tileProvider: WMSTileProvider get() = object: WMSTileProvider(256, 256, KitchenerMap.applicationContext()) {
 
         @Synchronized
-        override fun getTileUrl(x:Int, y:Int, zoom:Int): URL? {
+        override fun getTileUrl(x:Int, y:Int, zoom:Int): String {
             val bbox = getBoundingBox(x, y, zoom)
 
             var layerString = ""
@@ -60,7 +61,7 @@ object TileProviderFactory {
                 throw AssertionError(e)
             }
 
-            return url
+            return s
         }
     }
 }

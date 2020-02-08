@@ -1,10 +1,11 @@
 package gr.hua.it21533.kitchenerMap.helpers
 
+import android.content.Context
 import com.google.android.gms.maps.model.UrlTileProvider
 import kotlin.math.pow
 
 // Construct with tile size in pixels, normally 256, see parent class.
-abstract class WMSTileProvider(x: Int, y: Int) : UrlTileProvider(x, y) {
+abstract class WMSTileProvider(x: Int, y: Int, context: Context) : CachingTileProvider(x, y, context) {
 
 
     // Return a web Mercator bounding box given tile x/y indexes and a zoom
