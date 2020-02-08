@@ -8,8 +8,10 @@ import com.google.android.gms.maps.model.TileProvider
 import com.nostra13.universalimageloader.core.DisplayImageOptions
 import com.nostra13.universalimageloader.core.ImageLoader
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration
-import gr.hua.it21533.kitchenerMap.KitchenerMap
+import com.nostra13.universalimageloader.core.download.BaseImageDownloader
 import java.io.ByteArrayOutputStream
+import java.io.IOException
+import java.net.HttpURLConnection
 
 
 abstract class CachingTileProvider(tileWidth: Int, tileHeight: Int, context: Context) : TileProvider {
@@ -18,14 +20,20 @@ abstract class CachingTileProvider(tileWidth: Int, tileHeight: Int, context: Con
     private val mOptions: DisplayImageOptions
 
     init {
+        val headers: Map<String, String> = mapOf("X-Application-Request-Origin" to "mobileSet=mobileAPIuser1&mobileSubSet=OesomEtaT")
         if (!ImageLoader.getInstance().isInited) {
             // Create global configuration and initialize ImageLoader with this config
-            val config = ImageLoaderConfiguration.Builder(context).build()
+            val config = ImageLoaderConfiguration.Builder(context)
+                .imageDownloader(CustomImageDownaloder(context))
+                .build()
 
             ImageLoader.getInstance().init(config)
         }
         val builder = DisplayImageOptions.Builder()
-        builder.cacheInMemory(true).cacheOnDisk(true)
+        builder
+            .cacheInMemory(true)
+            .cacheOnDisk(true)
+            .extraForDownloader(headers)
         setDisplayImageOptions(builder)
         mOptions = builder.build()
     }
@@ -105,4 +113,30 @@ abstract class CachingTileProvider(tileWidth: Int, tileHeight: Int, context: Con
      */
     abstract fun getTileUrl(x: Int, y: Int, z: Int): String
 
+}
+
+class CustomImageDownaloder : BaseImageDownloader {
+    constructor(context: Context?) : super(context) {}
+    constructor(context: Context?, connectTimeout: Int, readTimeout: Int) : super(
+        context,
+        connectTimeout,
+        readTimeout
+    ) {
+    }
+
+    @Throws(IOException::class)
+    override fun createConnection(
+        url: String,
+        extra: Any
+    ): HttpURLConnection {
+        val conn: HttpURLConnection = super.createConnection(url, extra)
+        val headers =
+            extra as Map<String, String>
+        if (headers != null) {
+            for ((key, value) in headers) {
+                conn.setRequestProperty(key, value)
+            }
+        }
+        return conn
+    }
 }
