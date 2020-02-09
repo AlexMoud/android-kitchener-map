@@ -76,7 +76,6 @@ class MapsActivity : BaseActivity(),
     private lateinit var kitchenerMapWMSOverlay: TileOverlay
     private lateinit var tileProviderWMS: WMSTileProvider
 
-    private lateinit var mapsPresenter: MapsActivityPresenter
     private var selectedPolyline: Polyline? = null
     private var selectedPolygon: Polygon? = null
 
@@ -113,9 +112,6 @@ class MapsActivity : BaseActivity(),
         initSideMenu()
         loadLocale()
         initAllFragments()
-        mapsPresenter = MapsActivityPresenter(this)
-        mapsPresenter.addToTypesQuery("location", "$initialLatitude, $initialLongitude")
-        mapsPresenter.addToTextSearchQuery("region", "cy")
         typesOfPlacesFragment.delegate = this
         searchFragment.delegate = this
         menuFragment.delegate = this

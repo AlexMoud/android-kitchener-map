@@ -20,7 +20,8 @@ class Interactor {
         val lonSW = location.longitude - 0.05
         val latNE = location.latitude + 0.05
         val lonNE = location.longitude + 0.05
-        var baseUrl = "geoserver/ows?service=WMS&resource=02422ff9-9e60-430f-bbc5-bb5324359198" +
+        var baseUrl = "geoserver/ows?service=WMS" +
+//                "&resource=02422ff9-9e60-430f-bbc5-bb5324359198" +
                 "&version=1.3.0" +
                 "&request=GetFeatureInfo" +
                 "&SERVICE=WMS" +
@@ -72,7 +73,7 @@ class Interactor {
                 "&outputFormat=application/json" +
                 "&viewparams=term:" +
                 text +
-                "&resource=02422ff9-9e60-430f-bbc5-bb5324359198" +
+//                "&resource=02422ff9-9e60-430f-bbc5-bb5324359198" +
                 "&srsName=EPSG:4326"
 
         val call = API.create().textSearch(baseUrl)

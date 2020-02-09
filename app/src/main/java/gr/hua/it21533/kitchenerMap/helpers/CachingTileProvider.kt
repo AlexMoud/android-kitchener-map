@@ -20,7 +20,7 @@ abstract class CachingTileProvider(tileWidth: Int, tileHeight: Int, context: Con
     private val mOptions: DisplayImageOptions
 
     init {
-        val headers: Map<String, String> = mapOf("X-Application-Request-Origin" to "mobileSet=mobileAPIuser1&mobileSubSet=OesomEtaT")
+        val headers: Map<String, String> = mapOf("X-Credentials" to "private-user=mobileAPIuser1&private-pw=OesomEtaT")
         if (!ImageLoader.getInstance().isInited) {
             // Create global configuration and initialize ImageLoader with this config
             val config = ImageLoaderConfiguration.Builder(context)
@@ -130,8 +130,7 @@ class CustomImageDownaloder : BaseImageDownloader {
         extra: Any
     ): HttpURLConnection {
         val conn: HttpURLConnection = super.createConnection(url, extra)
-        val headers =
-            extra as Map<String, String>
+        val headers = extra as Map<String, String>
         if (headers != null) {
             for ((key, value) in headers) {
                 conn.setRequestProperty(key, value)

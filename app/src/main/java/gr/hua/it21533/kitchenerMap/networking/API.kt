@@ -12,23 +12,23 @@ import retrofit2.http.Url
 
 interface API {
 
-    @Headers("X-Application-Request-Origin: mobileSet=mobileAPIuser1&mobileSubSet=OesomEtaT")
+    @Headers("X-Credentials: private-user=mobileAPIuser1&private-pw=OesomEtaT")
     @GET
     fun textSearch(@Url url: String): Call<String>
 
-    @Headers("X-Application-Request-Origin: mobileSet=mobileAPIuser1&mobileSubSet=OesomEtaT")
+    @Headers("X-Credentials: private-user=mobileAPIuser1&private-pw=OesomEtaT")
     @GET
     fun getFeatureDetails(@Url url: String): Call<String>
 
-    @Headers("X-Application-Request-Origin: mobileSet=mobileAPIuser1&mobileSubSet=OesomEtaT")
+    @Headers("X-Credentials: private-user=mobileAPIuser1&private-pw=OesomEtaT")
     @GET("en/coastal_cyprus/visualrepresentations/json")
     fun getGravouraEn(): Call<Gravoura>
 
-    @Headers("X-Application-Request-Origin: mobileSet=mobileAPIuser1&mobileSubSet=OesomEtaT")
+    @Headers("X-Credentials: private-user=mobileAPIuser1&private-pw=OesomEtaT")
     @GET("el/coastal_cyprus/visualrepresentations/json")
     fun getGravouraEl(): Call<Gravoura>
 
-    @Headers("X-Application-Request-Origin: mobileSet=mobileAPIuser1&mobileSubSet=OesomEtaT")
+    @Headers("X-Credentials: private-user=mobileAPIuser1&private-pw=OesomEtaT")
     @GET("/kitchener_review/js/settings_web.json")
     fun getBaseMaps(): Call<HuaSettings>
 
