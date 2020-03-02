@@ -19,7 +19,12 @@ class MenuFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_menu, container, false)
     }
+    fun deselectGravoures(){
 
+        gravoures?.isChecked = false
+        delegate?.gravouraDeselected()
+
+    }
     override fun onStart() {
         super.onStart()
         nav_types_of_places.setOnClickListener {

@@ -118,6 +118,7 @@ class MapsActivity : BaseActivity(),
         clear.setOnClickListener {
             clearFilters()
             clearMarkers()
+            clearGravouraMarkers()
             clearTextSearchResults()
         }
         scaleView.metersAndMiles()
@@ -579,6 +580,9 @@ class MapsActivity : BaseActivity(),
         selectedPolygon?.remove()
     }
 
+    private fun clearGravouraMarkers() {
+        menuFragment.deselectGravoures()
+    }
     override fun showLoader() {
         showLoading()
     }
