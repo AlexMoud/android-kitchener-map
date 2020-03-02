@@ -3,6 +3,7 @@ package gr.hua.it21533.kitchenerMap.activities
 import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.content.res.Resources
@@ -49,7 +50,8 @@ import gr.hua.it21533.kitchenerMap.networking.Interactor
 import kotlinx.android.synthetic.main.activity_maps.*
 import kotlinx.android.synthetic.main.custom_info_window.view.*
 import kotlinx.android.synthetic.main.fragment_menu.*
-import kotlinx.android.synthetic.main.partial_navigation_view.view.*
+import android.net.ConnectivityManager
+import gr.hua.it21533.kitchenerMap.networking.ConnectionChangeReceiver
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -60,7 +62,7 @@ class MapsActivity : BaseActivity(),
     MapsActivityView,
     GoogleMap.OnMapClickListener,
     GoogleMap.OnCameraMoveStartedListener,
-    GoogleMap.OnInfoWindowClickListener {
+    GoogleMap.OnInfoWindowClickListener,ConnectionChangeReceiver.ConnectionChangeInterface {
 
     private var transparency: Float = 0f
     private val REQUEST_LOCATION_PERMISSIONS = 1
@@ -84,7 +86,7 @@ class MapsActivity : BaseActivity(),
     private var markersList = ArrayList<Marker>()
     private var longClickMarker: Marker? = null
     private var gravouraMarkers = ArrayList<Marker>()
-
+    private var receiver = ConnectionChangeReceiver()
     private var hasInteractedWithSeekBar = false
     private var initialLatitude: Double = 35.17
     private var initialLongitude: Double = 33.36
@@ -112,6 +114,8 @@ class MapsActivity : BaseActivity(),
         initSideMenu()
         loadLocale()
         initAllFragments()
+        showNoInternetIfNeeded()
+        registerConnectionReceiver()
         typesOfPlacesFragment.delegate = this
         searchFragment.delegate = this
         menuFragment.delegate = this
@@ -125,7 +129,11 @@ class MapsActivity : BaseActivity(),
         scaleView.metersAndMiles()
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
     }
+    override fun finish() {
+        super.finish()
+        unregisterReceiver(receiver)
 
+    }
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
             if (currentFragment != menuFragment) {
@@ -225,6 +233,7 @@ class MapsActivity : BaseActivity(),
         kitchenerMapOverlay?.transparency = transparency
     }
 
+
     private fun setNikosiaMap() {
         val tileProvider: CachingTileProvider = object : CachingTileProvider(256, 256, this) {
             override fun getTileUrl(x: Int, y: Int, z: Int): String {
@@ -290,6 +299,13 @@ class MapsActivity : BaseActivity(),
         }
     }
 
+    private  fun registerConnectionReceiver() {
+        //connectivity manager
+        val intentFilter = IntentFilter()
+        intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION)
+        registerReceiver(receiver, intentFilter)
+        ConnectionChangeReceiver.register(this)
+    }
     private fun updateNikosiaLayerLevel() {
         if (baseMap.cameraPosition.zoom <= 15) {
             kitchenerMapLeukosiaOverlay?.transparency = 1f
@@ -798,6 +814,20 @@ class MapsActivity : BaseActivity(),
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(it))
                 startActivity(intent)
             }
+        }
+    }
+
+    private fun showNoInternetIfNeeded() {
+        if (!KitchenerMap.isNetworkAvailable()) {
+            noconnectionmsg.visibility = View.VISIBLE
+        }
+    }
+
+    override fun connectionChanged() {
+        if (KitchenerMap.isNetworkAvailable()) {
+            noconnectionmsg.visibility = View.GONE
+        } else {
+            noconnectionmsg.visibility = View.VISIBLE
         }
     }
 }

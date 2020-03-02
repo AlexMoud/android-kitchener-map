@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.net.ConnectivityManager
 import android.support.v4.content.ContextCompat
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
@@ -24,6 +25,12 @@ class KitchenerMap : Application() {
     companion object {
         private var instance: KitchenerMap? = null
 
+        fun isNetworkAvailable(): Boolean {
+            val connectivityManager = instance?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            val activeNetworkInfo = connectivityManager.activeNetworkInfo
+            return activeNetworkInfo != null && activeNetworkInfo.isConnected
+        }
+
         fun applicationContext() : KitchenerMap {
             return instance as KitchenerMap
         }
@@ -33,6 +40,7 @@ class KitchenerMap : Application() {
         super.onCreate()
         loadSavedLocale()
     }
+
 
     fun bitmapDescriptorFromVector(context: Context, vectorResId: Int): BitmapDescriptor? {
         return ContextCompat.getDrawable(context, vectorResId)?.run {

@@ -53,7 +53,22 @@
 
 
         </android.support.v7.widget.Toolbar>
-
+        <RelativeLayout
+                android:id="@+id/noconnectionmsg"
+                android:visibility="gone"
+                android:background="#7f0000"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:alpha="0.6">
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_centerInParent="true"
+                    android:textAlignment="center"
+                    android:text="@string/no_connection"
+                    android:textSize="16sp"
+                    android:textColor="#ffffff"
+                    android:layout_height="wrap_content"/>
+        </RelativeLayout>
         <RelativeLayout
                 android:layout_height="match_parent"
                 android:layout_width="match_parent">

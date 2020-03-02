@@ -117,4 +117,5 @@
     <string name="gravoures">Representations</string>
     <string name="menu_item_terms">Terms of service</string>
     <string name="menu_item_policy">Privacy Policy</string>
+    <string name="no_connection">Δεν υπάρχει σύνδεση στο δίκτυο</string>
 </resources>
