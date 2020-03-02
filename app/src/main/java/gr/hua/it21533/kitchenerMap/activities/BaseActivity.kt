@@ -13,7 +13,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
 
-open class BaseActivity : AppCompatActivity() {
+open class  BaseActivity : AppCompatActivity() {
 
     companion object {
         var dLocale: Locale? = null
