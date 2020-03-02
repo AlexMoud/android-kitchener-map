@@ -117,6 +117,7 @@ class MapsActivity : BaseActivity(),
         menuFragment.delegate = this
         clear.setOnClickListener {
             clearFilters()
+            clearMarkers()
             clearTextSearchResults()
         }
         scaleView.metersAndMiles()
@@ -565,6 +566,11 @@ class MapsActivity : BaseActivity(),
         modernMapOverlayB = null
         didFilterChange()
         typesOfPlacesFragment.clear()
+    }
+
+    private fun clearMarkers() {
+        longClickMarker?.remove()
+        longClickMarker = null
     }
 
     private fun clearTextSearchResults() {
