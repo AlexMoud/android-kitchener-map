@@ -493,6 +493,9 @@ class MapsActivity : BaseActivity(),
 
     private fun toggleSlider() {
         sliderVisible = !sliderVisible
+        if(!sliderVisible) {
+            drawer_layout.closeDrawer(GravityCompat.START)
+        }
         mapSlider.visibility = if (sliderVisible) GONE else VISIBLE
         handler.removeCallbacksAndMessages(null)
         handler.postDelayed({

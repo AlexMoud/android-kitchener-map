@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import gr.hua.it21533.kitchenerMap.R
 import gr.hua.it21533.kitchenerMap.interfaces.MenuView
+import kotlinx.android.synthetic.main.activity_maps.*
 import kotlinx.android.synthetic.main.fragment_menu.*
 
 
@@ -41,6 +42,7 @@ class MenuFragment : Fragment() {
         }
         nav_opacity_slider.setOnClickListener {
             delegate?.replaceMenuFragments("nav_opacity_slider")
+
         }
         greek_language.setOnClickListener {
             delegate?.setLocale("el", true)
