@@ -120,6 +120,7 @@ class MapsActivity : BaseActivity(),
             clearMarkers()
             clearGravouraMarkers()
             clearTextSearchResults()
+            clearBackgroundBaseMaps()
         }
         scaleView.metersAndMiles()
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
@@ -580,9 +581,17 @@ class MapsActivity : BaseActivity(),
         selectedPolygon?.remove()
     }
 
+    private fun clearBackgroundBaseMaps() {
+        menuFragment?.nav_opacity_slider?.isChecked = false
+        mapSlider.progress = 100
+        sliderVisible = true
+        mapSlider.visibility = GONE
+    }
+
     private fun clearGravouraMarkers() {
         menuFragment.deselectGravoures()
     }
+
     override fun showLoader() {
         showLoading()
     }
