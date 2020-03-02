@@ -2,7 +2,7 @@ package gr.hua.it21533.kitchenerMap.activities
 
 import android.content.res.Configuration
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.view.ContextThemeWrapper
 import com.google.gson.JsonParser
 import gr.hua.it21533.kitchenerMap.models.Gravoura

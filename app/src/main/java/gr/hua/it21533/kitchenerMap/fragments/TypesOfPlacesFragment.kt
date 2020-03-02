@@ -1,8 +1,8 @@
 package gr.hua.it21533.kitchenerMap.fragments
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,7 +45,8 @@ class TypesOfPlacesFragment: Fragment(), OnCheckChildClickListener {
     }
 
     private fun addTypesOfPlacesCheckboxes() {
-        typesCheckboxes.layoutManager = LinearLayoutManager(context)
+        typesCheckboxes.layoutManager =
+           LinearLayoutManager(context)
 
         LayersHelper.reloadLayers()
         adapter = MultiCheckMapLayerParentAdapter(LayersHelper.data)

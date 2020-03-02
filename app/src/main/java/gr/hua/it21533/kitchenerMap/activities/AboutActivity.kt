@@ -1,7 +1,7 @@
 package gr.hua.it21533.kitchenerMap.activities
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import gr.hua.it21533.kitchenerMap.R
 
 import kotlinx.android.synthetic.main.activity_maps.*

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "174923324806",
+    "firebase_url": "https://kitchenermap-fbdce.firebaseio.com",
+    "project_id": "kitchenermap-fbdce",
+    "storage_bucket": "kitchenermap-fbdce.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:174923324806:android:1032e7302dbb3c9c9ae007",
+        "android_client_info": {
+          "package_name": "gr.hua.it21533.kitchenerMap"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "174923324806-4thd1heiuobgde9ldg158qe7u3a39hbe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_kikcFK_v7ut-OKJIu4kjl2tUQLe3T7M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "174923324806-4thd1heiuobgde9ldg158qe7u3a39hbe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

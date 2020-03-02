@@ -1,10 +1,11 @@
 package gr.hua.it21533.kitchenerMap.fragments
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import gr.hua.it21533.kitchenerMap.R
 import gr.hua.it21533.kitchenerMap.activities.MapsActivity
 import kotlinx.android.synthetic.main.fragment_types_of_places.*
